@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/10 16:02:27 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/10 19:02:06 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <stdio.h>
 # include <sys/errno.h>
 
+# define BUF_SIZE 32
+
 typedef struct	s_env
 {
 	char		*name;
@@ -33,6 +35,8 @@ typedef struct	s_env
 
 typedef struct	s_shell
 {
+	char		*command;
+	char		**args;
 	char		*str;
 }				t_shell;
 
