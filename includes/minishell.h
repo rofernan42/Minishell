@@ -23,4 +23,11 @@
 # include <stdio.h>
 # include <sys/errno.h>
 
+typedef struct	s_list
+{
+	char		*name;
+	char		*data;
+	t_list		*next;
+}				t_list;
+
 #endif
