@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/10 19:02:06 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/11 13:22:44 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ typedef struct	s_shell
 	char		**args;
 	char		*str;
 }				t_shell;
+
+int				match(char *s1, char *s2);
 
 #endif

@@ -3,28 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   match.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/14 10:12:04 by augay             #+#    #+#             */
-/*   Updated: 2018/07/14 10:17:00 by augay            ###   ########.fr       */
+/*   Created: 2020/02/11 13:01:55 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/11 13:23:36 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../includes/minishell.h"
 
-int		len(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-void	recur(char *s1, char *s2, int *nb, int i)
+static void	recur(char *s1, char *s2, int *nb, int i)
 {
 	int k;
 	int y;
@@ -35,7 +23,7 @@ void	recur(char *s1, char *s2, int *nb, int i)
 	if (s2[y] == '\0' && s1[i] == '\0')
 		*nb = *nb + 1;
 	if (s2[y] == '*')
-		while (k <= len(s1 + i))
+		while (k <= ft_strlen(s1 + i))
 		{
 			recur(s1, s2, nb, i + k + (y + 1) * 1000000);
 			k++;
@@ -48,7 +36,7 @@ void	recur(char *s1, char *s2, int *nb, int i)
 		return ;
 }
 
-int		match(char *s1, char *s2)
+int			match(char *s1, char *s2)
 {
 	int a;
 	int *nb;
