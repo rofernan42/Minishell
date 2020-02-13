@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_delone.c                                       :+:      :+:    :+:   */
+/*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/11 15:08:07 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/11 15:28:05 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/13 10:49:46 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 11:30:35 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_lstdelone(t_env *env, void (*del)(void *))
+void	create_env(t_env **env, char *name, char *data)
 {
-    if (!del)
-        return ;
-    if (env)
-    {
-        del(env->name);
-		del(env->data);
-    }
+	t_env *new_env;
+
+	if (!env)
+		return ;
+	new_env = ft_envnew(name, data);
+	ft_envadd_back(env, new_env);
 }

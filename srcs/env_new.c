@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_new.c                                          :+:      :+:    :+:   */
+/*   env_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 15:05:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/11 15:07:51 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 10:38:50 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*ft_lstnew(char *name, char *data)
+t_env	*ft_envnew(char *name, char *data)
 {
 	t_env *env;
 

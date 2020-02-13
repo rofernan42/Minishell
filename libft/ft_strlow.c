@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_addback.c                                      :+:      :+:    :+:   */
+/*   ft_strlow.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/11 15:13:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/11 15:15:07 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/13 11:11:24 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 11:21:19 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	ft_lstadd_back(t_env **alst, t_env *new)
+char	*ft_strlow(char *str)
 {
-	t_env *tmp;
+	int i;
 
-	if (!alst)
-		return ;
-	tmp = *alst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
+	return (str);
 }

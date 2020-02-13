@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_find.c                                         :+:      :+:    :+:   */
+/*   ft_strup.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/11 15:20:36 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/11 15:23:44 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/13 11:11:24 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 11:21:23 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-t_env	*ft_lstfind(t_env *begin_list, void *name_ref, int (*cmp)())
+char	*ft_strup(char *str)
 {
-	t_env *env;
+	int i;
 
-	env = begin_list;
-	while (env != 0)
+	i = 0;
+	while (str[i])
 	{
-		if ((*cmp)(env->name, name_ref) == 0)
-			return (env);
-		env = env->next;
+		str[i] = ft_toupper(str[i]);
+		i++;
 	}
-	return (NULL);
+	return (str);
 }
