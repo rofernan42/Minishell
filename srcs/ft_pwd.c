@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_env.c                                       :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/13 10:49:46 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 11:30:35 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/13 11:40:09 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 11:40:23 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	create_env(t_env **env, char *name, char *data)
+void	ft_pwd(t_env *env)
 {
-	t_env *new_env;
+	t_env *tmp;
 
-	if (!env)
-		return ;
-	new_env = ft_envnew(name, data);
-	ft_envadd_back(env, new_env);
+	tmp = ft_envfind(env, "PWD", ft_strcmp);
+	ft_putendl_fd(tmp->data, 1);
 }

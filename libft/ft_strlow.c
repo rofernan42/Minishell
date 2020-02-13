@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_env.c                                       :+:      :+:    :+:   */
+/*   ft_strlow.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/13 10:49:46 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 11:30:35 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/13 11:11:24 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 11:21:19 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	create_env(t_env **env, char *name, char *data)
+char	*ft_strlow(char *str)
 {
-	t_env *new_env;
+	int i;
 
-	if (!env)
-		return ;
-	new_env = ft_envnew(name, data);
-	ft_envadd_back(env, new_env);
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
+	return (str);
 }
