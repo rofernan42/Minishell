@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/11 13:22:44 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 09:12:52 by augay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct	s_env
 {
 	char		*name;
 	char		*data;
-	t_list		*next;
+	struct s_env *next;
 }				t_env;
 
 typedef struct	s_shell
