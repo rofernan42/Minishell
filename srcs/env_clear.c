@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env_clear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/13 13:06:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 15:26:18 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/13 16:02:51 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 16:05:26 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_env_clear(t_env *begin_env, void (*free_fct)(void *))
 {
+	t_env *env;
 	t_env *tmp;
 
-	tmp = env;
-	while (tmp)
+	env = begin_env;
+	while (env != NULL)
 	{
-		// if (tmp->name)
-		// {
-			ft_putstr_fd(tmp->name, 1);
-			ft_putstr_fd("=", 1);
-			ft_putendl_fd(tmp->data, 1);
-		// }
-		tmp = tmp->next;
+		tmp = env->next;
+        free_fct(env->name);
+		free_fct(env->data);
+		free(env);
+		env = tmp;
 	}
 }

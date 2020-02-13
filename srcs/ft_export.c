@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:56:37 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 14:18:13 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 14:26:45 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void		ft_export(char **vars, t_env *env)
 				name = ft_strndup(vars[i], j);
 				if (!check_env_name(name))
 				{
-					display_error("export: ", vars[i], " not a valid identifier");
+					display_error("export: ", vars[i], \
+								" not a valid identifier");
 					ft_strdel(&name);
 					return ;
 				}
