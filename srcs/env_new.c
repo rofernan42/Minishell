@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 15:05:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 10:38:50 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 17:38:21 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*ft_envnew(char *name, char *data)
 	if (!(env = malloc(sizeof(*env))))
 		return (NULL);
 	env->name = name;
-    env->data = data;
+	env->data = data;
 	env->next = NULL;
 	return (env);
 }

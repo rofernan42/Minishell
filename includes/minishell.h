@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 16:06:22 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 16:18:18 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void				ft_env_clear(t_env *begin_env, void (*free_fct)(void *));
 **	ERROR.C
 */
 void				display_error(char *command, char *arg, char *err);
+void				command_error(char *command, char *err);
 
 void				ft_pwd(t_env *env);
 void				ft_cd(char *arg, t_env *env);

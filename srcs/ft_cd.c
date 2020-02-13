@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:39:11 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 14:21:25 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 17:37:18 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ static void	env_pwd(t_env *env)
 	t_env *new_tmp;
 	t_env *old_tmp;
 
-	new_tmp = ft_envfind(env, "PWD", ft_strcmp);
-	old_tmp = ft_envfind(env, "OLDPWD", ft_strcmp);
+	if (!(new_tmp = ft_envfind(env, "PWD", ft_strcmp)))
+		return ;
+	if (!(old_tmp = ft_envfind(env, "OLDPWD", ft_strcmp)))
+		return ;
 	free(old_tmp->data);
 	old_tmp->data = ft_strdup(new_tmp->data);
 	free(new_tmp->data);
@@ -27,8 +29,8 @@ static void	env_pwd(t_env *env)
 
 void		ft_cd(char *arg, t_env *env)
 {
-	int	i;
-	t_env *tmp;
+	int		i;
+	t_env	*tmp;
 
 	if (!arg)
 	{

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 13:06:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 15:26:18 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 17:32:16 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	ft_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		// if (tmp->name)
-		// {
+		if (tmp->name)
+		{
 			ft_putstr_fd(tmp->name, 1);
 			ft_putstr_fd("=", 1);
 			ft_putendl_fd(tmp->data, 1);
-		// }
+		}
 		tmp = tmp->next;
 	}
 }
