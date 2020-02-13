@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:39:11 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 11:40:43 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/13 14:21:25 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,20 @@ static void	env_pwd(t_env *env)
 void		ft_cd(char *arg, t_env *env)
 {
 	int	i;
+	t_env *tmp;
 
-	i = 0;
-	while (arg[i])
+	if (!arg)
 	{
-		if (arg[i] == '\n')
+		if (!(tmp = ft_envfind(env, "HOME", ft_strcmp)))
 		{
-			arg[i] = '\0';
-			break ;
+			ft_putendl_fd("cd: HOME not set", 2);
+			return ;
 		}
-		i++;
+		else
+			arg = ft_strdup(tmp->data);
 	}
 	if (chdir(arg) == -1)
-	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(strerror(errno), 2);
-	}
+		display_error("cd: ", arg, strerror(errno));
 	else
 		env_pwd(env);
 }
