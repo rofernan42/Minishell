@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_addback.c                                      :+:      :+:    :+:   */
+/*   env_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/11 15:13:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/11 15:15:07 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/11 15:05:58 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/13 10:38:50 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_lstadd_back(t_env **alst, t_env *new)
+t_env	*ft_envnew(char *name, char *data)
 {
-	t_env *tmp;
+	t_env *env;
 
-	if (!alst)
-		return ;
-	tmp = *alst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
+	if (!(env = malloc(sizeof(*env))))
+		return (NULL);
+	env->name = name;
+    env->data = data;
+	env->next = NULL;
+	return (env);
 }
