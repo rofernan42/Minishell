@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:56:37 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 17:44:29 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/14 10:52:40 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void		ft_export(char **vars, t_env *env)
 	int		j;
 	char	*name;
 	char	*data;
+	t_env	*tmp;
 
 	i = 0;
 	while (vars[i])
@@ -59,7 +60,15 @@ void		ft_export(char **vars, t_env *env)
 				if (error_name(vars[i], &name))
 					return ;
 				data = ft_strdup(&vars[i][j + 1]);
-				create_env(&env, name, data);
+				if (!(tmp = ft_envfind(env, name, ft_strcmp)))
+					create_env(&env, name, data);
+				else
+				{
+					ft_strdel(&tmp->data);
+					tmp->data = ft_strdup(data);
+				}
+				ft_strdel(&name);
+				ft_strdel(&data);
 			}
 			j++;
 		}

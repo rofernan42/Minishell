@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 16:18:18 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/14 10:55:52 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void				ft_envadd_back(t_env **alst, t_env *new);
 t_env				*ft_envfind(t_env *begin_list, void *name_ref, int (*cmp)());
 void				ft_envdelone(t_env *env);
 void				create_env(t_env **env, char *name, char *data);
-void				ft_env_clear(t_env *begin_env, void (*free_fct)(void *));
+void				ft_envclear(t_env *begin_env, void (*free_fct)(void *));
 
 /*
 **	ERROR.C
