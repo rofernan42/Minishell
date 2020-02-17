@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 13:01:55 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/17 15:52:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 // 	return (1);
 // }
 
-void		redir(t_shell *shell, char **envp)
+void		open_fd(t_shell *shell)
 {
 	int i;
 
@@ -53,7 +53,8 @@ void		redir(t_shell *shell, char **envp)
 		{
 			if (shell->args[i + 1])
 			{
-				if (ft_strcmp(shell->args[i + 1], ">") && ft_strcmp(shell->args[i + 1], ">>"))
+				if (ft_strcmp(shell->args[i + 1], ">") \
+				&& ft_strcmp(shell->args[i + 1], ">>"))
 				{
 					if (!ft_strcmp(shell->args[i], ">"))
 						shell->fd = open(shell->args[i + 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -68,17 +69,4 @@ void		redir(t_shell *shell, char **envp)
 		}
 		i++;
 	}
-	dup2(shell->fd, 1);
-	close(shell->fd);
-	// if (fork() == 0)
-	// {
-	//   execve(shell->args[0], shell->args, envp);
-	//   exit(0);
-	// }
-	// else
-	// {
-	// 	wait(NULL);
-	// 	// printf("test1\n");
-	// }
-	// close(fd);
 }
