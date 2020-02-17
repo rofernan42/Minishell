@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/14 10:55:52 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/17 12:55:22 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdio.h>
 # include <sys/errno.h>
 
-# define BUF_SIZE 32
+# define BUF_SIZE 1024
 
 typedef struct		s_env
 {
@@ -38,6 +38,7 @@ typedef struct		s_shell
 	char			*command;
 	char			**args;
 	char			*str;
+	int				fd;
 }					t_shell;
 
 /*
@@ -53,7 +54,7 @@ void				ft_envclear(t_env *begin_env, void (*free_fct)(void *));
 /*
 **	ERROR.C
 */
-void				display_error(char *command, char *arg, char *err);
+void				display_error(char *command, char *arg, char *compl, char *err);
 void				command_error(char *command, char *err);
 
 void				ft_pwd(t_env *env);
@@ -62,6 +63,7 @@ void				ft_export(char **vars, t_env *env);
 void				ft_unset(char **vars, t_env *env);
 void				ft_env(t_env *env);
 
+void				redir(t_shell *shell, char **envp);
 
 int					match(char *s1, char *s2);
 

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:39:11 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 17:37:18 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/17 11:06:58 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		ft_cd(char *arg, t_env *env)
 			arg = ft_strdup(tmp->data);
 	}
 	if (chdir(arg) == -1)
-		display_error("cd: ", arg, strerror(errno));
+		display_error("cd: ", arg, ": ", strerror(errno));
 	else
 		env_pwd(env);
 }

@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 10:54:26 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/14 11:07:22 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:01:38 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    free_all(t_env *env, t_shell *shell)
+void	free_all(t_env *env, t_shell *shell)
 {
-    ft_envclear(env, free);
+	ft_envclear(env, free);
 }
