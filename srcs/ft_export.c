@@ -6,27 +6,11 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:56:37 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 11:05:35 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:15:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	check_env_name(char *name)
-{
-	int i;
-
-	i = 0;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	if (!ft_isalpha(name[0]) && name[0] != '_')
-		return (0);
-	return (1);
-}
 
 static int	error_name(char *var, char **name)
 {

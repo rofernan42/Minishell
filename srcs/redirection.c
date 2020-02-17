@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 15:52:49 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/17 16:11:39 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		open_fd(t_shell *shell)
 	i = 0;
 	while (shell->args[i])
 	{
-		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], ">>"))
+		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], ">>") || !ft_strcmp(shell->args[i], "<"))
 		{
 			if (shell->args[i + 1])
 			{
@@ -60,6 +60,11 @@ void		open_fd(t_shell *shell)
 						shell->fd = open(shell->args[i + 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 					else if (!ft_strcmp(shell->args[i], ">>"))
 						shell->fd = open(shell->args[i + 1], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+					else if (!ft_strcmp(shell->args[i], "<"))
+					{
+						if ((shell->fd = open(shell->args[i + 1], O_RDONLY)) == -1)
+							display_error(shell->args[i + 1], 0, ": ", strerror(errno));
+					}
 				}
 				else
 					display_error("syntax error near unexpected token `", shell->args[i + 1], 0, "'");

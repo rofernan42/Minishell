@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   env_name.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/14 10:54:26 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 17:43:34 by rofernan         ###   ########.fr       */
+/*   Created: 2020/02/17 17:15:16 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/17 17:18:16 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	del_args(char **args)
+int	check_env_name(char *name)
 {
 	int i;
 
 	i = 0;
-	while (args[i])
-		ft_strdel(&args[i++]);
-	ft_strdel(&args[i]);
-	free(args);
-}
-
-void	free_all(t_shell *shell)
-{
-	del_args(shell->args);
-	ft_envclear(shell->env, free);
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	if (!ft_isalpha(name[0]) && name[0] != '_')
+		return (0);
+	return (1);
 }

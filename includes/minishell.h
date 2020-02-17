@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 15:47:51 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:39:37 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ typedef struct		s_shell
 {
 	char			*command;
 	char			**args;
-	char			*str;
+	char			*str_echo;
 	int				fd;
 	int				fdpipe[2];
 	int				stdout_cpy;
+	t_env			*env;
 }					t_shell;
 
 /*
@@ -59,6 +60,14 @@ void				ft_envclear(t_env *begin_env, void (*free_fct)(void *));
 void				display_error(char *command, char *arg, char *compl, char *err);
 void				command_error(char *command, char *err);
 
+/*
+**	FREE.C
+*/
+void				free_all(t_shell *shell);
+
+int					check_env_name(char *name);
+
+void				ft_echo(t_shell *shell);
 void				ft_pwd(t_env *env);
 void				ft_cd(char *arg, t_env *env);
 void				ft_export(char **vars, t_env *env);
@@ -67,6 +76,8 @@ void				ft_env(t_env *env);
 
 void				open_fd(t_shell *shell);
 void				redirect(t_shell *shell, char **envp);
+
+void				ft_stdin(t_shell *shell);
 
 
 int					match(char *s1, char *s2);
