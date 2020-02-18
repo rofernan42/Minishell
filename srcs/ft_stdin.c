@@ -116,5 +116,4 @@ void		ft_stdin(t_shell *shell)
 	free(shell->command);
 	shell->command = ft_strdup("");
 	del_args(shell->args);
-	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }
