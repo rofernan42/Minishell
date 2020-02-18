@@ -38,7 +38,8 @@ typedef struct		s_shell
 	char			*command;
 	char			**args;
 	char			*str_echo;
-	int				fd;
+	int				fd_in;
+	int				fd_out;
 	int				fdpipe[2];
 	int				stdout_cpy;
 	t_env			*env;
@@ -68,6 +69,9 @@ void				free_all(t_shell *shell);
 int					check_env_name(char *name);
 
 void				ft_echo(t_shell *shell);
+//void	ft_echo(int ac, char **av, t_shell *shell);
+//int		count_args(char **args);
+
 void				ft_pwd(t_env *env);
 void				ft_cd(char *arg, t_env *env);
 void				ft_export(char **vars, t_env *env);
