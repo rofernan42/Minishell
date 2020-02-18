@@ -65,10 +65,11 @@ void	init_env(t_env **env)
 	create_env(env, "HOME", "/Users/rofernan");
 	create_env(env, "PWD", getcwd(NULL, 0));
 	create_env(env, "OLDPWD", getcwd(NULL, 0));
-	create_env(env, "PATH", "/Users/augay/.brew/bin:/usr/local/bin:/usr/\
-	bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/C\
-	ontents/Public:/usr/local/mongodb/bin:/usr/local/munki:/Librar\
-	y/Frameworks/Mono.framework/Versions/Current/Commands");
+	create_env(env, "PATH", "/Users/augay/.brew/bin:/usr/local/bin:\
+/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/\
+Public:/usr/local/mongodb/bin:/usr/local/munki:/Library/Frameworks/\
+Mono.framework/Versions/Current/Commands:/Users/augay/Desktop/minishell");
+	create_env(env, "?", "0");
 }
 
 int		nb_bs(const char *s, int f)
@@ -354,9 +355,9 @@ char **split_cmd(char *s, int *tab)
 int end_name(char c, int i)
 {
 	if (i == 0)
-		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '?')
 			return (1);
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_')
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '?')
 		return (1);
 	return (0);
 }
@@ -368,12 +369,14 @@ int replace(char **s, int d, t_env *env, int *tab)
 		i++;
 	}
 	char *n = ft_substr(s[0], d, i - d);
+	//printf("LABEL=%s\n",n);
 	t_env *e1 = ft_envfind(env, n, ft_strcmp);
 
 	if (e1 == NULL)
 	{
 		e1 = ft_envnew(n, "");
 	}
+	//printf("e1=%s\n", e1->data);
 	int l1 = ft_strlen(s[0]);
 	int l2 = ft_strlen(e1->data);
 	int l3 = ft_strlen(e1->name);
@@ -457,13 +460,13 @@ void ft_free(char **s)
 
 void sig_handle_C(int s)
 {
-	write(1, "\nminishell$ ", 12);
+	ft_putstr_fd("\n\033[33mminishell$\033[0m ", 1);
 }
 
 void sig_handle_B(int s)
 {
-	write(1, "exit\n", 5);
-	exit(0);
+	// write(1, "exit\n", 5);
+	// exit(0);
 }
 
 char **finish_p(char **cmd, int **tab)
@@ -632,48 +635,6 @@ char **ft_reverse(char **s)
 	return (s);
 }
 
-int deal_cmd(t_shell *shell)
-{
-	char	buffer[BUF_SIZE + 1];
-	int		ret;
-	int		i;
-
-			i = count_args(shell->args);
-			open_fd(shell);
-
-			shell->stdout_cpy = dup(1);
-			close(1);
-			dup2(shell->fd_out, 1);
-			close(0);
-			dup2(shell->fd_in, 0);
-			if (!ft_strcmp(shell->args[0], "echo"))
-				ft_echo(shell);
-			else if (!ft_strncmp(shell->args[0], "cd", 2))
-				ft_cd(shell->args[1], shell->env);
-			else if (!ft_strcmp(shell->args[0], "pwd"))
-				ft_pwd(shell->env);
-			else if (!ft_strcmp(shell->args[0], "export"))
-				ft_export(&shell->args[1], shell->env);
-			else if (!ft_strcmp(shell->args[0], "unset"))
-				ft_unset(&shell->args[1], shell->env);
-			else if (!ft_strcmp(shell->args[0], "env"))
-				ft_env(shell->env);
-			else if (!ft_strcmp(shell->args[0], "exit"))
-				exit(0);
-			else
-			{
-				prep_0(shell);
-				if (fork() == 0)
-					execve(shell->args[0], shell->args, NULL);
-				else
-					wait(NULL);
-			}
-			dup2(shell->stdout_cpy, 1);
-			close(shell->stdout_cpy);
-			
-	return (0);
-}
-
 int count_p(char *s)
 {
 	int i = 0;
@@ -702,6 +663,10 @@ void prep_0(t_shell *shell)
 	struct stat a;
 	int f = 0;
 	int k = 0;
+	if (stat(shell->args[0], &a) == 0)
+	{
+		return;
+	}
 	while(s[i])
 	{
 		tmp = ft_concat(s[i], "/");
@@ -809,6 +774,7 @@ int main(int ac, char **av)
 			{
 				trad(&full, shell.env, tab);
 				cmd = split_cmd(full, tab);
+				//ft_p(cmd);
 				while (cmd[fin])
 				{
 					sp = ft_strdup(cmd[fin]);
@@ -832,6 +798,7 @@ int main(int ac, char **av)
 						//ft_p(def);
 						//printf("last=%i, part=%i, fin=%i\n",last_part,part, fin);
 						shell.args = ft_copy(def + last_part, part - last_part);
+						if (shell.args[0] != 0)
 						ft_stdin(&shell);
 						last_part = part + 1;
 					}
@@ -853,6 +820,8 @@ int main(int ac, char **av)
 		}
 		else if (i == 0)
 		{
+			write(1, "exit\n", 5);
+			exit(0);
 		}
 
 	}
