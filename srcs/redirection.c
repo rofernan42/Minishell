@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 16:11:39 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 11:08:09 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void		open_fd(t_shell *shell)
 				&& ft_strcmp(shell->args[i + 1], ">>"))
 				{
 					if (!ft_strcmp(shell->args[i], ">"))
-						shell->fd = open(shell->args[i + 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+						shell->fd_in = open(shell->args[i + 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 					else if (!ft_strcmp(shell->args[i], ">>"))
-						shell->fd = open(shell->args[i + 1], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+						shell->fd_in = open(shell->args[i + 1], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 					else if (!ft_strcmp(shell->args[i], "<"))
 					{
-						if ((shell->fd = open(shell->args[i + 1], O_RDONLY)) == -1)
+						if ((shell->fd_out = open(shell->args[i + 1], O_RDONLY)) == -1)
 							display_error(shell->args[i + 1], 0, ": ", strerror(errno));
 					}
 				}

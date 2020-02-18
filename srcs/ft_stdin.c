@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 17:47:30 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 11:14:53 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,47 @@ static int	is_builtin(t_shell *shell)
 	return (1);
 }
 
+void		process_exec(t_shell *shell)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+
+	while (shell->args[i])
+	{
+		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
+		|| !ft_strcmp(shell->args[i], ">>"))
+			break ;
+		i++;
+	}
+	if (!(tmp = malloc(sizeof(char*) * (i + 1))))
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (shell->args[i])
+	{
+		if (ft_strcmp(shell->args[i], ">") && ft_strcmp(shell->args[i], "<") \
+		&& ft_strcmp(shell->args[i], ">>"))
+			tmp[i] = ft_strdup(shell->args[i]);
+		else
+			break ;
+		i++;
+	}
+	execve(ft_strjoin("/bin/", shell->args[0]), tmp, 0);
+}
+
 void		ft_stdin(t_shell *shell)
 {
 	open_fd(shell);
 	shell->stdout_cpy = dup(1);
 	close(1);
-	dup2(shell->fd, 1);
+	dup2(shell->fd_in, 1);
 	if (!is_builtin(shell))
 	{
 		if (fork() == 0)
-			execve(ft_strjoin("/bin/", shell->args[0]), shell->args, 0);
+			process_exec(shell);
 		else
-		{
 			wait(NULL);
-		}
 	}
 	dup2(shell->stdout_cpy, 1);
 	close(shell->stdout_cpy);
