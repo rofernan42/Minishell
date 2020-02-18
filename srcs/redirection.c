@@ -6,43 +6,42 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 11:44:54 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 13:10:25 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// int             main(int ac, char **av, char **envp)
-// {
-// 	int   ret;
-// 	int   pid;
-// 	int   *statut;
-// 	char  *arg[] = {"", NULL};
+static int	fd_in_out(t_shell *shell, int i)
+{
+	if (ft_strcmp(shell->args[i], ">") && ft_strcmp(shell->args[i], "<") \
+	&& ft_strcmp(shell->args[i], ">>"))
+	{
+		if (!ft_strcmp(shell->args[i - 1], ">"))
+			shell->fd_in = open(shell->args[i], O_WRONLY | O_TRUNC | O_CREAT, \
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		else if (!ft_strcmp(shell->args[i - 1], ">>"))
+			shell->fd_in = open(shell->args[i], O_WRONLY | O_APPEND | O_CREAT, \
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		else if (!ft_strcmp(shell->args[i - 1], "<"))
+		{
+			if ((shell->fd_out = open(shell->args[i], O_RDONLY)) == -1)
+			{
+				disp_err(shell->args[i], 0, ": ", strerror(errno));
+				return (0);
+			}
+		}
+	}
+	else
+	{
+		disp_err("syntax error near unexpected token `", \
+													shell->args[i], 0, "'");
+		return (0);
+	}
+	return (1);
+}
 
-// 	ret = open(av[1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
-
-// 	if (ret == -1)
-// 	{
-// 	  puts("Error open ....");
-// 	  exit(EXIT_FAILURE);
-// 	}
-// 	dup2(ret, 1);
-// 	execve("/bin/pwd", arg, envp);
-// 	// if (fork() == 0)
-// 	// {
-// 	// //   execve("/bin/pwd", arg, envp);
-// 	//   perror("Error execve ...");
-// 	// }
-// 	// else
-// 	// {
-// 	// 	execve("/bin/pwd", arg, envp);
-// 	// 	wait(statut);
-// 	// }
-// 	// close(ret);
-// 	return (1);
-// }
-
-void		open_fd(t_shell *shell)
+int			open_fd(t_shell *shell)
 {
 	int i;
 
@@ -51,29 +50,22 @@ void		open_fd(t_shell *shell)
 	shell->fd_out = -5;
 	while (shell->args[i])
 	{
-		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], ">>") || !ft_strcmp(shell->args[i], "<"))
+		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
+		|| !ft_strcmp(shell->args[i], ">>"))
 		{
 			if (shell->args[i + 1])
 			{
-				if (ft_strcmp(shell->args[i + 1], ">") \
-				&& ft_strcmp(shell->args[i + 1], ">>"))
-				{
-					if (!ft_strcmp(shell->args[i], ">"))
-						shell->fd_in = open(shell->args[i + 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-					else if (!ft_strcmp(shell->args[i], ">>"))
-						shell->fd_in = open(shell->args[i + 1], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-					else if (!ft_strcmp(shell->args[i], "<"))
-					{
-						if ((shell->fd_out = open(shell->args[i + 1], O_RDONLY)) == -1)
-							display_error(shell->args[i + 1], 0, ": ", strerror(errno));
-					}
-				}
-				else
-					display_error("syntax error near unexpected token `", shell->args[i + 1], 0, "'");
+				if (!fd_in_out(shell, i + 1))
+					return (0);
 			}
 			else
-				display_error("syntax error near unexpected token `", "newline", 0, "'");			
+			{
+				disp_err(0, 0, 0, \
+				"syntax error near unexpected token `newline'");
+				return (0);
+			}
 		}
 		i++;
 	}
+	return (1);
 }
