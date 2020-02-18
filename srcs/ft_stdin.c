@@ -12,32 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static int	is_builtin(t_shell *shell)
-{
-	if (!ft_strcmp(shell->args[0], "echo"))
-		ft_echo(shell);
-	else if (!ft_strncmp(shell->args[0], "cd", 2))
-		ft_cd(shell->args[1], shell->env);
-	else if (!ft_strcmp(shell->args[0], "pwd"))
-		ft_pwd(shell->env);
-	else if (!ft_strcmp(shell->args[0], "export"))
-		ft_export(&shell->args[1], shell->env);
-	else if (!ft_strcmp(shell->args[0], "unset"))
-		ft_unset(&shell->args[1], shell->env);
-	else if (!ft_strcmp(shell->args[0], "env"))
-		ft_env(shell->env);
-	else if (!ft_strcmp(shell->args[0], "exit"))
-	{
-		ft_putendl_fd("exit", 1);
-		free_all(shell);
-		exit(0);
-	}
-	else
-		return (0);
-	return (1);
-}
-
-static void	process_exec(t_shell *shell)
+char **extract(t_shell *shell)
 {
 	int		i;
 	char	**tmp;
@@ -63,6 +38,64 @@ static void	process_exec(t_shell *shell)
 		i++;
 	}
 	tmp[i] = NULL;
+	return (tmp);
+}
+
+static int	is_builtin(t_shell *shell)
+{
+	shell->args = extract(shell);
+	if (!ft_strcmp(shell->args[0], "echo"))
+		ft_echo(shell);
+	else if (!ft_strncmp(shell->args[0], "cd", 2))
+		ft_cd(shell->args[1], shell->env);
+	else if (!ft_strcmp(shell->args[0], "pwd"))
+		ft_pwd(shell->env);
+	else if (!ft_strcmp(shell->args[0], "export"))
+		ft_export(&shell->args[1], shell->env);
+	else if (!ft_strcmp(shell->args[0], "unset"))
+		ft_unset(&shell->args[1], shell->env);
+	else if (!ft_strcmp(shell->args[0], "env"))
+		ft_env(shell->env);
+	else if (!ft_strcmp(shell->args[0], "exit"))
+	{
+		ft_putendl_fd("exit", 1);
+		free_all(shell);
+		exit(0);
+	}
+	else
+		return (0);
+	return (1);
+}
+
+static void	process_exec(t_shell *shell)
+{
+	// int		i;
+	// char	**tmp;
+
+	// i = 0;
+	// while (shell->args[i])
+	// {
+	// 	if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
+	// 	|| !ft_strcmp(shell->args[i], ">>"))
+	// 		break ;
+	// 	i++;
+	// }
+	// if (!(tmp = malloc(sizeof(char*) * (i + 1))))
+	// 	exit(EXIT_FAILURE);
+	// i = 0;
+	// while (shell->args[i])
+	// {
+	// 	if (ft_strcmp(shell->args[i], ">") && ft_strcmp(shell->args[i], "<") \
+	// 	&& ft_strcmp(shell->args[i], ">>"))
+	// 		tmp[i] = ft_strdup(shell->args[i]);
+	// 	else
+	// 		break ;
+	// 	i++;
+	// }
+	// tmp[i] = NULL;
+	char **tmp;
+
+	tmp = extract(shell);
 	execve(shell->args[0], tmp, 0);
 }
 
@@ -98,6 +131,7 @@ static void	close_stdinout(t_shell *shell)
 
 void		ft_stdin(t_shell *shell)
 {
+	ft_p(shell->args);
 	if (open_fd(shell))
 	{
 		copy_stdinout(shell);
@@ -105,6 +139,7 @@ void		ft_stdin(t_shell *shell)
 		{
 			if (fork() == 0)
 			{
+				prep_path(shell);
 				process_exec(shell);
 				exit(0);
 			}
