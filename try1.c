@@ -727,6 +727,35 @@ void prep_0(t_shell *shell)
 	
 }
 
+char **ft_copy(char **s, int fin)
+{
+	int i;
+	char **o;
+
+	i = 0;
+	while(s[i] && i < fin)
+		i++;
+	o = malloc(sizeof(char*) * (i + 1));
+	o[i] = 0;
+	i = 0;
+	while (s[i] && i < fin)
+	{
+		o[i] = ft_strdup(s[i]);
+		i++;
+	}
+	//ft_p(o);
+	return (o);
+}
+
+int ft_long(char **s)
+{
+	int i;
+
+	while(s[i])
+		i++;
+	return (i);
+}
+
 int main(int ac, char **av)
 {
 	signal(SIGINT, sig_handle_C);
@@ -766,6 +795,8 @@ int main(int ac, char **av)
 	int fin = 0;
 	char *sp;
 	char **def;
+	int part = 0;
+	int last_part = 0;
 	while (1)
 	{
 		i = read(0, s, 10);
@@ -792,13 +823,29 @@ int main(int ac, char **av)
 				def = finish_p(cmd, tabf);
 				pop_word(def);
 				ft_reverse(def);
-				ft_p(def);
+				//ft_p(def);
+				fin = ft_long(def);
+				while(part <= fin)
+				{
+					if (part == fin || !strcmp(def[part], ";"))
+					{
+						//ft_p(def);
+						//printf("last=%i, part=%i, fin=%i\n",last_part,part, fin);
+						shell.args = ft_copy(def + last_part, part - last_part);
+						ft_stdin(&shell);
+						last_part = part + 1;
+					}
+					part++;
+				}
+				part = 0;
+				last_part = 0;
 				shell.args = def;
-				ft_stdin(&shell);
+				//ft_stdin(&shell);
 				def = NULL;
 				ft_free(cmd);
 				fin = 0;
 				cmd = NULL;
+				ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 			}
 			free(full);
 			full = malloc(sizeof(char) * 1);
@@ -807,6 +854,7 @@ int main(int ac, char **av)
 		else if (i == 0)
 		{
 		}
+
 	}
 	return (0);
 }
