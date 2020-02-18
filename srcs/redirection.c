@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 11:08:09 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 11:44:54 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void		open_fd(t_shell *shell)
 	int i;
 
 	i = 0;
+	shell->fd_in = -5;
+	shell->fd_out = -5;
 	while (shell->args[i])
 	{
 		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], ">>") || !ft_strcmp(shell->args[i], "<"))
