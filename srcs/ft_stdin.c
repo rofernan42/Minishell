@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 11:14:53 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 12:09:43 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,25 @@ void		process_exec(t_shell *shell)
 			break ;
 		i++;
 	}
+	tmp[i] = NULL;
 	execve(ft_strjoin("/bin/", shell->args[0]), tmp, 0);
 }
 
 void		ft_stdin(t_shell *shell)
 {
 	open_fd(shell);
-	shell->stdout_cpy = dup(1);
-	close(1);
-	dup2(shell->fd_in, 1);
+	if (shell->fd_in >= 0)
+	{
+		shell->stdout_cpy = dup(1);
+		close(1);
+		dup2(shell->fd_in, 1);
+	}
+	if (shell->fd_out >= -1)
+	{
+		shell->stdin_cpy = dup(0);
+		close(0);
+		dup2(shell->fd_out, 0);
+	}
 	if (!is_builtin(shell))
 	{
 		if (fork() == 0)
@@ -91,8 +101,16 @@ void		ft_stdin(t_shell *shell)
 		else
 			wait(NULL);
 	}
-	dup2(shell->stdout_cpy, 1);
-	close(shell->stdout_cpy);
+	if (shell->fd_in >= 0)
+	{
+		dup2(shell->stdout_cpy, 1);
+		close(shell->stdout_cpy);
+	}
+	if (shell->fd_out >= -1)
+	{
+		dup2(shell->stdin_cpy, 0);
+		close(shell->stdin_cpy);
+	}
 	free(shell->command);
 	shell->command = ft_strdup("");
 	del_args(shell);

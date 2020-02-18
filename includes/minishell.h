@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/17 17:39:37 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 11:44:13 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct		s_shell
 	int				fd_out;
 	int				fdpipe[2];
 	int				stdout_cpy;
+	int				stdin_cpy;
 	t_env			*env;
 }					t_shell;
 
