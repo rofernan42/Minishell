@@ -6,23 +6,11 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 12:34:30 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 13:34:48 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	del_args(t_shell *shell)
-{
-	int i;
-
-	i = 0;
-	while (shell->args[i])
-		ft_strdel(&shell->args[i++]);
-	ft_strdel(&shell->args[i]);
-	free(shell->args);
-	shell->args = NULL;
-}
 
 static int	is_builtin(t_shell *shell)
 {
@@ -55,7 +43,6 @@ void		process_exec(t_shell *shell)
 	char	**tmp;
 
 	i = 0;
-
 	while (shell->args[i])
 	{
 		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
@@ -76,25 +63,30 @@ void		process_exec(t_shell *shell)
 		i++;
 	}
 	tmp[i] = NULL;
-	execve(ft_strjoin("/bin/", shell->args[0]), tmp, 0);
+	execve(shell->args[0], tmp, 0);
+}
+
+static void	copy_stdinout(t_shell *shell)
+{
+	if (shell->fd_in >= 0)
+	{
+		shell->stdout_cpy = dup(1);
+		close(1);
+		dup2(shell->fd_in, 1);
+	}
+	if (shell->fd_out >= 0)
+	{
+		shell->stdin_cpy = dup(0);
+		close(0);
+		dup2(shell->fd_out, 0);
+	}
 }
 
 void		ft_stdin(t_shell *shell)
 {
 	if (open_fd(shell))
 	{
-		if (shell->fd_in >= 0)
-		{
-			shell->stdout_cpy = dup(1);
-			close(1);
-			dup2(shell->fd_in, 1);
-		}
-		if (shell->fd_out >= -1)
-		{
-			shell->stdin_cpy = dup(0);
-			close(0);
-			dup2(shell->fd_out, 0);
-		}
+		copy_stdinout(shell);
 		if (!is_builtin(shell))
 		{
 			if (fork() == 0)
@@ -107,7 +99,7 @@ void		ft_stdin(t_shell *shell)
 			dup2(shell->stdout_cpy, 1);
 			close(shell->stdout_cpy);
 		}
-		if (shell->fd_out >= -1)
+		if (shell->fd_out >= 0)
 		{
 			dup2(shell->stdin_cpy, 0);
 			close(shell->stdin_cpy);
@@ -115,6 +107,6 @@ void		ft_stdin(t_shell *shell)
 	}
 	free(shell->command);
 	shell->command = ft_strdup("");
-	del_args(shell);
+	del_args(shell->args);
 	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }

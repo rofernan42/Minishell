@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 12:55:26 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 13:33:19 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void				command_error(char *command, char *err);
 /*
 **	FREE.C
 */
+void				del_args(char **args);
 void				free_all(t_shell *shell);
 
 int					check_env_name(char *name);
 
-void				ft_echo(t_shell *shell);
-//void	ft_echo(int ac, char **av, t_shell *shell);
-//int		count_args(char **args);
+void				prep_path(t_shell *shell);
 
+void				ft_echo(t_shell *shell);
 void				ft_pwd(t_env *env);
 void				ft_cd(char *arg, t_env *env);
 void				ft_export(char **vars, t_env *env);
