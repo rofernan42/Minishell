@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 13:33:19 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 18:29:29 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ typedef struct		s_shell
 }					t_shell;
 
 /*
+**	TABS.C
+*/
+int					ft_tablength(char **s);
+char				**ft_tabcopy(char **s, int fin);
+void				del_args(char **args);
+
+/*
+**	UTILS.C
+*/
+int					is_chevron(char *str);
+
+/*
 **	ENV_*.C
 */
 t_env				*ft_envnew(char *name, char *data);
@@ -65,7 +77,6 @@ void				command_error(char *command, char *err);
 /*
 **	FREE.C
 */
-void				del_args(char **args);
 void				free_all(t_shell *shell);
 
 int					check_env_name(char *name);
@@ -82,7 +93,7 @@ void				ft_env(t_env *env);
 int					open_fd(t_shell *shell);
 void				redirect(t_shell *shell, char **envp);
 
-void				ft_stdin(t_shell *shell);
+void				ft_stdin(t_shell *shell, char ** command);
 
 
 int					match(char *s1, char *s2);

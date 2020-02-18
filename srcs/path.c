@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 14:43:42 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 15:18:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	prep_path(t_shell *shell)
 	{
 		tmp = ft_strjoin_free(s[i], "/", 1);
 		tmp = ft_strjoin_free(tmp, shell->args[0], 1);
-		if ((k = stat(tmp, &a)) == 0)
+		if (!(stat(tmp, &a)))
 		{
 			f = 1;
 			break ;

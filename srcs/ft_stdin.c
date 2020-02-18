@@ -6,38 +6,39 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 14:42:07 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 18:41:14 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char **extract(t_shell *shell)
+static char	**extract(t_shell *shell)
 {
 	int		i;
+	int		j;
 	char	**tmp;
 
 	i = 0;
+	j = 0;
 	while (shell->args[i])
 	{
-		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
-		|| !ft_strcmp(shell->args[i], ">>"))
-			break ;
+		if (i == 0 || (i > 0 && !is_chevron(shell->args[i]) \
+		&& !is_chevron(shell->args[i - 1])))
+			j++;
 		i++;
 	}
-	if (!(tmp = malloc(sizeof(char*) * (i + 1))))
+	if (!(tmp = malloc(sizeof(char*) * (j + 1))))
 		exit(EXIT_FAILURE);
 	i = 0;
+	j = 0;
 	while (shell->args[i])
 	{
-		if (ft_strcmp(shell->args[i], ">") && ft_strcmp(shell->args[i], "<") \
-		&& ft_strcmp(shell->args[i], ">>"))
-			tmp[i] = ft_strdup(shell->args[i]);
-		else
-			break ;
+		if (i == 0 || (i > 0 && !is_chevron(shell->args[i]) \
+		&& !is_chevron(shell->args[i - 1])))
+			tmp[j++] = ft_strdup(shell->args[i]);
 		i++;
 	}
-	tmp[i] = NULL;
+	tmp[j] = NULL;
 	return (tmp);
 }
 
@@ -69,30 +70,6 @@ static int	is_builtin(t_shell *shell)
 
 static void	process_exec(t_shell *shell)
 {
-	// int		i;
-	// char	**tmp;
-
-	// i = 0;
-	// while (shell->args[i])
-	// {
-	// 	if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
-	// 	|| !ft_strcmp(shell->args[i], ">>"))
-	// 		break ;
-	// 	i++;
-	// }
-	// if (!(tmp = malloc(sizeof(char*) * (i + 1))))
-	// 	exit(EXIT_FAILURE);
-	// i = 0;
-	// while (shell->args[i])
-	// {
-	// 	if (ft_strcmp(shell->args[i], ">") && ft_strcmp(shell->args[i], "<") \
-	// 	&& ft_strcmp(shell->args[i], ">>"))
-	// 		tmp[i] = ft_strdup(shell->args[i]);
-	// 	else
-	// 		break ;
-	// 	i++;
-	// }
-	// tmp[i] = NULL;
 	char **tmp;
 
 	tmp = extract(shell);
@@ -129,26 +106,48 @@ static void	close_stdinout(t_shell *shell)
 	}
 }
 
-void		ft_stdin(t_shell *shell)
+void		ft_stdin(t_shell *shell, char **command)
 {
-	ft_p(shell->args);
-	if (open_fd(shell))
+	int end;
+	int part;
+	int last_part;
+	int pipe_fd[2];
+
+	pipe(pipe_fd);
+	part = 0;
+	last_part = 0;
+	end = ft_tablength(command);
+	while (part <= end)
 	{
-		copy_stdinout(shell);
-		if (!is_builtin(shell))
+		if (part == end || !ft_strcmp(command[part], "|"))
 		{
-			if (fork() == 0)
+			shell->args = ft_tabcopy(command + last_part, part - last_part);
+			if (shell->args[0])
 			{
-				prep_path(shell);
-				process_exec(shell);
-				exit(0);
+				if (open_fd(shell))
+				{
+					copy_stdinout(shell);
+					if (!is_builtin(shell))
+					{
+						if (fork() == 0)
+						{
+							prep_path(shell);
+							process_exec(shell);
+							exit(0);
+						}
+						else
+							wait(NULL);
+					}
+					close_stdinout(shell);
+				}
 			}
-			else
-				wait(NULL);
+			last_part = part + 1;
+			del_args(shell->args);
 		}
-		close_stdinout(shell);
+		part++;
+		
+		// free(shell->command);
+		// shell->command = ft_strdup("");
 	}
-	free(shell->command);
-	shell->command = ft_strdup("");
-	del_args(shell->args);
+	del_args(command);
 }

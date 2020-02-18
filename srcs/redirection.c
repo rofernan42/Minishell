@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 13:14:26 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 18:25:33 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static int	fd_in_out(t_shell *shell, int i)
 {
-	if (ft_strcmp(shell->args[i], ">") && ft_strcmp(shell->args[i], "<") \
-	&& ft_strcmp(shell->args[i], ">>"))
+	if (!is_chevron(shell->args[i]))
 	{
 		if (!ft_strcmp(shell->args[i - 1], ">"))
 			shell->fd_in = open(shell->args[i], O_WRONLY | O_TRUNC | O_CREAT, \
@@ -50,8 +49,7 @@ int			open_fd(t_shell *shell)
 	shell->fd_out = -5;
 	while (shell->args[i])
 	{
-		if (!ft_strcmp(shell->args[i], ">") || !ft_strcmp(shell->args[i], "<") \
-		|| !ft_strcmp(shell->args[i], ">>"))
+		if (is_chevron(shell->args[i]))
 		{
 			if (shell->args[i + 1])
 			{
