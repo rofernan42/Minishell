@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 13:10:25 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 13:14:26 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	fd_in_out(t_shell *shell, int i)
 	else
 	{
 		disp_err("syntax error near unexpected token `", \
-													shell->args[i], 0, "'");
+		shell->args[i], 0, "'");
 		return (0);
 	}
 	return (1);
