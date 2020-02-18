@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 13:34:48 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 14:42:07 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	is_builtin(t_shell *shell)
 	return (1);
 }
 
-void		process_exec(t_shell *shell)
+static void	process_exec(t_shell *shell)
 {
 	int		i;
 	char	**tmp;
@@ -82,6 +82,20 @@ static void	copy_stdinout(t_shell *shell)
 	}
 }
 
+static void	close_stdinout(t_shell *shell)
+{
+	if (shell->fd_in >= 0)
+	{
+		dup2(shell->stdout_cpy, 1);
+		close(shell->stdout_cpy);
+	}
+	if (shell->fd_out >= 0)
+	{
+		dup2(shell->stdin_cpy, 0);
+		close(shell->stdin_cpy);
+	}
+}
+
 void		ft_stdin(t_shell *shell)
 {
 	if (open_fd(shell))
@@ -90,20 +104,14 @@ void		ft_stdin(t_shell *shell)
 		if (!is_builtin(shell))
 		{
 			if (fork() == 0)
+			{
 				process_exec(shell);
+				exit(0);
+			}
 			else
 				wait(NULL);
 		}
-		if (shell->fd_in >= 0)
-		{
-			dup2(shell->stdout_cpy, 1);
-			close(shell->stdout_cpy);
-		}
-		if (shell->fd_out >= 0)
-		{
-			dup2(shell->stdin_cpy, 0);
-			close(shell->stdin_cpy);
-		}
+		close_stdinout(shell);
 	}
 	free(shell->command);
 	shell->command = ft_strdup("");

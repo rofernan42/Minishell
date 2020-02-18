@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 13:22:52 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/18 14:43:42 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	prep_path(t_shell *shell)
 		free(tmp);
 	}
 	else
-		ft_putendl_fd("PATH not found", 2);
+		command_error(shell->args[0], "command not found");
 }
