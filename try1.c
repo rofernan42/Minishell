@@ -526,6 +526,13 @@ char **finish_p(char **cmd, int **tab)
 				oo = ft_concat(oo, " ");
 				tmp = ft_substr(cmd[i], j, 1);
 				oo = ft_concat(oo, tmp);
+				if (cmd[i][j+1] == '>')
+				{
+					oo[ft_strlen(oo) - 1] = oo[ft_strlen(oo) - 1] * -1;
+					tt[ft_strlen(oo) - 1] = -1;
+					oo = ft_concat(oo, ">");
+					j++;
+				}
 				free(tmp);
 				oo[ft_strlen(oo) - 1] = oo[ft_strlen(oo) - 1] * -1;
 				tt[ft_strlen(oo) - 1] = -1;
@@ -709,6 +716,7 @@ char **ft_copy(char **s, int fin)
 		i++;
 	}
 	//ft_p(o);
+	//printf("FIN\n");
 	return (o);
 }
 
@@ -797,9 +805,7 @@ int main(int ac, char **av)
 					{
 						//ft_p(def);
 						//printf("last=%i, part=%i, fin=%i\n",last_part,part, fin);
-						shell.args = ft_copy(def + last_part, part - last_part);
-						if (shell.args[0] != 0)
-						ft_stdin(&shell);
+						ft_stdin(&shell,ft_copy(def + last_part, part - last_part));
 						last_part = part + 1;
 					}
 					part++;

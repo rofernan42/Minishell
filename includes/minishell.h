@@ -35,7 +35,7 @@ typedef struct		s_env
 
 typedef struct		s_shell
 {
-	char			*command;
+	char			**command;
 	char			**args;
 	char			*str_echo;
 	int				fd_in;
@@ -97,5 +97,8 @@ void				ft_stdin(t_shell *shell, char ** command);
 
 
 int					match(char *s1, char *s2);
+void ft_p(char **s);
+char **ft_copy(char **s, int fin);
+int ft_long(char **s);
 
 #endif
