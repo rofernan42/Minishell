@@ -88,7 +88,7 @@ void	print_env(t_env *env)
 {
 	while (env != NULL)
 	{
-		printf("%s=%s\n", env->name, env->data);
+		////printf("%s=%s\n", env->name, env->data);
 		env = env->next;
 	}
 }
@@ -288,6 +288,10 @@ void parsing(char *s, char **out, int *tab)
 void ft_p(char **s)
 {
 	int i = 0;
+	if (s == NULL)
+	{
+		return ;
+	}
 	while (s[i])
 	{
 		printf("s[%i]=[%s]\n", i, s[i]);
@@ -369,14 +373,14 @@ int replace(char **s, int d, t_env *env, int *tab)
 		i++;
 	}
 	char *n = ft_substr(s[0], d, i - d);
-	//printf("LABEL=%s\n",n);
+	//////printf("LABEL=%s\n",n);
 	t_env *e1 = ft_envfind(env, n, ft_strcmp);
 
 	if (e1 == NULL)
 	{
 		e1 = ft_envnew(n, "");
 	}
-	//printf("e1=%s\n", e1->data);
+	//////printf("e1=%s\n", e1->data);
 	int l1 = ft_strlen(s[0]);
 	int l2 = ft_strlen(e1->data);
 	int l3 = ft_strlen(e1->name);
@@ -694,13 +698,15 @@ void prep_0(t_shell *shell)
 	}
 	else
 	{
-		printf("NOT FOUND\n");
+		////printf("NOT FOUND\n");
 	}
 	
 }
 
 char **ft_copy(char **s, int fin)
 {
+	//////printf("FT_COPY\n");
+	//ft_p(s);
 	int i;
 	char **o;
 
@@ -716,7 +722,7 @@ char **ft_copy(char **s, int fin)
 		i++;
 	}
 	//ft_p(o);
-	//printf("FIN\n");
+	//////printf("FIN\n");
 	return (o);
 }
 
@@ -724,6 +730,9 @@ int ft_long(char **s)
 {
 	int i;
 
+	i = 0;
+	if (s == NULL)
+		return (0);
 	while(s[i])
 		i++;
 	return (i);
@@ -804,7 +813,7 @@ int main(int ac, char **av)
 					if (part == fin || !strcmp(def[part], ";"))
 					{
 						//ft_p(def);
-						//printf("last=%i, part=%i, fin=%i\n",last_part,part, fin);
+						//////printf("last=%i, part=%i, fin=%i\n",last_part,part, fin);
 						ft_stdin(&shell,ft_copy(def + last_part, part - last_part));
 						last_part = part + 1;
 					}

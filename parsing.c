@@ -556,7 +556,7 @@ int main(int ac, char **av)
 				def = finish_p(cmd, tabf);
 				pop_word(def);
 				ft_reverse(def);
-				ft_p(def);
+				//ft_p(def);
 				ft_free(def);
 				def = NULL;
 				write(1, "minishell$ ", 11);

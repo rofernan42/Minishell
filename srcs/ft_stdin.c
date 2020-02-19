@@ -122,7 +122,8 @@ int nb_pipe(char **s)
 void h_split(t_shell *shell, char **cmd)
 {
 	int i = 0;
-	ft_p(cmd);
+	//printf("DEB SLIPT H\n");
+	//ft_p(cmd);
 	int fin = ft_long(cmd);
 	char ***h = malloc(sizeof(char **) * 2);
 	int p = 0;
@@ -134,8 +135,8 @@ void h_split(t_shell *shell, char **cmd)
 	{
 		if (part == fin || !strcmp(cmd[part], "|"))
 		{
-			//ft_p(def);
-			printf("last=%i, part=%i, fin=%i, p=%i\n", last_part, part, fin, p);
+			////ft_p(def);
+			////printf("last=%i, part=%i, fin=%i, p=%i\n", last_part, part, fin, p);
 			h[0] = (ft_copy(cmd + last_part, part - last_part));
 			last_part = part + 1;
 			p++;
@@ -144,12 +145,12 @@ void h_split(t_shell *shell, char **cmd)
 	}
 	if (part < fin)
 		h[1] = ft_copy(cmd + last_part, fin - last_part);
-	printf("H0\n");
-	ft_p(h[0]);
+	//printf("H0\n");
+	//ft_p(h[0]);
 	if (part < fin)
 	{
-	printf("H1\n");
-	ft_p(h[1]);
+	//printf("H1\n");
+	//ft_p(h[1]);
 	}
 	shell->args = h[0];
 	if (part < fin)
@@ -180,20 +181,33 @@ int reste(char **s)
 
 void exec_pipe(t_shell *shell)
 {
+	//printf("EXEC PIPE\n");
+	//ft_p(shell->args);
+
 	int pdes[2];
 	int status;
 	pid_t child_right;
 	pid_t child_left;
 	pipe(pdes);
-	if (!(child_left = fork()))
+	if (shell->next_args == NULL && shell->args != NULL)
+	{
+		shell->next_args = shell->args;
+		shell->args = NULL;
+	}
+	if (shell->args != NULL && !(child_left = fork()))
 	{
 		close(pdes[0]);
+		printf("EXEC C L\n");
+	ft_p(shell->args);
 		dup2(pdes[1], STDOUT_FILENO);
 		/* Execute command to the left of the tree */
 		exit(execute_cmd(shell->args, shell));
+		exit(0);
 	}
 	if (!(child_right = fork()))
 	{
+		printf("EXEC C R\n");
+	ft_p(shell->args);
 		close(pdes[1]);
 		dup2(pdes[0], STDIN_FILENO);
 		/* Recursive call or execution of last command */
@@ -203,35 +217,33 @@ void exec_pipe(t_shell *shell)
 			exec_pipe(shell);
 		}
 		else if(shell->next_args != NULL)
+		{
+			printf("ICICIC\n");
 			exit(execute_cmd(shell->next_args, shell));
+		}
+		exit(0);
 	}
 	/* Should not forget to close both ends of the pipe */
 	close(pdes[1]);
 	close(pdes[0]);
 	wait(NULL);
 	waitpid(child_right, &status, 0);
-	// exit(0);
+	//exit(0);
 }
 
 int execute_cmd(char **cmd, t_shell *shell)
-{
+{	if (cmd == NULL)
+		exit(0);
 	shell->args = cmd;
 	open_fd(shell);
 	//{
 	copy_stdinout(shell);
-	//ft_p(cmd);
+	////ft_p(cmd);
 	if (!is_builtin(shell))
 	{
-		if (fork() == 0)
-		{
 			prep_path(shell);
 			process_exec(shell);
 			exit(0);
-		}
-		else
-		{
-			wait(NULL);
-		}
 	}
 	close_stdinout(shell);
 	//}
@@ -239,18 +251,21 @@ int execute_cmd(char **cmd, t_shell *shell)
 }
 void ft_stdin(t_shell *shell, char **command)
 {
-	int end;
-	int part;
-	int last_part;
-	int pipe_fd[2];
-	int nbp = nb_pipe(command);
-	char ***h;
-	//printf("NBP = %i\n", nbp);
-	//ft_p(command);
-	pipe(pipe_fd);
-	part = 0;
-	last_part = 0;
+	// int end;
+	// int part;
+	// int last_part;
+	//int pipe_fd[2];
+	//printf("MY PID = %i\n", (int)getpid());
+	//int nbp = nb_pipe(command);
+	//char ***h;
+	//////printf("NBP = %i\n", nbp);
+	printf("STDIN DEB\n)");
+	ft_p(command);
+	//pipe(pipe_fd);
+	//part = 0;
+	//last_part = 0;
 	h_split(shell, command);
+	////ft_p(shell->args);
 	exec_pipe(shell);
 	// if (open_fd(shell))
 	// {

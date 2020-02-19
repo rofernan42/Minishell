@@ -26,7 +26,7 @@ static int	fd_in_out(t_shell *shell, int i)
 		{
 			if ((shell->fd_out = open(shell->args[i], O_RDONLY)) == -1)
 			{
-				disp_err(shell->args[i], 0, ": ", strerror(errno));
+				//disp_err(shell->args[i], 0, ": ", strerror(errno));
 				return (0);
 			}
 		}
