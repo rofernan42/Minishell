@@ -15,16 +15,24 @@
 void	ft_echo(t_shell *shell)
 {
 	int i;
+	int o;
 
+	o = 0;
 	i = 1;
-	shell->str_echo = ft_strdup("");
+	if (!ft_strcmp(shell->args[1], "-n"))
+	{
+		i++;
+		o = 1;
+	}
 	while (shell->args[i])
 	{
-		shell->str_echo = ft_strjoin_free(shell->str_echo, shell->args[i], 1);
-		if (shell->args[i + 1])
-			shell->str_echo = ft_strjoin_free(shell->str_echo, " ", 1);
+		if (!((o == 0 && i == 1) || (o == 1 && i == 2)))
+			write(1, " ", 1);
+		ft_putstr_fd(shell->args[i], 1);
 		i++;
 	}
-	ft_putendl_fd(shell->str_echo, 1);
-	ft_strdel(&shell->str_echo);
+	if (o == 0)
+	{
+		write(1, "\n", 1);
+	}
 }
