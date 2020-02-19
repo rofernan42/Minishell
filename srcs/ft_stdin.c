@@ -153,10 +153,10 @@ void h_split(t_shell *shell, char **cmd)
 	}
 	shell->args = h[0];
 	if (part < fin)
-		shell->command = h[1];
+		shell->next_args = h[1];
 	else
 	{
-		shell->command = NULL;
+		shell->next_args = NULL;
 	}
 	
 }
@@ -197,13 +197,13 @@ void exec_pipe(t_shell *shell)
 		close(pdes[1]);
 		dup2(pdes[0], STDIN_FILENO);
 		/* Recursive call or execution of last command */
-		if (reste(shell->command)) // if plusieurs pipe
+		if (reste(shell->next_args)) // if plusieurs pipe
 		{
-			h_split(shell, shell->command);
+			h_split(shell, shell->next_args);
 			exec_pipe(shell);
 		}
-		else if(shell->command != NULL)
-			exit(execute_cmd(shell->command, shell));
+		else if(shell->next_args != NULL)
+			exit(execute_cmd(shell->next_args, shell));
 	}
 	/* Should not forget to close both ends of the pipe */
 	close(pdes[1]);
