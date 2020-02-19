@@ -142,19 +142,31 @@ void h_split(t_shell *shell, char **cmd)
 		}
 		part++;
 	}
-	h[1] = ft_copy(cmd + last_part, fin - last_part);
+	if (part < fin)
+		h[1] = ft_copy(cmd + last_part, fin - last_part);
 	printf("H0\n");
 	ft_p(h[0]);
+	if (part < fin)
+	{
 	printf("H1\n");
 	ft_p(h[1]);
+	}
 	shell->args = h[0];
-	shell->command = h[1];
+	if (part < fin)
+		shell->command = h[1];
+	else
+	{
+		shell->command = NULL;
+	}
+	
 }
 int execute_cmd(char **cmd, t_shell *shell);
 
 int reste(char **s)
 {
 	int i = 0;
+	if (s == NULL)
+		return (0);
 	while(s[i])
 	{
 		if (!ft_strcmp(s[i], "|"))
@@ -190,7 +202,7 @@ void exec_pipe(t_shell *shell)
 			h_split(shell, shell->command);
 			exec_pipe(shell);
 		}
-		else
+		else if(shell->command != NULL)
 			exit(execute_cmd(shell->command, shell));
 	}
 	/* Should not forget to close both ends of the pipe */
