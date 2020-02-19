@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 18:25:33 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:33:44 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	fd_in_out(t_shell *shell, int i)
 		{
 			if ((shell->fd_out = open(shell->args[i], O_RDONLY)) == -1)
 			{
-				//disp_err(shell->args[i], 0, ": ", strerror(errno));
+				disp_err(shell->args[i], 0, ": ", strerror(errno));
 				return (0);
 			}
 		}
@@ -66,4 +66,34 @@ int			open_fd(t_shell *shell)
 		i++;
 	}
 	return (1);
+}
+
+void		copy_stdinout(t_shell *shell)
+{
+	if (shell->fd_in >= 0)
+	{
+		shell->stdout_cpy = dup(1);
+		close(1);
+		dup2(shell->fd_in, 1);
+	}
+	if (shell->fd_out >= 0)
+	{
+		shell->stdin_cpy = dup(0);
+		close(0);
+		dup2(shell->fd_out, 0);
+	}
+}
+
+void		close_stdinout(t_shell *shell)
+{
+	if (shell->fd_in >= 0)
+	{
+		dup2(shell->stdout_cpy, 1);
+		close(shell->stdout_cpy);
+	}
+	if (shell->fd_out >= 0)
+	{
+		dup2(shell->stdin_cpy, 0);
+		close(shell->stdin_cpy);
+	}
 }

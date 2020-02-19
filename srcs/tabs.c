@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 16:52:21 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/19 15:45:59 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	del_args(char **args)
 		ft_strdel(&args[i++]);
 	ft_strdel(&args[i]);
 	free(args);
+	args = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/19 16:11:57 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:33:42 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void				del_args(char **args);
 **	UTILS.C
 */
 int					is_chevron(char *str);
+int					reste_arg(char **args, char *reste);
+int					nb_arg(char **args, char *to_count);
 
 /*
 **	ENV_*.C
@@ -88,8 +90,13 @@ void				ft_export(char **vars, t_env *env);
 void				ft_unset(char **vars, t_env *env);
 void				ft_env(t_env *env);
 
+/*
+**	REDIRECTION.C
+*/
 int					open_fd(t_shell *shell);
-void				redirect(t_shell *shell, char **envp);
+void				copy_stdinout(t_shell *shell);
+void				close_stdinout(t_shell *shell);
+
 
 void				ft_stdin(t_shell *shell, char ** command);
 
