@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 18:29:29 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/19 16:11:57 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ typedef struct		s_env
 
 typedef struct		s_shell
 {
-	char			**command;
 	char			**args;
-	char			*str_echo;
+	char			**next_args;
 	int				fd_in;
 	int				fd_out;
-	int				fdpipe[2];
 	int				stdout_cpy;
 	int				stdin_cpy;
 	t_env			*env;
