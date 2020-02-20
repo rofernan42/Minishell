@@ -140,8 +140,11 @@ void exec_pipe(t_shell *shell)
 	}
 	if (!(child_right = fork()))
 	{
-		close(pdes[1]);
-		dup2(pdes[0], 0);
+		if (!(shell->args == NULL && shell->next_args != NULL))
+		{
+			close(pdes[1]);
+			dup2(pdes[0], 0);
+		}
 		if (reste_arg(shell->next_args, "|"))
 		{
 			h_split(shell, shell->next_args);

@@ -222,13 +222,14 @@ void	ft_translate(char **s, int d, int f, char **out, int *tab)
 	int		i;
 	char	*q;
 	char	*tmp;
-
+	//printf("s=%s\n",s[0]);
+	//ft_p(s);
 	tmp = malloc(sizeof(char) * 2);
 	i = d;
 	tmp[1] = '\0';
 	while (s[0][i] && s[0][i] != '\n')
 	{
-		if (is_in_s(s[0], i) == 0 && s[0][i] == '\\' && s[0][i + 1] && (s[0][i + 1] == '"' || s[0][i + 1] == '\\' || s[0][i + 1] == '$') && ++i)
+		if (is_in_s(s[0], i) == 0 && s[0][i] == '\\' && s[0][i + 1] && (s[0][i + 1] == '"' || s[0][i + 1] == '\\' || s[0][i + 1] == '$'))
 		{
 			i++;
 			if (s[0][i] == '"')
@@ -266,6 +267,7 @@ void	ft_translate(char **s, int d, int f, char **out, int *tab)
 		i++;
 	}
 	free(tmp);
+	//printf("out=%s\n",out[0]);
 	return;
 }
 
@@ -478,6 +480,8 @@ char **finish_p(char **cmd, int **tab)
 	int i, j = 0;
 	char **out;
 	int nbc = 0;
+	if (cmd == NULL)
+		return(NULL);
 	while (cmd[i])
 	{
 		while (cmd[i][j])
@@ -791,6 +795,7 @@ int main(int ac, char **av)
 			{
 				trad(&full, shell.env, tab);
 				cmd = split_cmd(full, tab);
+				//printf("CMD\n");
 				//ft_p(cmd);
 				while (cmd[fin])
 				{
@@ -799,10 +804,13 @@ int main(int ac, char **av)
 					cmd[fin] = NULL;
 					cmd[fin] = malloc(sizeof(char) * 100);
 					memset(cmd[fin], 0, 100);
+					//printf("pars=%s et in=%i\n",sp,fin);
 					parsing(sp, &(cmd[fin]), tabf[fin]);
+					//printf("cmd[%i]=%s\n",fin,cmd[fin]);
 					free(sp);
 					fin++;
 				}
+				//ft_p(cmd);
 				def = finish_p(cmd, tabf);
 				pop_word(def);
 				ft_reverse(def);
