@@ -13,11 +13,29 @@
 #include "includes/minishell.h"
 #include "libft/libft.h"
 
+void	replace_1(int *k, int *j, t_env *e1, char *out)
+{
+	*k = -1;
+	while (e1->data[++(*k)])
+	{
+		out[*j] = e1->data[*k];
+		if (out[*j] == '"' || out[*j] == '\'' ||
+		out[*j] == '>' || out[*j] == '<' || out[*j] == '|')
+			out[*j] = -e1->data[*k];
+		(*j)++;
+	}
+}
+
+void	replace_2(int i, int j, char **s, char *out)
+{
+	while (s[0][i])
+		out[j++] = s[0][i++];
+}
+
 int		replace(char **s, int d, t_env *env)
 {
 	int		i;
 	t_env	*e1;
-	char	*n;
 	char	*out;
 	int		j;
 	int		k;
@@ -26,23 +44,16 @@ int		replace(char **s, int d, t_env *env)
 	while ((j = -1) && end_name(s[0][i], i) == 1)
 		i++;
 	out = ft_substr(s[0], d, i - d);
-	e1 = (ft_envfind(env, out, ft_strcmp) == NULL) ? ft_envnew(out, "") : ft_envfind(env, out, ft_strcmp);
+	e1 = (ft_envfind(env, out, ft_strcmp) == NULL)
+	? ft_envnew(out, "") : ft_envfind(env, out, ft_strcmp);
 	k = ft_strlen(s[0]) + ft_strlen(e1->data) - ft_strlen(e1->name);
 	free(out);
 	out = malloc(sizeof(char) * k);
 	out[k - 1] = '\0';
 	while (++j < d - 1)
 		out[j] = s[0][j];
-	k = -1;
-	while (e1->data[++k])
-	{
-		out[j] = e1->data[k];
-		if (out[j] == '"' || out[j] == '\'' || out[j] == '>' || out[j] == '<' || out[j] == '|')
-			out[j] = -e1->data[k];
-		j++;
-	}
-	while (s[0][i])
-		out[j++] = s[0][i++];
+	replace_1(&k, &j, e1, out);
+	replace_2(i, j, s, out);
 	if (s[0] != NULL)
 		free(s[0]);
 	s[0] = out;

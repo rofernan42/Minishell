@@ -12,79 +12,6 @@
 
 #include "includes/minishell.h"
 
-// int		contain(char *s)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		if (s[i] == '\n')
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-
-// void		ft_p(char **s)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (s == NULL)
-// 		return ;
-// 	while (s[i])
-// 	{
-// 		printf("s[%i]=[%s]\n", i, s[i]);
-// 		i++;
-// 	}
-// }
-
-
-// char	**prep_0_1(t_shell *shell)
-// {
-// 	t_env	*e1;
-// 	char	**s;
-
-// 	e1 = ft_envfind(shell->env, "PATH", ft_strcmp);
-// 	if (e1 == NULL)
-// 	{
-// 		write(1, "not found\n", 10);
-// 		return (NULL);
-// 	}
-// 	s = ft_split(e1->data, ':');
-// 	return (s);
-// }
-
-// void	prep_0(t_shell *shell)
-// {
-// 	char		**s;
-// 	int			i;
-// 	char		*tmp;
-// 	struct stat	a;
-// 	int			f;
-
-// 	i = -1;
-// 	f = 0;
-// 	s = prep_0_1(shell);
-// 	if (stat(shell->args[0], &a) == 0)
-// 	{
-// 		return ;
-// 	}
-// 	while (s[++i] && (tmp = ft_concat(ft_concat(s[i], "/"),
-// 	shell->args[0])) != NULL)
-// 		if ((stat(tmp, &a)) == 0 && (f = 1))
-// 			break ;
-// 	if (f == 1)
-// 	{
-// 		free(shell->args[0]);
-// 		shell->args[0] = ft_strdup(tmp);
-// 		free(tmp);
-// 	}
-// }
-
-
 int		is_in_s(char *s, int m)
 {
 	int i;
@@ -113,6 +40,21 @@ int		is_in_s(char *s, int m)
 	return (sts);
 }
 
+void	is_in_sd_1(int *i, int *std, int *sts, int *state)
+{
+	*i = -1;
+	*std = 0;
+	*sts = 0;
+	*state = 0;
+}
+
+int		is_in_sd_out(int state, int sts, int std, int **tab)
+{
+	if (state == 1)
+		free(*tab);
+	return (sts + std);
+}
+
 int		is_in_sd(const char *s, int m, int *tab)
 {
 	int i;
@@ -121,86 +63,81 @@ int		is_in_sd(const char *s, int m, int *tab)
 	int sts;
 	int state;
 
-	i = 0;
-	std = 0;
-	sts = 0;
-	state = 0;
+	is_in_sd_1(&i, &std, &sts, &state);
 	if (tab == NULL && (state = 1))
 		tab = fill_tab(s);
-	while (s[i] && i < m)
-	{
-		if (tab[i] == 0 && !sts && !std && s[i] == '"' &&
-		nb_bs(s, i - 1) % 2 == 0)
-		{
-			std = 1;
+	while (s[++i] && i < m)
+		if ((tab[i] == 0 && !sts && !std && s[i] == '"' &&
+			nb_bs(s, i - 1) % 2 == 0) &&
+			(std = 1))
 			deb = i;
-		}
 		else if (tab[i] == 0 && !sts && std && s[i] == '"' &&
-		nb_bs(s, i - 1) % 2 == 0)
+				nb_bs(s, i - 1) % 2 == 0)
 			std = 0;
-		else if (tab[i] == 0 && !std && !sts && s[i] == '\'' &&
-		nb_bs(s, i - 1) % 2 == 0)
-		{
+		else if ((tab[i] == 0 && !std && !sts && s[i] == '\'' &&
+				nb_bs(s, i - 1) % 2 == 0) &&
+				(sts = 1))
 			deb = i;
-			sts = 1;
-		}
 		else if (tab[i] == 0 && !std && sts && s[i] == '\'' &&
-		nb_bs(s, i - 1) % 2 == 0)
+				nb_bs(s, i - 1) % 2 == 0)
 			sts = 0;
-		i++;
-	}
-	if (state == 1)
-		free(tab);
-	return (sts + std);
+	return (is_in_sd_out(state, sts, std, &tab));
+}
+
+char	*inv(char c)
+{
+	char *o;
+
+	o = malloc(sizeof(char) * 2);
+	o[0] = -c;
+	o[1] = '\0';
+	return (o);
+}
+
+void	ft_translate_1(int *i, char **out, char **s, int *tab)
+{
+	(*i)++;
+	if (s[0][*i] == '\'')
+		out[0] = ft_strjoin_free(out[0], inv('\''), 2);
+	if (s[0][*i] == '>')
+		out[0] = ft_strjoin_free(out[0], ">", 1);
+	if (s[0][*i] == '<')
+		out[0] = ft_strjoin_free(out[0], "<", 1);
+	if (s[0][*i] == '|')
+		out[0] = ft_strjoin_free(out[0], "|", 1);
+	tab[ft_strlen(out[0]) - 1] = 1;
+}
+
+void	ft_translate_2(int *i, char **s, char **out)
+{
+	(*i)++;
+	if (s[0][*i] == '"')
+		out[0] = ft_strjoin_free(out[0], inv('"'), 2);
+	else if (s[0][*i] == '\\')
+		out[0] = ft_strjoin_free(out[0], "\\", 1);
+	else if (s[0][*i] == '$')
+		out[0] = ft_strjoin_free(out[0], "$", 1);
 }
 
 void	ft_translate(char **s, int d, char **out, int *tab)
 {
 	int		i;
 	char	*q;
-	char	*tmp;
-	tmp = malloc(sizeof(char) * 2);
-	i = d;
-	tmp[1] = '\0';
-	while (s[0][i] && s[0][i] != '\n')
-	{
-		if (is_in_s(s[0], i) == 0 && s[0][i] == '\\' && s[0][i + 1] && (s[0][i + 1] == '"' || s[0][i + 1] == '\\' || s[0][i + 1] == '$'))
-		{
-			i++;
-			if (s[0][i] == '"')
-			{
-				tmp[0] = -1 * '"';
-				out[0] = ft_strjoin_free(out[0], tmp, 2);
-			}
-			else if (s[0][i] == '\\')
-				out[0] = ft_strjoin_free(out[0], "\\", 1);
-			else if (s[0][i] == '$')
-				out[0] = ft_strjoin_free(out[0], "$", 1);
-		}
-		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' && s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' || s[0][i + 1] == '<' || s[0][i + 1] == '|'))
-		{
-			i++;
-			if (s[0][i] == '\'')
-			{
-				tmp[0] = -1 * '\'';
-				out[0] = ft_strjoin_free(out[0], tmp, 2);
-			}
-			if (s[0][i] == '>')
-				out[0] = ft_strjoin_free(out[0], ">", 1);
-			if (s[0][i] == '<')
-				out[0] = ft_strjoin_free(out[0], "<", 1);
-			if (s[0][i] == '|')
-				out[0] = ft_strjoin_free(out[0], "|", 1);
-			tab[ft_strlen(out[0]) - 1] = 1;
-		}
+
+	i = d - 1;
+	while (s[0][++i] && s[0][i] != '\n')
+		if (is_in_s(s[0], i) == 0 && s[0][i] == '\\' && s[0][i + 1] &&
+		(s[0][i + 1] == '"' || s[0][i + 1] == '\\' || s[0][i + 1] == '$'))
+			ft_translate_2(&i, s, out);
+		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' &&
+		s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' ||
+		s[0][i + 1] == '<' || s[0][i + 1] == '|'))
+			ft_translate_1(&i, out, s, tab);
 		else
 		{
 			q = ft_substr(s[0], i, 1);
 			out[0] = ft_strjoin_free(out[0], q, 1);
 			free(q);
 		}
-		i++;
-	}
-	// free(tmp);
 	return ;
 }
