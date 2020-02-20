@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 16:07:51 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:52:29 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static char	**extract(char **args)
 		if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))
 			j++;
+		if (!ft_strcmp(args[i], "|"))
+			break ;
 		i++;
 	}
 	if (!(tmp = malloc(sizeof(char *) * (j + 1))))

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 16:51:15 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:39:21 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	status = -42;
 	if (open_file(shell))
 	{
-		copy_stdinout(shell);
+		// copy_stdinout(shell);
 		if (!is_builtin(shell))
 		{
 			if (shell->args && !(child_left = fork()))
@@ -60,8 +60,16 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 			waitpid(child_left, NULL, 0);
 			waitpid(child_right, &status, 0);
 		}
-		close_stdinout(shell);
+		else
+		{
+			copy_stdinout(shell);
+			h_split(shell, shell->next_args);
+			exec_pipe(shell, i + 1);
+			close_stdinout(shell);
+		}
+		// close_stdinout(shell);
 	}
+	// printf("%d\n", i);
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
 		exit(0);
 	if ((WIFEXITED(status) != 0 || status == -42) && i == 0)
