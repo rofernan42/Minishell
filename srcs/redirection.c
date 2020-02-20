@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 17:48:11 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 21:14:39 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,25 @@ int			open_fd(t_shell *shell, char **args)
 	return (1);
 }
 
-void		copy_stdinout(t_shell *shell)
+int			copy_stdinout(t_shell *shell)
 {
-	if (shell->fd_in >= 0)
+	if (shell->fd_in >= 0 || shell->fd_out >= 0)
 	{
-		shell->stdout_cpy = dup(1);
-		close(1);
-		dup2(shell->fd_in, 1);
+		if (shell->fd_in >= 0)
+		{
+			shell->stdout_cpy = dup(1);
+			close(1);
+			dup2(shell->fd_in, 1);
+		}
+		if (shell->fd_out >= 0)
+		{
+			shell->stdin_cpy = dup(0);
+			close(0);
+			dup2(shell->fd_out, 0);
+		}
+		return (1);
 	}
-	if (shell->fd_out >= 0)
-	{
-		shell->stdin_cpy = dup(0);
-		close(0);
-		dup2(shell->fd_out, 0);
-	}
+	return (0);
 }
 
 void		close_stdinout(t_shell *shell)

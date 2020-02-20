@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 18:02:12 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 21:14:25 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ void				ft_env(t_env *env);
 **	REDIRECTION.C
 */
 int					open_fd(t_shell *shell, char **args);
-void				copy_stdinout(t_shell *shell);
+int					copy_stdinout(t_shell *shell);
 void				close_stdinout(t_shell *shell);
 int					open_file(t_shell *shell);
 
 /*
 **	EXEC_COMMANDS.C
 */
-int					is_builtin(t_shell *shell);
+int					is_builtin(t_shell *shell, int i);
 int					execute_cmd(char **cmd, t_shell *shell);
 
 /*
@@ -160,7 +160,7 @@ int			is_in_sd(const char *s, int m, int *tab);
 void		ft_translate(char **s, int d, char **out, int *tab);
 int			quote(char *s, char **out, int *tab);
 void		parsing(char *s, char **out, int *tab);
-// void		ft_p(char **s);
+void		ft_p(char **s);
 static char	**splitbody(int nbc, char const *s, char **out, int *tab);
 char		**split_cmd(char *s, int *tab);
 int			end_name(char c, int i);
