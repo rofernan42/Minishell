@@ -86,7 +86,7 @@ int main()
 				del_args(cmd);
 				fin = 0;
 				cmd = NULL;
-				//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+				// ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 			}
 			free(full);
 			full = malloc(sizeof(char) * 1);

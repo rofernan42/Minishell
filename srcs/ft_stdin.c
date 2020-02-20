@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 15:55:17 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:14:12 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ static void	fork_right(t_shell *shell, int *pdes)
 	exit(0);
 }
 
+int			open_file(t_shell *shell)
+{
+	if (shell->args)
+	{
+		if (!open_fd(shell, shell->args))
+			return (0);
+	}
+	else if (!shell->args && shell->next_args)
+	{
+		if (!open_fd(shell, shell->next_args))
+			return (0);
+	}
+	return (1);
+}
+
 void		exec_pipe(t_shell *shell)
 {
 	int		pdes[2];
@@ -80,23 +95,22 @@ void		exec_pipe(t_shell *shell)
 		shell->next_args = shell->args;
 		shell->args = NULL;
 	}
-	if (shell->args)
-		open_fd(shell, shell->args);
-	else if (!shell->args && shell->next_args)
-		open_fd(shell, shell->next_args);
-	copy_stdinout(shell);
-	if (!is_builtin(shell))
+	if (open_file(shell))
 	{
-		if (shell->args && !(child_left = fork()))
-			fork_left(shell, pdes);
-		if (!(child_right = fork()))
-			fork_right(shell, pdes);
-		close(pdes[1]);
-		close(pdes[0]);
-		waitpid(child_left, NULL, 0);
-		waitpid(child_right, &status, 0);
+		copy_stdinout(shell);
+		if (!is_builtin(shell))
+		{
+			if (shell->args && !(child_left = fork()))
+				fork_left(shell, pdes);
+			if (!(child_right = fork()))
+				fork_right(shell, pdes);
+			close(pdes[1]);
+			close(pdes[0]);
+			waitpid(child_left, NULL, 0);
+			waitpid(child_right, &status, 0);
+		}
+		close_stdinout(shell);
 	}
-	close_stdinout(shell);
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
 		exit(0);
 	if (WIFEXITED(status) != 0 || status == -42)

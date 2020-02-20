@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 15:40:02 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:07:51 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int			execute_cmd(char **cmd, t_shell *shell)
 	if (cmd == NULL)
 		exit(0);
 	shell->args = cmd;
-	open_fd(shell, shell->args);
+	if (!open_fd(shell, shell->args))
+		exit(0);
 	copy_stdinout(shell);
 	prep_path(shell);
 	process_exec(shell);
