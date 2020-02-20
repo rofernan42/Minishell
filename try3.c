@@ -3,28 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   try3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:14:09 by augay             #+#    #+#             */
-/*   Updated: 2020/02/20 13:14:10 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/20 15:25:05 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int		contain(char *s)
-{
-	int i;
+// int		contain(char *s)
+// {
+// 	int i;
 
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '\n')
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+
+// void		ft_p(char **s)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (s == NULL)
+// 		return ;
+// 	while (s[i])
+// 	{
+// 		printf("s[%i]=[%s]\n", i, s[i]);
+// 		i++;
+// 	}
+// }
+
+
+// char	**prep_0_1(t_shell *shell)
+// {
+// 	t_env	*e1;
+// 	char	**s;
+
+// 	e1 = ft_envfind(shell->env, "PATH", ft_strcmp);
+// 	if (e1 == NULL)
+// 	{
+// 		write(1, "not found\n", 10);
+// 		return (NULL);
+// 	}
+// 	s = ft_split(e1->data, ':');
+// 	return (s);
+// }
+
+// void	prep_0(t_shell *shell)
+// {
+// 	char		**s;
+// 	int			i;
+// 	char		*tmp;
+// 	struct stat	a;
+// 	int			f;
+
+// 	i = -1;
+// 	f = 0;
+// 	s = prep_0_1(shell);
+// 	if (stat(shell->args[0], &a) == 0)
+// 	{
+// 		return ;
+// 	}
+// 	while (s[++i] && (tmp = ft_concat(ft_concat(s[i], "/"),
+// 	shell->args[0])) != NULL)
+// 		if ((stat(tmp, &a)) == 0 && (f = 1))
+// 			break ;
+// 	if (f == 1)
+// 	{
+// 		free(shell->args[0]);
+// 		shell->args[0] = ft_strdup(tmp);
+// 		free(tmp);
+// 	}
+// }
+
 
 int		is_in_s(char *s, int m)
 {
@@ -111,12 +170,12 @@ void	ft_translate(char **s, int d, char **out, int *tab)
 			if (s[0][i] == '"')
 			{
 				tmp[0] = -1 * '"';
-				out[0] = ft_concat(out[0], tmp);
+				out[0] = ft_strjoin_free(out[0], tmp, 2);
 			}
 			else if (s[0][i] == '\\')
-				out[0] = ft_concat(out[0], "\\");
+				out[0] = ft_strjoin_free(out[0], "\\", 1);
 			else if (s[0][i] == '$')
-				out[0] = ft_concat(out[0], "$");
+				out[0] = ft_strjoin_free(out[0], "$", 1);
 		}
 		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' && s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' || s[0][i + 1] == '<' || s[0][i + 1] == '|'))
 		{
@@ -124,24 +183,24 @@ void	ft_translate(char **s, int d, char **out, int *tab)
 			if (s[0][i] == '\'')
 			{
 				tmp[0] = -1 * '\'';
-				out[0] = ft_concat(out[0], tmp);
+				out[0] = ft_strjoin_free(out[0], tmp, 2);
 			}
 			if (s[0][i] == '>')
-				out[0] = ft_concat(out[0], ">");
+				out[0] = ft_strjoin_free(out[0], ">", 1);
 			if (s[0][i] == '<')
-				out[0] = ft_concat(out[0], "<");
+				out[0] = ft_strjoin_free(out[0], "<", 1);
 			if (s[0][i] == '|')
-				out[0] = ft_concat(out[0], "|");
+				out[0] = ft_strjoin_free(out[0], "|", 1);
 			tab[ft_strlen(out[0]) - 1] = 1;
 		}
 		else
 		{
 			q = ft_substr(s[0], i, 1);
-			out[0] = ft_concat(out[0], q);
+			out[0] = ft_strjoin_free(out[0], q, 1);
 			free(q);
 		}
 		i++;
 	}
-	free(tmp);
+	// free(tmp);
 	return ;
 }

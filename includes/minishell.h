@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 13:07:52 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 15:02:01 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void				del_args(char **args);
 /*
 **	UTILS.C
 */
+int					count_char(char *s, char c);
+int					contain_c(char *s, char c);
 int					is_chevron(char *str);
 int					reste_arg(char **args, char *reste);
 int					nb_arg(char **args, char *to_count);
@@ -116,18 +118,18 @@ void				free_all(t_shell *shell);
 */
 int					match(char *s1, char *s2);
 
-int			count_p(char *s);
-char		**prep_0_1(t_shell *shell);
-void		prep_0(t_shell *shell);
-char		**ft_copy(char **s, int fin);
-int			ft_long(char **s);
+// int			count_p(char *s);
+// char		**prep_0_1(t_shell *shell);
+// void		prep_0(t_shell *shell);
+// char		**ft_copy(char **s, int fin);
+// int			ft_long(char **s);
 int			*fill_tab(const char *s);
 int			**fill_tabf(char **s);
 void		pop_word(char **s);
 char		**ft_reverse(char **s);
 void		trad(char **s, t_env *env);
-int			contain_c(char *s, char c);
-void		ft_free(char **s);
+// int			contain_c(char *s, char c);
+// void		ft_free(char **s);
 void		sig_handle_c(int s);
 void		sig_handle_b(int s);
 int			*cp_add(int *t, int p);
@@ -144,19 +146,19 @@ int			*finish_p_i(void);
 void		finish_p_1(char **oo, int **tt, int *i, char **cmd);
 int			p(char **cmd, int *i);
 int			enter(char *str);
-int			count_args(char **args);
-void		layout_args(t_shell *shell);
+// int			count_args(char **args);
+// void		layout_args(t_shell *shell);
 void		init_env(t_env **env);
 int			nb_bs(const char *s, int f);
 void		print_env(t_env *env);
-char		*ft_concat(char *s1, char *s2);
-int			contain(char *s);
+// char		*ft_concat(char *s1, char *s2);
+// int			contain(char *s);
 int			is_in_s(char *s, int m);
 int			is_in_sd(const char *s, int m, int *tab);
-void		ft_translate(char **s, int d, int f, char **out, int *tab);
+void		ft_translate(char **s, int d, char **out, int *tab);
 int			quote(char *s, char **out, int *tab);
 void		parsing(char *s, char **out, int *tab);
-void		ft_p(char **s);
+// void		ft_p(char **s);
 static char	**splitbody(int nbc, char const *s, char **out, int *tab);
 char		**split_cmd(char *s, int *tab);
 int			end_name(char c, int i);

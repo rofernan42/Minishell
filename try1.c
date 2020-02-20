@@ -35,8 +35,8 @@ int main()
 	{
 		i = read(0, s, 10);
 		s[i] = 0;
-		full = ft_concat(full, s);
-		if (contain(full))
+		full = ft_strjoin_free(full, s, 1);
+		if (contain_c(full, '\n'))
 		{
 			full[ft_strlen(full) - 1] = '\0';
 			if (full[0] != '\0')
@@ -54,7 +54,7 @@ int main()
 					free(cmd[fin]);
 					cmd[fin] = NULL;
 					cmd[fin] = malloc(sizeof(char) * 100);
-					memset(cmd[fin], 0, 100);
+					ft_memset(cmd[fin], 0, 100);
 					//printf("pars=%s et in=%i\n",sp,fin);
 					parsing(sp, &(cmd[fin]), tabf[fin]);
 					//printf("cmd[%i]=%s\n",fin,cmd[fin]);
@@ -66,14 +66,14 @@ int main()
 				pop_word(def);
 				ft_reverse(def);
 				//ft_p(def);
-				fin = ft_long(def);
+				fin = ft_tablength(def);
 				while (part <= fin)
 				{
-					if (part == fin || !strcmp(def[part], ";"))
+					if (part == fin || !ft_strcmp(def[part], ";"))
 					{
 						//ft_p(def);
 						//////printf("last=%i, part=%i, fin=%i\n",last_part,part, fin);
-						ft_stdin(&shell,ft_copy(def + last_part, part - last_part));
+						ft_stdin(&shell,ft_tabcopy(def + last_part, part - last_part));
 						last_part = part + 1;
 					}
 					part++;
@@ -83,7 +83,7 @@ int main()
 				shell.args = def;
 				//ft_stdin(&shell);
 				def = NULL;
-				ft_free(cmd);
+				del_args(cmd);
 				fin = 0;
 				cmd = NULL;
 				//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
@@ -94,7 +94,7 @@ int main()
 		}
 		else if (i == 0)
 		{
-			write(1, "exit\n", 5);
+			ft_putendl_fd("exit", 2);
 			exit(0);
 		}
 

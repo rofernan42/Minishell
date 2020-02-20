@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   try6.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:16:02 by augay             #+#    #+#             */
-/*   Updated: 2020/02/20 13:16:03 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/20 14:38:13 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-#include "libft/libft.h"
 
 int		cd(char **cmd, int *i)
 {
@@ -67,12 +66,12 @@ char	**finish_p(char **cmd, int **tab)
 	{
 		while (cmd[i[0]][++i[1]])
 			if ((tab[i[0]][i[1]] == 1 || (p(cmd, i) && cd(cmd, i) && cg(cmd, i)
-			&& v(cmd, i)) || is_in_sd(cmd[i[0]], i[1], tab[i[0]]) == 1) &&
-(oo = ft_strjoin_free(oo, ft_substr(cmd[i[0]], i[1], 1), 2)))
+			&& v(cmd, i)) || is_in_sd(cmd[i[0]], i[1], tab[i[0]]) == 1)
+			&& (oo = ft_strjoin_free(oo, ft_substr(cmd[i[0]], i[1], 1), 2)))
 				cmd[i[0]][i[1]] = re(cmd, i);
 			else
 				finish_p_1(&oo, &tt, i, cmd);
-		oo = ft_concat(oo, " ");
+		oo = ft_strjoin_free(oo, " ", 1);
 	}
 	return (wrap(tt, oo, out));
 }
@@ -96,9 +95,7 @@ void	pop_char(char **s, int i, int c1, int c2)
 			j++;
 		}
 		else
-		{
 			j++;
-		}
 	}
 	free(s[i]);
 	s[i] = out;

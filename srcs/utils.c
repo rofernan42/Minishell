@@ -6,11 +6,41 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 18:15:32 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/19 17:23:49 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 14:27:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	count_char(char *s, char c)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	contain_c(char *s, char c)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (c == s[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	is_chevron(char *str)
 {

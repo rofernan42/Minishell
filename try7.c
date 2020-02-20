@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   try7.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:16:07 by augay             #+#    #+#             */
-/*   Updated: 2020/02/20 13:16:09 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/20 14:34:42 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-#include "libft/libft.h"
 
 void	pop_word(char **s)
 {
@@ -83,33 +82,6 @@ void	trad(char **s, t_env *env)
 		}
 		i++;
 	}
-}
-
-int		contain_c(char *s, char c)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (c == s[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	ft_free(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
 }
 
 void	sig_handle_c(int s)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try5.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:15:57 by augay             #+#    #+#             */
-/*   Updated: 2020/02/20 13:15:58 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/20 14:54:36 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void	finish_p_1(char **oo, int **tt, int *i, char **cmd)
 		(oo[0])[ft_strlen(oo[0]) - 1] = (oo[0])[ft_strlen(oo[0]) - 1] * -1;
 		tt[0] = cp_add(tt[0], ft_strlen(oo[0]));
 		(tt[0])[ft_strlen(oo[0]) - 1] = -1;
-		oo[0] = ft_concat(oo[0], ">");
+		oo[0] = ft_strjoin_free(oo[0], ">", 1);
 		i[1]++;
 	}
 	(oo[0])[ft_strlen(oo[0]) - 1] = oo[0][ft_strlen(oo[0]) - 1] * -1;
 	(tt[0]) = cp_add(tt[0], ft_strlen(oo[0]));
 	(tt[0])[ft_strlen(oo[0]) - 1] = -1;
-	oo[0] = ft_concat(oo[0], " ");
+	oo[0] = ft_strjoin_free(oo[0], " ", 1);
 }
 
 int		p(char **cmd, int *i)

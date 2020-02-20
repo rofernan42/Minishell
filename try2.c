@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:14:04 by augay             #+#    #+#             */
-/*   Updated: 2020/02/20 13:14:06 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/20 15:24:04 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,13 @@ int			quote(char *s, char **out, int *tab)
 	std = 0;
 	sts = 0;
 	sts = is_in_sd(s, ft_strlen(s), tab);
-	ft_translate(&s, 0, i, out, tab);
+	ft_translate(&s, i, out, tab);
 	return (0);
 }
 
 void		parsing(char *s, char **out, int *tab)
 {
 	quote(s, out, tab);
-}
-
-void		ft_p(char **s)
-{
-	int i;
-
-	i = 0;
-	if (s == NULL)
-	{
-		return ;
-	}
-	while (s[i])
-	{
-		printf("s[%i]=[%s]\n", i, s[i]);
-		i++;
-	}
 }
 
 static char	**splitbody(int nbc, char const *s, char **out, int *tab)
@@ -91,9 +75,7 @@ char		**split_cmd(char *s, int *tab)
 	while (s[i] && s[i + 1])
 	{
 		if ((s[i] == ' ' && s[i + 1] != ' ') && is_in_sd(s, i, tab) == 0)
-		{
 			nbc++;
-		}
 		i++;
 	}
 	out = malloc(sizeof(char *) * (nbc + 1));
@@ -106,10 +88,11 @@ char		**split_cmd(char *s, int *tab)
 int			end_name(char c, int i)
 {
 	if (i == 0)
-		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '?')
+	{
+		if (ft_isalpha(c) || c == '?')
 			return (1);
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
-	&& c <= '9') || c == '_' || c == '?')
+	}
+	if (ft_isalnum(c) || c == '_' || c == '?')
 		return (1);
 	return (0);
 }
