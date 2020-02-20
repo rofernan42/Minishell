@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 15:48:57 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:52:01 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_shell
 int					ft_tablength(char **s);
 char				**ft_tabcopy(char **s, int fin);
 void				del_args(char **args);
+void				h_split(t_shell *shell, char **cmd);
 
 /*
 **	UTILS.C
@@ -96,6 +97,7 @@ void				ft_env(t_env *env);
 int					open_fd(t_shell *shell, char **args);
 void				copy_stdinout(t_shell *shell);
 void				close_stdinout(t_shell *shell);
+int					open_file(t_shell *shell);
 
 /*
 **	EXEC_COMMANDS.C
@@ -106,7 +108,7 @@ int					execute_cmd(char **cmd, t_shell *shell);
 /*
 **	FT_STDIN.C
 */
-void				exec_pipe(t_shell *shell);
+void				exec_pipe(t_shell *shell, int i);
 void				ft_stdin(t_shell *shell, char ** command);
 
 /*

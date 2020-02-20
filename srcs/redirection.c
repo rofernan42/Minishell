@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 12:56:50 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:48:38 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,19 @@ void		close_stdinout(t_shell *shell)
 		dup2(shell->stdin_cpy, 0);
 		close(shell->stdin_cpy);
 	}
+}
+
+int			open_file(t_shell *shell)
+{
+	if (shell->args)
+	{
+		if (!open_fd(shell, shell->args))
+			return (0);
+	}
+	else if (!shell->args && shell->next_args)
+	{
+		if (!open_fd(shell, shell->next_args))
+			return (0);
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 14:23:27 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:50:10 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,31 @@ void	del_args(char **args)
 	ft_strdel(&args[i]);
 	free(args);
 	args = NULL;
+}
+
+void	h_split(t_shell *shell, char **cmd)
+{
+	int		fin;
+	int		p;
+	int		part;
+	int		last_part;
+
+	p = 0;
+	part = 0;
+	last_part = 0;
+	fin = ft_tablength(cmd);
+	while (part <= fin && p < 1)
+	{
+		if (part == fin || !ft_strcmp(cmd[part], "|"))
+		{
+			shell->args = (ft_tabcopy(cmd + last_part, part - last_part));
+			last_part = part + 1;
+			p++;
+		}
+		part++;
+	}
+	if (part < fin)
+		shell->next_args = ft_tabcopy(cmd + last_part, fin - last_part);
+	else
+		shell->next_args = NULL;
 }
