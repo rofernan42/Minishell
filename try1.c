@@ -6,6 +6,7 @@
 #include "includes/minishell.h"
 #include "libft/libft.h"
 #include <signal.h>
+int *fill_tab(const char *s);
 
 void prep_0(t_shell *shell);
 
@@ -161,21 +162,6 @@ int		is_in_s(char *s, int m)
 	return (sts);
 }
 
-int		*init_tab(void)
-{
-	int i;
-	int *tab;
-
-	i = 0;
-	tab = malloc(sizeof(int) * 100);
-	while (i < 100)
-	{
-		tab[i] = 0;
-		i++;
-	}
-	return (tab);
-}
-
 int		is_in_sd(const char *s, int m, int *tab)
 {
 	int i;
@@ -189,7 +175,7 @@ int		is_in_sd(const char *s, int m, int *tab)
 	sts = 0;
 	state = 0;
 	if (tab == NULL && (state = 1))
-		tab = init_tab();
+		tab = fill_tab(s);
 	while (s[i] && i < m)
 	{
 		if (tab[i] == 0 && !sts && !std && s[i] == '"' &&
@@ -367,7 +353,7 @@ int end_name(char c, int i)
 		return (1);
 	return (0);
 }
-int replace(char **s, int d, t_env *env, int *tab)
+int replace(char **s, int d, t_env *env)
 {
 	int i = d;
 	while (end_name(s[0][i], i) == 1)
@@ -401,7 +387,6 @@ int replace(char **s, int d, t_env *env, int *tab)
 		out[j] = e1->data[k];
 		if (out[j] == '"' || out[j] == '\'' || out[j] == '>' || out[j] == '<' || out[j] == '|')
 		{
-			tab[j] = 1;
 			out[j] = -e1->data[k];
 		}
 		j++;
@@ -421,7 +406,7 @@ int replace(char **s, int d, t_env *env, int *tab)
 	return ((int)(d + (int)ft_strlen(e1->data)) - 1);
 }
 
-void trad(char **s, t_env *env, int *tab)
+void trad(char **s, t_env *env)
 {
 	int i = 0;
 	while (s[0][i])
@@ -429,7 +414,7 @@ void trad(char **s, t_env *env, int *tab)
 
 		if (s[0][i] == '$' && nb_bs(s[0], i - 1) % 2 == 0 && is_in_s(s[0], i) == 0)
 		{
-			i = replace(s, i + 1, env, tab);
+			i = replace(s, i + 1, env);
 			if (i == 0)
 			{
 				s[0][0] = '\0';
@@ -476,11 +461,31 @@ void sig_handle_B(int s)
 	// exit(0);
 }
 
+int *cp_add(int *t, int p)
+{
+	int i = 0;
+	int *o = malloc(sizeof(int) * (p+1));
+	o[p] = -8;
+	while(t[i] != -8)
+	{
+		o[i] = t[i];
+		i++;
+	}
+	while(o[i] != -8)
+	{
+		o[i] = 0;
+		i++;
+	}
+	free(t);
+	return (o);
+}
+
 char **finish_p(char **cmd, int **tab)
 {
 	int i, j = 0;
 	char **out;
 	int nbc = 0;
+	int l = 1;
 	if (cmd == NULL)
 		return(NULL);
 	while (cmd[i])
@@ -508,12 +513,8 @@ char **finish_p(char **cmd, int **tab)
 	j = 0;
 	char *oo = malloc(sizeof(char) * 1);
 	oo[0] = '\0';
-	int *tt = malloc(sizeof(int) * 100);
-	while (j < 100)
-	{
-		tt[j] = 0;
-		j++;
-	}
+	int *tt = malloc(sizeof(int) * 1);
+	tt[0] = -8;
 	j = 0;
 	char *tmp;
 	while (cmd[i])
@@ -538,12 +539,14 @@ char **finish_p(char **cmd, int **tab)
 				if (cmd[i][j+1] == '>')
 				{
 					oo[ft_strlen(oo) - 1] = oo[ft_strlen(oo) - 1] * -1;
+					tt = cp_add(tt, ft_strlen(oo));
 					tt[ft_strlen(oo) - 1] = -1;
 					oo = ft_concat(oo, ">");
 					j++;
 				}
 				free(tmp);
 				oo[ft_strlen(oo) - 1] = oo[ft_strlen(oo) - 1] * -1;
+				tt = cp_add(tt, ft_strlen(oo));
 				tt[ft_strlen(oo) - 1] = -1;
 				oo = ft_concat(oo, " ");
 			}
@@ -555,6 +558,7 @@ char **finish_p(char **cmd, int **tab)
 		j = 0;
 	}
 
+	tt = cp_add(tt, ft_strlen(oo));
 	free(out);
 	out = split_cmd(oo, tt);
 
@@ -743,9 +747,45 @@ int ft_long(char **s)
 	return (i);
 }
 
-int *fill_tab(char *)
+int *fill_tab(const char *s)
 {
-	int *o = 
+	int l = ft_strlen(s);
+	int *o = malloc(sizeof(int) * (l));
+	int i = 0;
+	while(i < l)
+	{
+		o[i] = 0;
+		if (s[i] < 0)
+			o[i] = 1;
+		i++;
+	}
+	return (o);
+}
+
+int **fill_tabf(char **s)
+{
+	int i = 0;
+	int j = 0;
+	int **o;
+	while(s[i])
+	{
+		i++;
+	}
+
+	o = malloc(sizeof(int*) * i);
+	i = 0;
+	while(s[i])
+	{
+		while(s[i][j])
+		{
+			j++;
+		}
+		o[i] = malloc(sizeof(int) * j);
+		memset(o[i], 0, sizeof(int) * j);
+		i++;
+		j = 0;
+	}
+	return (o);
 }
 
 int main(int ac, char **av)
@@ -761,18 +801,6 @@ int main(int ac, char **av)
 	shell.env = env;
 	int **tabf = malloc(sizeof(int *) * 10);
 	cpt = 0;
-	int cpt2 = 0;
-	while (cpt < 10)
-	{
-		tabf[cpt] = malloc(sizeof(int) * 100);
-		while (cpt2 < 100)
-		{
-			tabf[cpt][cpt2] = 0;
-			cpt2++;
-		}
-		cpt2 = 0;
-		cpt++;
-	}
 	int i = 0;
 	char *s = malloc(sizeof(char) * 11);
 	char *full = malloc(sizeof(char) * 1);
@@ -794,10 +822,11 @@ int main(int ac, char **av)
 			full[ft_strlen(full) - 1] = '\0';
 			if (full[0] != '\0')
 			{
-				trad(&full, shell.env, tab);
+				trad(&full, shell.env);
 				//init tab -char
-				tab = fill_tab(full)
+				tab = fill_tab(full);
 				cmd = split_cmd(full, tab);
+				tabf = fill_tabf(cmd);
 				//printf("CMD\n");
 				//ft_p(cmd);
 				while (cmd[fin])
