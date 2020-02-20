@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/19 17:33:42 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 11:21:21 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ void				ft_envclear(t_env *begin_env, void (*free_fct)(void *));
 void				disp_err(char *command, char *arg, char *compl, char *err);
 void				command_error(char *command, char *err);
 
-/*
-**	FREE.C
-*/
-void				free_all(t_shell *shell);
+
 
 int					check_env_name(char *name);
 
@@ -97,13 +94,25 @@ int					open_fd(t_shell *shell);
 void				copy_stdinout(t_shell *shell);
 void				close_stdinout(t_shell *shell);
 
+/*
+**	EXEC_COMMANDS.C
+*/
+int					execute_cmd(char **cmd, t_shell *shell);
 
+/*
+**	FT_STDIN.C
+*/
+void				exec_pipe(t_shell *shell);
 void				ft_stdin(t_shell *shell, char ** command);
 
+/*
+**	FREE.C
+*/
+void				free_all(t_shell *shell);
 
+/*
+**	BONUS
+*/
 int					match(char *s1, char *s2);
-void ft_p(char **s);
-char **ft_copy(char **s, int fin);
-int ft_long(char **s);
 
 #endif
