@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 11:22:05 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:18:25 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	h_split(t_shell *shell, char **cmd)
 	fin = ft_tablength(cmd);
 	while (part <= fin && p < 1)
 	{
-		if (part == fin || !strcmp(cmd[part], "|"))
+		if (part == fin || !ft_strcmp(cmd[part], "|"))
 		{
 			shell->args = (ft_tabcopy(cmd + last_part, part - last_part));
 			last_part = part + 1;
@@ -74,22 +74,32 @@ void		exec_pipe(t_shell *shell)
 	pid_t	child_left;
 
 	pipe(pdes);
-	if (shell->next_args == NULL && shell->args != NULL)
+	status = -42;
+	if (shell->args && !shell->next_args)
 	{
 		shell->next_args = shell->args;
 		shell->args = NULL;
 	}
-	if (shell->args != NULL && !(child_left = fork()))
-		fork_left(shell, pdes);
-	if (!(child_right = fork()))
-		fork_right(shell, pdes);
-	close(pdes[1]);
-	close(pdes[0]);
-	waitpid(child_left, NULL, 0);
-	waitpid(child_right, &status, 0);
+	if (shell->args)
+		open_fd(shell, shell->args);
+	else if (!shell->args && shell->next_args)
+		open_fd(shell, shell->next_args);
+	copy_stdinout(shell);
+	if (!is_builtin(shell))
+	{
+		if (shell->args && !(child_left = fork()))
+			fork_left(shell, pdes);
+		if (!(child_right = fork()))
+			fork_right(shell, pdes);
+		close(pdes[1]);
+		close(pdes[0]);
+		waitpid(child_left, NULL, 0);
+		waitpid(child_right, &status, 0);
+	}
+	close_stdinout(shell);
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
 		exit(0);
-	if (WIFEXITED(status) != 0)
+	if (WIFEXITED(status) != 0 || status == -42)
 		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }
 

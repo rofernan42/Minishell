@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:27:45 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/13 16:44:11 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 11:29:19 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_unset(char **vars, t_env *env)
 		while (tmp->next)
 		{
 			tmp2 = tmp->next;
-			if (!ft_strcmp(vars[i], tmp2->name))
+			if (!ft_strcmp(vars[i], tmp2->name) /*&& ft_strcmp(tmp2->name, "?")*/)
 			{
 				tmp->next = tmp2->next;
 				ft_envdelone(tmp2);
