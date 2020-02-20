@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 21:59:17 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 22:27:42 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,6 @@ static char	**extract(char **args)
 	}
 	tmp[j] = NULL;
 	return (tmp);
-}
-
-static void	process_exec(t_shell *shell)
-{
-	char **tmp;
-
-	tmp = extract(shell->args);
-	execve(shell->args[0], tmp, 0);
 }
 
 int			is_builtin(t_shell *shell, int i)
@@ -100,6 +92,14 @@ int			is_builtin(t_shell *shell, int i)
 		exec_pipe(shell, i + 1);
 	}
 	return (1);
+}
+
+static void	process_exec(t_shell *shell)
+{
+	char **tmp;
+
+	tmp = extract(shell->args);
+	execve(shell->args[0], tmp, 0);
 }
 
 int			execute_cmd(char **cmd, t_shell *shell)

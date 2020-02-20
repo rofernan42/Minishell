@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:58:29 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 12:46:04 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 22:32:50 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_echo(char **args)
 
 	o = 0;
 	i = 1;
-	if (!ft_strcmp(args[1], "-n"))
+	if (args[1] && !ft_strcmp(args[1], "-n"))
 	{
 		i++;
 		o = 1;
