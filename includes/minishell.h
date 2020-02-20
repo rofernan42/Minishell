@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 11:21:21 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:07:52 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int					check_env_name(char *name);
 
 void				prep_path(t_shell *shell);
 
-void				ft_echo(t_shell *shell);
+void				ft_echo(char **args);
 void				ft_pwd(t_env *env);
 void				ft_cd(char *arg, t_env *env);
 void				ft_export(char **vars, t_env *env);
@@ -90,13 +90,14 @@ void				ft_env(t_env *env);
 /*
 **	REDIRECTION.C
 */
-int					open_fd(t_shell *shell);
+int					open_fd(t_shell *shell, char **args);
 void				copy_stdinout(t_shell *shell);
 void				close_stdinout(t_shell *shell);
 
 /*
 **	EXEC_COMMANDS.C
 */
+int					is_builtin(t_shell *shell);
 int					execute_cmd(char **cmd, t_shell *shell);
 
 /*
