@@ -58,7 +58,7 @@ static int is_builtin(t_shell *shell)
 	{
 		ft_putendl_fd("exit", 1);
 		free_all(shell);
-		// exit(0);
+		exit(42);
 	}
 	else
 		return (0);
@@ -133,6 +133,8 @@ void exec_pipe(t_shell *shell)
 	}
 	if (shell->args != NULL && !(child_left = fork()))
 	{
+			//	printf("CL\n");
+		signal(SIGINT, NULL);
 		close(pdes[0]);
 		dup2(pdes[1], 1);
 		exit(execute_cmd(shell->args, shell));
@@ -140,6 +142,8 @@ void exec_pipe(t_shell *shell)
 	}
 	if (!(child_right = fork()))
 	{
+		//printf("CR\n");
+		signal(SIGINT, NULL);
 		if (!(shell->args == NULL && shell->next_args != NULL))
 		{
 			close(pdes[1]);
@@ -156,8 +160,14 @@ void exec_pipe(t_shell *shell)
 	}
 	close(pdes[1]);
 	close(pdes[0]);
-	wait(NULL);
+	waitpid(child_left,NULL, 0);
 	waitpid(child_right, &status, 0);
+	//printf("STATUS=%i et %i\n",WIFEXITED(status), WEXITSTATUS(status));
+	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 42)
+		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
+		exit(0);
+
 }
 
 void		ft_stdin(t_shell *shell, char **command)

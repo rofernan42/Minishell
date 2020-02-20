@@ -62,7 +62,7 @@ void	init_env(t_env **env)
 	char *data;
 
 	*env = ft_envnew(0, 0);
-	create_env(env, "HOME", "/Users/rofernan");
+	create_env(env, "HOME", "blo             blo");
 	create_env(env, "PWD", getcwd(NULL, 0));
 	create_env(env, "OLDPWD", getcwd(NULL, 0));
 	create_env(env, "PATH", "/Users/augay/.brew/bin:/usr/local/bin:\
@@ -466,6 +466,7 @@ void ft_free(char **s)
 
 void sig_handle_C(int s)
 {
+	//printf("SIG=%i\n",s);
 	ft_putstr_fd("\n\033[33mminishell$\033[0m ", 1);
 }
 
@@ -742,22 +743,22 @@ int ft_long(char **s)
 	return (i);
 }
 
+int *fill_tab(char *)
+{
+	int *o = 
+}
+
 int main(int ac, char **av)
 {
 	signal(SIGINT, sig_handle_C);
 	signal(SIGQUIT, sig_handle_B);
-	int *tab = malloc(sizeof(int) * 100);
+	int *tab;
 	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 	t_env	*env;
 	t_shell shell;
 	init_env(&env);
 	int cpt = 0;
 	shell.env = env;
-	while (cpt < 100)
-	{
-		tab[cpt] = 0;
-		cpt++;
-	}
 	int **tabf = malloc(sizeof(int *) * 10);
 	cpt = 0;
 	int cpt2 = 0;
@@ -794,6 +795,8 @@ int main(int ac, char **av)
 			if (full[0] != '\0')
 			{
 				trad(&full, shell.env, tab);
+				//init tab -char
+				tab = fill_tab(full)
 				cmd = split_cmd(full, tab);
 				//printf("CMD\n");
 				//ft_p(cmd);
@@ -835,7 +838,7 @@ int main(int ac, char **av)
 				ft_free(cmd);
 				fin = 0;
 				cmd = NULL;
-				ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+				//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 			}
 			free(full);
 			full = malloc(sizeof(char) * 1);
