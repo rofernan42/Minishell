@@ -60,9 +60,6 @@ void	layout_args(t_shell *shell)
 
 void	init_env(t_env **env)
 {
-	char *name;
-	char *data;
-
 	*env = ft_envnew(0, 0);
 	create_env(env, "HOME", "blo             blo");
 	create_env(env, "PWD", getcwd(NULL, 0));

@@ -7,7 +7,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 
-int main(int ac, char **av)
+int main()
 {
 	signal(SIGINT, sig_handle_c);
 	signal(SIGQUIT, sig_handle_b);

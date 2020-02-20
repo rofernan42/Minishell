@@ -17,61 +17,35 @@ int		replace(char **s, int d, t_env *env)
 {
 	int		i;
 	t_env	*e1;
-	int		l1;
-	int		l2;
-	int		l3;
-	int		lt;
 	char	*n;
 	char	*out;
 	int		j;
 	int		k;
-	int		ret;
 
 	i = d;
-	while (end_name(s[0][i], i) == 1)
-	{
+	while ((j = -1) && end_name(s[0][i], i) == 1)
 		i++;
-	}
-	n = ft_substr(s[0], d, i - d);
-	e1 = ft_envfind(env, n, ft_strcmp);
-	if (e1 == NULL)
-	{
-		e1 = ft_envnew(n, "");
-	}
-	l1 = ft_strlen(s[0]);
-	l2 = ft_strlen(e1->data);
-	l3 = ft_strlen(e1->name);
-	lt = l1 + l2 - l3;
-	out = malloc(sizeof(char) * lt);
-	out[lt - 1] = '\0';
-	j = 0;
-	while (j < d - 1)
-	{
+	out = ft_substr(s[0], d, i - d);
+	e1 = (ft_envfind(env, out, ft_strcmp) == NULL) ? ft_envnew(out, "") : ft_envfind(env, out, ft_strcmp);
+	k = ft_strlen(s[0]) + ft_strlen(e1->data) - ft_strlen(e1->name);
+	free(out);
+	out = malloc(sizeof(char) * k);
+	out[k - 1] = '\0';
+	while (++j < d - 1)
 		out[j] = s[0][j];
-		j++;
-	}
-	k = 0;
-	while (e1->data[k])
+	k = -1;
+	while (e1->data[++k])
 	{
 		out[j] = e1->data[k];
 		if (out[j] == '"' || out[j] == '\'' || out[j] == '>' || out[j] == '<' || out[j] == '|')
-		{
 			out[j] = -e1->data[k];
-		}
 		j++;
-		k++;
 	}
-	ret = j;
 	while (s[0][i])
-	{
-		out[j] = s[0][i];
-		j++;
-		i++;
-	}
+		out[j++] = s[0][i++];
 	if (s[0] != NULL)
 		free(s[0]);
 	s[0] = out;
-	free(n);
 	return ((int)(d + (int)ft_strlen(e1->data)) - 1);
 }
 

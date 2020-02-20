@@ -95,7 +95,7 @@ int		is_in_sd(const char *s, int m, int *tab)
 	return (sts + std);
 }
 
-void	ft_translate(char **s, int d, int f, char **out, int *tab)
+void	ft_translate(char **s, int d, char **out, int *tab)
 {
 	int		i;
 	char	*q;

@@ -29,7 +29,6 @@ static void	env_pwd(t_env *env)
 
 void		ft_cd(char *arg, t_env *env)
 {
-	int		i;
 	t_env	*tmp;
 
 	if (!arg)

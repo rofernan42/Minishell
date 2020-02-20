@@ -49,9 +49,6 @@ void		ft_export(char **vars, t_env *env)
 {
 	int		i;
 	int		j;
-	char	*name;
-	char	*data;
-	t_env	*tmp;
 
 	i = 0;
 	while (vars[i])
