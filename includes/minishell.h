@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 15:02:01 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/20 15:48:57 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,9 @@ t_env				*ft_envnew(char *name, char *data);
 void				ft_envadd_back(t_env **alst, t_env *new);
 t_env				*ft_envfind(t_env *begin_list, void *name_ref, int (*cmp)());
 void				ft_envdelone(t_env *env);
-void				create_env(t_env **env, char *name, char *data);
 void				ft_envclear(t_env *begin_env, void (*free_fct)(void *));
+void				create_env(t_env **env, char *name, char *data);
+void				init_env(t_env **env);
 
 /*
 **	ERROR.C
@@ -148,9 +149,8 @@ int			p(char **cmd, int *i);
 int			enter(char *str);
 // int			count_args(char **args);
 // void		layout_args(t_shell *shell);
-void		init_env(t_env **env);
 int			nb_bs(const char *s, int f);
-void		print_env(t_env *env);
+// void		print_env(t_env *env);
 // char		*ft_concat(char *s1, char *s2);
 // int			contain(char *s);
 int			is_in_s(char *s, int m);
