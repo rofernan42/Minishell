@@ -150,7 +150,7 @@ int			cd(char **cmd, int *i);
 int			cg(char **cmd, int *i);
 int			v(char **cmd, int *i);
 char		re(char **cmd, int *i);
-char		**wrap(int *tt, char *oo, char **out);
+char		**wrap(int **tt, char **oo, char **out);
 char		**finish_p(char **cmd, int **tab);
 void		pop_char(char **s, int i, int c1, int c2);
 void		init_pop_word(int *i, char *c, int *c1, int *c2);

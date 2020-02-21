@@ -39,12 +39,12 @@ char	re(char **cmd, int *i)
 	* '"' && cmd[i[0]][i[1]] != -1 * '\'') ? -1 : 1));
 }
 
-char	**wrap(int *tt, char *oo, char **out)
+char	**wrap(int **tt, char **oo, char **out)
 {
-	tt = cp_add(tt, ft_strlen(oo));
-	out = split_cmd(oo, tt);
-	free(oo);
-	free(tt);
+	tt[0] = cp_add(tt[0], ft_strlen(oo[0]));
+	out = split_cmd(oo[0], tt[0]);
+	free(oo[0]);
+	free(tt[0]);
 	return (out);
 }
 
@@ -73,7 +73,9 @@ char	**finish_p(char **cmd, int **tab)
 				finish_p_1(&oo, &tt, i, cmd);
 		oo = ft_strjoin_free(oo, " ", 1);
 	}
-	return (wrap(tt, oo, out));
+	del_args(cmd);
+	free(i);
+	return (wrap(&tt, &oo, out));
 }
 
 void	pop_char(char **s, int i, int c1, int c2)
