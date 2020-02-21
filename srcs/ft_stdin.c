@@ -6,38 +6,11 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 15:52:57 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 16:04:31 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	fork_left(t_shell *shell, int *pdes)
-{
-	signal(SIGINT, NULL);
-	close(pdes[0]);
-	dup2(pdes[1], 1);
-	exit(execute_cmd(shell->args, shell));
-	exit(0);
-}
-
-static void	fork_right(t_shell *shell, int *pdes, int i)
-{
-	signal(SIGINT, NULL);
-	if (!(shell->args == NULL && shell->next_args != NULL))
-	{
-		close(pdes[1]);
-		dup2(pdes[0], 0);
-	}
-	if (reste_arg(shell->next_args, "|"))
-	{
-		h_split(shell, shell->next_args);
-		exec_pipe(shell, i + 1);
-	}
-	else if (shell->next_args != NULL)
-		exit(execute_cmd(shell->next_args, shell));
-	exit(0);
-}
 
 void		status_res(t_shell *shell, int status)
 {
@@ -76,7 +49,8 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	}
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
 		exit(0);
-	if ((WIFEXITED(status) != 0 || status == -42) && i == 0 && (status != 3 && sl != 3))
+	if ((WIFEXITED(status) != 0 || status == -42) && i == 0 \
+	&& (status != 3 && sl != 3))
 		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }
 

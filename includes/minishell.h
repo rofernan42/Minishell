@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 15:31:18 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 16:05:37 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,12 @@ int					open_file(t_shell *shell);
 */
 int					is_builtin(t_shell *shell, int i);
 int					execute_cmd(char **cmd, t_shell *shell);
+
+/*
+**	FORKS.C
+*/
+void				fork_left(t_shell *shell, int *pdes);
+void				fork_right(t_shell *shell, int *pdes, int i);
 
 /*
 **	FT_STDIN.C
