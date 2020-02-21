@@ -40,6 +40,12 @@ static char	**extract(char **args)
 	return (tmp);
 }
 
+int del_war(char ***s, int i)
+{
+	del_args(s[0]);
+	return (i);
+}
+
 int			is_builtin_1(t_shell *shell)
 {
 	char **args;
@@ -49,20 +55,20 @@ int			is_builtin_1(t_shell *shell)
 	else if (!shell->args && shell->next_args)
 		args = extract(shell->next_args);
 	if (!ft_strcmp(args[0], "echo"))
-		return (1);
+		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "cd"))
-		return (1);
+		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "pwd"))
-		return (1);
+		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "export"))
-		return (1);
+		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "unset"))
-		return (1);
+		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "env"))
-		return (1);
+		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "exit"))
-		return (1);
-	return (0);
+		return (del_war(&args, 1));
+	return (del_war(&args, 0));
 }
 
 void		builtin_exec(t_shell *shell, char **args)
@@ -87,11 +93,10 @@ int			is_builtin(t_shell *shell, int i)
 {
 	char	**args;
 	int		file;
-
 	if (!is_builtin_1(shell))
 		return (0);
 	if (!open_file(shell))
-		return (-42);
+		return (-42);	
 	file = copy_stdinout(shell);
 	if (shell->args)
 		args = extract(shell->args);
@@ -105,9 +110,11 @@ int			is_builtin(t_shell *shell, int i)
 	}
 	if ((shell->args && shell->next_args))
 	{
+		del_args(args);
 		h_split(shell, shell->next_args);
 		exec_pipe(shell, i + 1);
 	}
+	del_args(args);
 	return (-42);
 }
 

@@ -18,7 +18,7 @@ void		status_res(t_shell *shell, int status)
 
 	tmp = ft_envfind(shell->env, "?", ft_strcmp);
 	ft_strdel(&tmp->data);
-	tmp->data = ft_strdup(ft_itoa(status));
+	tmp->data = ft_itoa(status);
 }
 
 void		fork_args(t_shell *shell, int *pdes, int i)
@@ -30,8 +30,12 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 
 	status = -42;
 	sl = -42;
+	printf("LEAKS 1.2-1\n");
+	system("leaks a.out");
 	if (!(status = is_builtin(shell, i)))
 	{
+			printf("LEAKS 1.2\n");
+	system("leaks a.out");
 		if (shell->args && !(child_left = fork()))
 			fork_left(shell, pdes);
 		if (!(child_right = fork()))
@@ -40,7 +44,12 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 		close(pdes[0]);
 		waitpid(child_left, &sl, 0);
 		waitpid(child_right, &status, 0);
+			printf("LEAKS 1.3\n");
+	system("leaks a.out");
 	}
+				printf("LEAKS 1..2\n");
+	system("leaks a.out");
+
 	status_res(shell, status);
 	if (status == 3 || sl == 3)
 	{
@@ -68,11 +77,17 @@ void		exec_pipe(t_shell *shell, int i)
 		shell->next_args = shell->args;
 		shell->args = NULL;
 	}
+		printf("LEAKS 1.1\n");
+	system("leaks a.out");
 	fork_args(shell, pdes, i);
 }
 
 void		ft_stdin(t_shell *shell, char **command)
 {
 	h_split(shell, command);
+	printf("LEAKS 1\n");
+	system("leaks a.out");
 	exec_pipe(shell, 0);
+	printf("LEAKS 2\n");
+	system("leaks a.out");
 }
