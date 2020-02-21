@@ -47,7 +47,7 @@ int main()
 		memset(s, 0, 10);
 		i = read(0, s, 10);
 		//printf("read=%i\n",(int)ft_strlen(s));
-		ft_write(1, s, 12);
+		//ft_write(1, s, 12);
 		if (ft_strlen(s) != 0 && s[ft_strlen(s) - 1] != '\n')
 		{	
 			state = 1;
