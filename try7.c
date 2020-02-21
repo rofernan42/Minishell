@@ -86,8 +86,18 @@ void	trad(char **s, t_env *env)
 
 void	sig_handle_c(int s)
 {
+	int i;
+
 	(void)s;
-	ft_putstr_fd("\n\033[33mminishell$\033[0m ", 1);
+	wait(&i);
+	if (i != 2)
+		ft_putstr_fd("\n\033[33mminishell$\033[0m ", 1);
+	else
+	{
+		ft_putstr_fd("\n", 1);
+	}
+	
+	
 }
 
 void	sig_handle_b(int s)

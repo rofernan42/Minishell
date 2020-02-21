@@ -83,8 +83,8 @@ void	shell_body(char *in, t_shell *shell)
 		trad(&full, shell->env);
 		shell_body_2(shell, full);
 	}
-	else
-		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+	// else
+	// 	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }
 
 int		init_main(t_shell *shell, char **s, char **full)
@@ -138,6 +138,7 @@ int		main(int ac, char **av)
 			{
 				shell_body(full, &shell);
 				ft_reset(&full);
+				ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 			}
 			else if (state == 0)
 				exit(print_exit());

@@ -45,13 +45,17 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	if (status == 3 || sl == 3)
 	{
 		ft_putstr_fd("Quit: 3\n", 1);
-		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+		//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 	}
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
-		exit(0);
+	{
+			exit(0);
+	}
 	if ((WIFEXITED(status) != 0 || status == -42) && i == 0 \
 	&& (status != 3 && sl != 3))
-		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+	{
+		//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+	}
 }
 
 void		exec_pipe(t_shell *shell, int i)
