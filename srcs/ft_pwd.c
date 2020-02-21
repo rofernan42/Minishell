@@ -15,6 +15,7 @@
 void	ft_pwd(t_env *env)
 {
 	char *s;
+
 	s = getcwd(NULL, 0);
 	ft_putendl_fd(s, 1);
 	free(s);

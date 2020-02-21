@@ -14,12 +14,16 @@
 
 void	init_env(t_env **env)
 {
+	char *s;
+
+	s = getcwd(NULL, 0);
 	*env = ft_envnew(0, 0);
 	create_env(env, "HOME", "/Users/");
-	create_env(env, "PWD", getcwd(NULL, 0));
-	create_env(env, "OLDPWD", getcwd(NULL, 0));
+	create_env(env, "PWD", s);
+	create_env(env, "OLDPWD", s);
 	create_env(env, "PATH", "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
 	create_env(env, "?", "0");
+	free(s);
 }
 
 void	init_name_prog(t_shell *shell, char *av)
