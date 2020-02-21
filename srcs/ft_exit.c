@@ -38,10 +38,7 @@ void		ft_exit(t_shell *shell, char **args)
 	}
 	if (args[1] && !args[2])
 	{
-		if (is_number(args[1]))
-			n = ft_atoi(args[1]);
-		else
-			n = 255;
+		n = (is_number(args[1])) ? ft_atoi(args[1]) : 255;
 		ft_putendl_fd("exit", 1);
 		if (n == 255)
 			disp_err(shell->name_prog, \
