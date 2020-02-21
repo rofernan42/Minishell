@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 11:54:33 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 13:24:37 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int			is_builtin(t_shell *shell, int i)
 	{
 		if (!ft_strcmp(args[0], "echo"))
 			ft_echo(args);
-		else if (!ft_strncmp(args[0], "cd", 2))
+		else if (!ft_strcmp(args[0], "cd"))
 			ft_cd(shell, shell->next_args[1]);
 		else if (!ft_strcmp(args[0], "pwd"))
 			ft_pwd(shell->env);

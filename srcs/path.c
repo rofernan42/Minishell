@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 11:30:58 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 13:18:03 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	prep2path(char **s, t_shell *shell)
 		free(tmp);
 	}
 	else
-		command_error(shell->args[0], "alalacommand not found");
+		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
 }
 
 void	prep_path(t_shell *shell)
