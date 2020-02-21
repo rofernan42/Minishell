@@ -18,29 +18,24 @@ static char	**extract(char **args)
 	int		j;
 	char	**tmp;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (args[i])
-	{
+	while (args[++i])
 		if (!ft_strcmp(args[i], "|"))
 			break ;
-		if (i == 0 || (i > 0 && !is_chevron(args[i]) \
+		else if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))
 			j++;
-		i++;
-	}
 	if (!(tmp = malloc(sizeof(char *) * (j + 1))))
 		exit(EXIT_FAILURE);
 	i = -1;
 	j = 0;
 	while (args[++i])
-	{
 		if (!ft_strcmp(args[i], "|"))
 			break ;
-		if (i == 0 || (i > 0 && !is_chevron(args[i]) \
+		else if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))
 			tmp[j++] = ft_strdup(args[i]);
-	}
 	tmp[j] = NULL;
 	return (tmp);
 }
@@ -70,6 +65,24 @@ int			is_builtin_1(t_shell *shell)
 	return (0);
 }
 
+void		builtin_exec(t_shell *shell, char **args)
+{
+	if (!ft_strcmp(args[0], "echo"))
+		ft_echo(args);
+	else if (!ft_strcmp(args[0], "cd"))
+		ft_cd(shell, shell->next_args[1]);
+	else if (!ft_strcmp(args[0], "pwd"))
+		ft_pwd(shell->env);
+	else if (!ft_strcmp(args[0], "export"))
+		ft_export(shell, &args[1]);
+	else if (!ft_strcmp(args[0], "unset"))
+		ft_unset(&args[1], shell->env);
+	else if (!ft_strcmp(args[0], "env"))
+		ft_env(shell->env);
+	else if (!ft_strcmp(args[0], "exit"))
+		ft_exit(shell, args);
+}
+
 int			is_builtin(t_shell *shell, int i)
 {
 	char	**args;
@@ -86,20 +99,7 @@ int			is_builtin(t_shell *shell, int i)
 		args = extract(shell->next_args);
 	if ((!file && !shell->args) || file)
 	{
-		if (!ft_strcmp(args[0], "echo"))
-			ft_echo(args);
-		else if (!ft_strcmp(args[0], "cd"))
-			ft_cd(shell, shell->next_args[1]);
-		else if (!ft_strcmp(args[0], "pwd"))
-			ft_pwd(shell->env);
-		else if (!ft_strcmp(args[0], "export"))
-			ft_export(shell, &args[1]);
-		else if (!ft_strcmp(args[0], "unset"))
-			ft_unset(&args[1], shell->env);
-		else if (!ft_strcmp(args[0], "env"))
-			ft_env(shell->env);
-		else if (!ft_strcmp(args[0], "exit"))
-			ft_exit(shell, args);
+		builtin_exec(shell, args);
 		if (file)
 			close_stdinout(shell);
 	}
