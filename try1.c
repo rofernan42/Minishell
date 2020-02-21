@@ -19,8 +19,8 @@ void ft_write(int fd, char *s, int l)
 
 int main()
 {
-	// signal(SIGINT, sig_handle_c);
-	// signal(SIGQUIT, sig_handle_b);
+	signal(SIGINT, sig_handle_c);
+	signal(SIGQUIT, sig_handle_b);
 	int *tab;
 	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 	t_env	*env;
@@ -47,7 +47,7 @@ int main()
 		memset(s, 0, 10);
 		i = read(0, s, 10);
 		//printf("read=%i\n",(int)ft_strlen(s));
-		// ft_write(1, s, 12);
+		ft_write(1, s, 12);
 		if (ft_strlen(s) != 0 && s[ft_strlen(s) - 1] != '\n')
 		{	
 			state = 1;
@@ -99,13 +99,18 @@ int main()
 				fin = 0;
 				cmd = NULL;
 			}
+			else
+			{
+				ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+			}
+			
 			free(full);
 			full = malloc(sizeof(char) * 1);
 			full[0] = '\0';
 			state = 0;
 		}
 		else if (state == 0)
-		{		printf("state=%i\n",state);
+		{		//printf("state=%i\n",state);
 
 			ft_putendl_fd("exit", 2);
 			exit(0);

@@ -44,8 +44,10 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	int		status;
 	pid_t	child_right;
 	pid_t	child_left;
+	int		sl;
 
 	status = -42;
+	sl = -42;
 	if (!is_builtin(shell, i))
 	{
 		if (shell->args && !(child_left = fork()))
@@ -54,8 +56,14 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 			fork_right(shell, pdes, i);
 		close(pdes[1]);
 		close(pdes[0]);
-		waitpid(child_left, NULL, 0);
+		waitpid(child_left, &sl, 0);
 		waitpid(child_right, &status, 0);
+	}
+//	printf("STATU=%i et %i\n",status, sl);
+	if (status == 3 || sl == 3)
+	{
+		ft_putstr_fd("Quit: 3\n", 1);
+		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 	}
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
 		exit(0);
