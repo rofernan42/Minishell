@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 13:00:45 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 13:55:00 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ static void	fork_right(t_shell *shell, int *pdes, int i)
 	exit(0);
 }
 
+void		status_res(t_shell *shell, int status)
+{
+	t_env	*tmp;
+
+	tmp = ft_envfind(shell->env, "?", ft_strcmp);
+	ft_strdel(&tmp->data);
+	tmp->data = ft_strdup(ft_itoa(status));
+}
+
 void		fork_args(t_shell *shell, int *pdes, int i)
 {
 	int		status;
@@ -48,7 +57,7 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 
 	status = -42;
 	sl = -42;
-	if (!is_builtin(shell, i))
+	if (!(status = is_builtin(shell, i)))
 	{
 		if (shell->args && !(child_left = fork()))
 			fork_left(shell, pdes);
@@ -59,6 +68,7 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 		waitpid(child_left, &sl, 0);
 		waitpid(child_right, &status, 0);
 	}
+	status_res(shell, status);
 	if (status == 3 || sl == 3)
 	{
 		ft_putstr_fd("Quit: 3\n", 1);
