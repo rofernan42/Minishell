@@ -6,35 +6,49 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:56:37 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 11:46:05 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:19:44 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	error_name(char *var, char **name)
+static int	check_env_name(char *name)
 {
-	if (!check_env_name(*name))
+	int i;
+
+	i = 0;
+	while (name[i])
 	{
-		disp_err("export: ", var, ": ", " not a valid identifier");
-		ft_strdel(name);
+		if (!ft_isalnum(name[i]) && name[i] != '_' && name[i] != '=')
+			return (0);
+		i++;
+	}
+	if (!ft_isalpha(name[0]) && name[0] != '_')
+		return (0);
+	return (1);
+}
+
+static int	error_name(t_shell *shell, char *var)
+{
+	if (!check_env_name(var))
+	{
+		disp_err(shell->name_prog, \
+		"export: `", var, "': ", " not a valid identifier");
 		return (1);
 	}
 	return (0);
 }
 
-static int	assign_env(char **vars, t_env *env, int i, int j)
+static int	assign_env(t_shell *shell, char **vars, int i, int j)
 {
 	char	*name;
 	char	*data;
 	t_env	*tmp;
 
 	name = ft_strndup(vars[i], j);
-	if (error_name(vars[i], &name))
-		return (0);
 	data = ft_strdup(&vars[i][j + 1]);
-	if (!(tmp = ft_envfind(env, name, ft_strcmp)))
-		create_env(&env, name, data);
+	if (!(tmp = ft_envfind(shell->env, name, ft_strcmp)))
+		create_env(&shell->env, name, data);
 	else
 	{
 		ft_strdel(&tmp->data);
@@ -45,7 +59,7 @@ static int	assign_env(char **vars, t_env *env, int i, int j)
 	return (1);
 }
 
-void		ft_export(char **vars, t_env *env)
+void		ft_export(t_shell *shell, char **vars)
 {
 	int		i;
 	int		j;
@@ -53,15 +67,18 @@ void		ft_export(char **vars, t_env *env)
 	i = 0;
 	while (vars[i])
 	{
-		j = 0;
-		while (vars[i][j])
+		if (!error_name(shell, vars[i]))
 		{
-			if (vars[i][j] == '=')
+			j = 0;
+			while (vars[i][j])
 			{
-				if (!assign_env(vars, env, i, j))
-					return ;
+				if (vars[i][j] == '=')
+				{
+					if (!assign_env(shell, vars, i, j))
+						return ;
+				}
+				j++;
 			}
-			j++;
 		}
 		i++;
 	}
