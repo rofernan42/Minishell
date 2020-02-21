@@ -74,7 +74,7 @@ void	finish_p_1(char **oo, int **tt, int *i, char **cmd)
 {
 	oo[0] = ft_strjoin_free(ft_strjoin_free(oo[0], " ", 1),
 	ft_substr(cmd[i[0]], i[1], 1), 2);
-	if (cmd[i[0]][i[1] + 1] == '>')
+	if (cmd[i[0]][i[1] + 1] == '>' && cmd[i[0]][i[1]] == '>')
 	{
 		(oo[0])[ft_strlen(oo[0]) - 1] = (oo[0])[ft_strlen(oo[0]) - 1] * -1;
 		tt[0] = cp_add(tt[0], ft_strlen(oo[0]));
