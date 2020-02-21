@@ -36,7 +36,12 @@ void	prep2path(char **s, t_shell *shell)
 		free(tmp);
 	}
 	else
-		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
+	{
+		if (contain_c(shell->args[0], '/'))
+			disp_err(shell->name_prog, 0, shell->args[0], "No such file or directory");
+		else
+			disp_err(shell->name_prog, 0, shell->args[0], "command not found");
+	}
 }
 
 void	prep_path(t_shell *shell)
