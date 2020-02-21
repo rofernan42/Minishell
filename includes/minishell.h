@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 16:08:15 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:56:36 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,15 @@ void		ft_exit(t_shell *shell, char **args);
 /*
 **	REDIRECTION.C
 */
+int	    	test_syntax(t_shell *shell, char **args);
 int			open_fd(t_shell *shell, char **args);
+int			open_file(t_shell *shell);
+
+/*
+**	COPY_CLOSE_FD.C
+*/
 int			copy_stdinout(t_shell *shell);
 void		close_stdinout(t_shell *shell);
-int			open_file(t_shell *shell);
 
 /*
 **	EXEC_COMMANDS.C

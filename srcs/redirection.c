@@ -6,11 +6,43 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:54:50 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:49:52 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		test_syntax(t_shell *shell, char **args)
+{
+	int i;
+
+	i = 0;
+	if (!ft_strcmp(args[0], "|"))
+	{
+		chevron_error(shell->name_prog, \
+		"syntax error near unexpected token `", args[0], "'");
+		return (0);
+	}
+	while (args[i])
+	{
+		if (i > 0 && is_chevron(args[i - 1]) \
+		&& (is_chevron(args[i]) || !ft_strcmp(args[i], "|")))
+		{
+			chevron_error(shell->name_prog, \
+			"syntax error near unexpected token `", args[i], "'");
+			return (0);
+		}
+		if (i > 0 && !ft_strcmp(args[i - 1], "|") \
+		&& (is_chevron(args[i]) || !ft_strcmp(args[i], "|")))
+		{
+			chevron_error(shell->name_prog, \
+			"syntax error near unexpected token ", 0, "`newline'");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 static int	fd_in_out(t_shell *shell, char **args, int i)
 {
@@ -31,12 +63,6 @@ static int	fd_in_out(t_shell *shell, char **args, int i)
 			}
 		}
 	}
-	else
-	{
-		chevron_error(shell->name_prog, \
-		"syntax error near unexpected token `", args[i], "'");
-		return (0);
-	}
 	return (1);
 }
 
@@ -56,51 +82,10 @@ int			open_fd(t_shell *shell, char **args)
 				if (!fd_in_out(shell, args, i + 1))
 					return (0);
 			}
-			else
-			{
-				chevron_error(shell->name_prog, \
-				"syntax error near unexpected token ", 0, "`newline'");
-				return (0);
-			}
 		}
 		i++;
 	}
 	return (1);
-}
-
-int			copy_stdinout(t_shell *shell)
-{
-	if (shell->fd_in >= 0 || shell->fd_out >= 0)
-	{
-		if (shell->fd_in >= 0)
-		{
-			shell->stdout_cpy = dup(1);
-			close(1);
-			dup2(shell->fd_in, 1);
-		}
-		if (shell->fd_out >= 0)
-		{
-			shell->stdin_cpy = dup(0);
-			close(0);
-			dup2(shell->fd_out, 0);
-		}
-		return (1);
-	}
-	return (0);
-}
-
-void		close_stdinout(t_shell *shell)
-{
-	if (shell->fd_in >= 0)
-	{
-		dup2(shell->stdout_cpy, 1);
-		close(shell->stdout_cpy);
-	}
-	if (shell->fd_out >= 0)
-	{
-		dup2(shell->stdin_cpy, 0);
-		close(shell->stdin_cpy);
-	}
 }
 
 int			open_file(t_shell *shell)

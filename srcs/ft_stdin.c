@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 16:04:31 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:46:12 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,8 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 
 	status = -42;
 	sl = -42;
-	printf("LEAKS 1.2-1\n");
-	system("leaks a.out");
 	if (!(status = is_builtin(shell, i)))
 	{
-			printf("LEAKS 1.2\n");
-	system("leaks a.out");
 		if (shell->args && !(child_left = fork()))
 			fork_left(shell, pdes);
 		if (!(child_right = fork()))
@@ -44,27 +40,12 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 		close(pdes[0]);
 		waitpid(child_left, &sl, 0);
 		waitpid(child_right, &status, 0);
-			printf("LEAKS 1.3\n");
-	system("leaks a.out");
 	}
-				printf("LEAKS 1..2\n");
-	system("leaks a.out");
-
 	status_res(shell, status);
 	if (status == 3 || sl == 3)
-	{
 		ft_putstr_fd("Quit: 3\n", 1);
-		//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
-	}
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
-	{
-			exit(0);
-	}
-	if ((WIFEXITED(status) != 0 || status == -42) && i == 0 \
-	&& (status != 3 && sl != 3))
-	{
-		//ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
-	}
+		exit(0);
 }
 
 void		exec_pipe(t_shell *shell, int i)
@@ -77,17 +58,13 @@ void		exec_pipe(t_shell *shell, int i)
 		shell->next_args = shell->args;
 		shell->args = NULL;
 	}
-		printf("LEAKS 1.1\n");
-	system("leaks a.out");
 	fork_args(shell, pdes, i);
 }
 
 void		ft_stdin(t_shell *shell, char **command)
 {
+	if (!test_syntax(shell, command))
+		return ;
 	h_split(shell, command);
-	printf("LEAKS 1\n");
-	system("leaks a.out");
 	exec_pipe(shell, 0);
-	printf("LEAKS 2\n");
-	system("leaks a.out");
 }
