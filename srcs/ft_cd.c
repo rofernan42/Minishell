@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:39:11 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:01:03 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:36:09 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void		ft_cd(t_shell *shell, char *arg)
 	{
 		if (!(tmp = ft_envfind(shell->env, "HOME", ft_strcmp)))
 		{
-			disp_err(shell->name_prog, "cd: ", 0, 0, "HOME not set");
+			disp_err(shell->name_prog, "cd: ", 0, "HOME not set");
 			return ;
 		}
 		else
 			arg = ft_strdup(tmp->data);
 	}
 	if (chdir(arg) == -1)
-		disp_err(shell->name_prog, "cd: ", arg, ": ", strerror(errno));
+		disp_err(shell->name_prog, "cd: ", arg, strerror(errno));
 	else
 		env_pwd(shell->env);
 }

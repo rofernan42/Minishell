@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 22:04:42 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:55:46 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 		waitpid(child_left, &sl, 0);
 		waitpid(child_right, &status, 0);
 	}
-//	printf("STATU=%i et %i\n",status, sl);
 	if (status == 3 || sl == 3)
 	{
 		ft_putstr_fd("Quit: 3\n", 1);

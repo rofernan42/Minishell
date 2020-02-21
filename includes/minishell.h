@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:04:58 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:50:36 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,18 @@ t_env				*ft_envfind(t_env *begin_list, void *name_ref, int (*cmp)());
 void				ft_envdelone(t_env *env);
 void				ft_envclear(t_env *begin_env, void (*free_fct)(void *));
 void				create_env(t_env **env, char *name, char *data);
+
+/*
+**	INIT.C
+*/
 void				init_env(t_env **env);
+void				init_name_prog(t_shell *shell, char *av);
 
 /*
 **	ERROR.C
 */
-void				disp_err(char *prog, char *cmd, char *arg, char *comp, char *err);
+void				disp_err(char *prog, char *cmd, char *arg, char *err);
+void				chevron_error(char *prog, char *arg, char *cmd, char *end);
 void				command_error(char *command, char *err);
 
 /*

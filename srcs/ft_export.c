@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:56:37 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:19:44 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:38:45 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static int	error_name(t_shell *shell, char *var)
 {
 	if (!check_env_name(var))
 	{
-		disp_err(shell->name_prog, \
-		"export: `", var, "': ", " not a valid identifier");
+		disp_err(shell->name_prog, "export: ", var, " not a valid identifier");
 		return (1);
 	}
 	return (0);
