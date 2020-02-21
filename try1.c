@@ -1,11 +1,16 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <dirent.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   try1.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/21 15:39:35 by rofernan          #+#    #+#             */
+/*   Updated: 2020/02/21 15:42:17 by rofernan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/minishell.h"
-#include "libft/libft.h"
-#include <signal.h>
 
 void	shell_body_3(char **cmdf, int *tabf)
 {
@@ -84,10 +89,7 @@ void	shell_body(char *in, t_shell *shell)
 
 int		init_main(t_shell *shell, char **s, char **full)
 {
-	t_env *env;
-
-	init_env(&env);
-	shell->env = env;
+	init_env(&shell->env);
 	s[0] = malloc(sizeof(char) * 11);
 	full[0] = malloc(sizeof(char) * 1);
 	signal(SIGINT, sig_handle_c);
@@ -113,7 +115,7 @@ int		print_exit(void)
 	return (0);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	t_shell	shell;
 	int		i;
@@ -121,21 +123,27 @@ int		main(void)
 	char	*full;
 	int		state;
 
-	state = init_main(&shell, &s, &full);
-	while (1)
+	init_name_prog(&shell, av[0]);
+	if (ac == 1)
 	{
-		i = read(0, s, 10);
-		s[i] = 0;
-		if (ft_strlen(s) != 0 && s[ft_strlen(s) - 1] != '\n')
-			state = 1;
-		full = ft_strjoin_free(full, s, 1);
-		if (contain_c(full, '\n') && !(state = 0))
+		state = init_main(&shell, &s, &full);
+		while (1)
 		{
-			shell_body(full, &shell);
-			ft_reset(&full);
+			i = read(0, s, 10);
+			s[i] = 0;
+			if (ft_strlen(s) != 0 && s[ft_strlen(s) - 1] != '\n')
+				state = 1;
+			full = ft_strjoin_free(full, s, 1);
+			if (contain_c(full, '\n') && !(state = 0))
+			{
+				shell_body(full, &shell);
+				ft_reset(&full);
+			}
+			else if (state == 0)
+				exit(print_exit());
 		}
-		else if (state == 0)
-			exit(print_exit());
 	}
+	else if (ac > 1)
+		disp_err(shell.name_prog, 0, av[1], "No such file or directory");
 	return (0);
 }

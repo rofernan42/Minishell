@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 13:32:50 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:31:07 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,7 @@ int			is_builtin(t_shell *shell, int i)
 		else if (!ft_strcmp(args[0], "env"))
 			ft_env(shell->env);
 		else if (!ft_strcmp(args[0], "exit"))
-		{
-			ft_putendl_fd("exit", 1);
-			free_all(shell);
-			exit(0);
-		}
+			ft_exit(shell, args);
 		else
 			return (1);
 		if (file)

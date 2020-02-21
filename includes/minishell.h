@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:50:36 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:31:18 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void				ft_cd(t_shell *shell, char *arg);
 void				ft_export(t_shell *shell, char **vars);
 void				ft_unset(char **vars, t_env *env);
 void				ft_env(t_env *env);
+void				ft_exit(t_shell *shell, char **args);
 
 /*
 **	REDIRECTION.C
