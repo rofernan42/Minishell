@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 15:31:07 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:56:33 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			is_builtin(t_shell *shell, int i)
 	if (!is_builtin_1(shell))
 		return (0);
 	if (!open_file(shell))
-		return (1);
+		return (-42);
 	file = copy_stdinout(shell);
 	if (shell->args)
 		args = extract(shell->args);
@@ -100,8 +100,6 @@ int			is_builtin(t_shell *shell, int i)
 			ft_env(shell->env);
 		else if (!ft_strcmp(args[0], "exit"))
 			ft_exit(shell, args);
-		else
-			return (1);
 		if (file)
 			close_stdinout(shell);
 	}
@@ -110,7 +108,7 @@ int			is_builtin(t_shell *shell, int i)
 		h_split(shell, shell->next_args);
 		exec_pipe(shell, i + 1);
 	}
-	return (1);
+	return (-42);
 }
 
 static void	process_exec(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 14:47:49 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 15:43:51 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:47:56 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ void		ft_exit(t_shell *shell, char **args)
 {
 	int n;
 
+	if (!args[1])
+	{
+		ft_putendl_fd("exit", 1);
+		free_all(shell);
+		exit(0);
+	}
 	if (args[1] && !args[2])
 	{
 		if (is_number(args[1]))
@@ -43,7 +49,7 @@ void		ft_exit(t_shell *shell, char **args)
 		free_all(shell);
 		exit(n);
 	}
-	if (args[2])
+	if (args[1] && args[2])
 	{
 		ft_putendl_fd("exit", 1);
 		disp_err(shell->name_prog, "exit: ", 0, "too many arguments");
