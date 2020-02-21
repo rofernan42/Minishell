@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:55:46 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 13:00:45 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	}
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
 		exit(0);
-	if ((WIFEXITED(status) != 0 || status == -42) && i == 0)
+	if ((WIFEXITED(status) != 0 || status == -42) && i == 0 && (status != 3 && sl != 3))
 		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }
 
