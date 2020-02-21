@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 22:06:41 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 11:59:50 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static int	fd_in_out(t_shell *shell, char **args, int i)
 		{
 			if ((shell->fd_out = open(args[i], O_RDONLY)) == -1)
 			{
-				disp_err(args[i], 0, ": ", strerror(errno));
+				disp_err(shell->name_prog, 0, args[i], ": ", strerror(errno));
 				return (0);
 			}
 		}
 	}
 	else
 	{
-		disp_err("syntax error near unexpected token `", args[i], 0, "'");
+		disp_err(shell->name_prog, "syntax error near unexpected token `", args[i], 0, "'");
 		return (0);
 	}
 	return (1);
@@ -57,7 +57,7 @@ int			open_fd(t_shell *shell, char **args)
 			}
 			else
 			{
-				disp_err(0, 0, 0, \
+				disp_err(shell->name_prog, 0, 0, 0,\
 				"syntax error near unexpected token `newline'");
 				return (0);
 			}

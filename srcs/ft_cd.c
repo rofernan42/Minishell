@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:39:11 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/18 12:57:30 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:01:03 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,22 @@ static void	env_pwd(t_env *env)
 	new_tmp->data = getcwd(NULL, 0);
 }
 
-void		ft_cd(char *arg, t_env *env)
+void		ft_cd(t_shell *shell, char *arg)
 {
 	t_env	*tmp;
 
 	if (!arg)
 	{
-		if (!(tmp = ft_envfind(env, "HOME", ft_strcmp)))
+		if (!(tmp = ft_envfind(shell->env, "HOME", ft_strcmp)))
 		{
-			ft_putendl_fd("cd: HOME not set", 2);
+			disp_err(shell->name_prog, "cd: ", 0, 0, "HOME not set");
 			return ;
 		}
 		else
 			arg = ft_strdup(tmp->data);
 	}
 	if (chdir(arg) == -1)
-		disp_err("cd: ", arg, ": ", strerror(errno));
+		disp_err(shell->name_prog, "cd: ", arg, ": ", strerror(errno));
 	else
-		env_pwd(env);
+		env_pwd(shell->env);
 }
