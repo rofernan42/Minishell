@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 21:14:25 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 10:43:29 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_shell
 {
 	char			**args;
 	char			**next_args;
+	char			*name_prog;
 	int				fd_in;
 	int				fd_out;
 	int				stdout_cpy;

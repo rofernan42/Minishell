@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 11:07:16 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 11:30:58 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,22 @@ void	prep2path(char **s, t_shell *shell)
 		free(tmp);
 	}
 	else
-		command_error(shell->args[0], "command not found");
+		command_error(shell->args[0], "alalacommand not found");
 }
 
 void	prep_path(t_shell *shell)
 {
 	char		**s;
 	t_env		*e1;
+	struct stat	a;
 
 	if (!(e1 = ft_envfind(shell->env, "PATH", ft_strcmp)))
 	{
 		ft_putendl_fd("PATH not found", 2);
 		return ;
 	}
+	if (stat(shell->args[0], &a) == 0)
+		return ;
 	s = ft_split(e1->data, ':');
 	prep2path(s, shell);
 	del_args(s);

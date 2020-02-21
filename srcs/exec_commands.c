@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 22:27:42 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 11:31:24 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int			is_builtin(t_shell *shell, int i)
 {
 	char	**args;
 	int		file;
+
 	if (!is_builtin_1(shell))
 		return (0);
 	if (!open_file(shell))
@@ -104,11 +105,7 @@ int			is_builtin(t_shell *shell, int i)
 			exit(0);
 		}
 		else
-		{
-			if (file)
-				close_stdinout(shell);
 			return (1);
-		}
 		if (file)
 			close_stdinout(shell);
 	}

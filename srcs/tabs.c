@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 21:06:26 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/21 11:30:16 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,4 @@ void	h_split(t_shell *shell, char **cmd)
 		shell->next_args = ft_tabcopy(cmd + last_part, fin - last_part);
 	else
 		shell->next_args = NULL;
-}
-
-void		ft_p(char **s)
-{
-	int i;
-
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
-	{
-		printf("s[%d] = |%s|\n", i, s[i]);
-		i++;
-	}
 }
