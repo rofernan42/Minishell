@@ -45,13 +45,39 @@ static char	**extract(char **args)
 	return (tmp);
 }
 
+int			is_builtin_1(t_shell *shell)
+{
+	char **args;
+
+	if (shell->args)
+		args = extract(shell->args);
+	else if (!shell->args && shell->next_args)
+		args = extract(shell->next_args);
+	if (!ft_strcmp(args[0], "echo"))
+		return (1);
+	else if (!ft_strncmp(args[0], "cd", 2))
+		return (1);
+	else if (!ft_strcmp(args[0], "pwd"))
+		return (1);
+	else if (!ft_strcmp(args[0], "export"))
+		return (1);
+	else if (!ft_strcmp(args[0], "unset"))
+		return (1);
+	else if (!ft_strcmp(args[0], "env"))
+		return (1);
+	else if (!ft_strcmp(args[0], "exit"))
+		return (1);
+	return (0);
+}
+
 int			is_builtin(t_shell *shell, int i)
 {
 	char	**args;
 	int		file;
-
-	if (!open_file(shell))
+	if (!is_builtin_1(shell))
 		return (0);
+	if (!open_file(shell))
+		return (1);
 	file = copy_stdinout(shell);
 	if (shell->args)
 		args = extract(shell->args);
@@ -81,7 +107,7 @@ int			is_builtin(t_shell *shell, int i)
 		{
 			if (file)
 				close_stdinout(shell);
-			return (0);
+			return (1);
 		}
 		if (file)
 			close_stdinout(shell);
