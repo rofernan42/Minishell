@@ -19,15 +19,12 @@ void	prep2path(char **s, t_shell *shell)
 	int			f;
 	char		*tmp;
 
-	i = 0;
-	f = 0;
-	while (s[i])
+	i = -1;
+	while (!(f = 0) && s[++i])
 	{
-		tmp = ft_strjoin(s[i], "/");
-		tmp = ft_strjoin_free(tmp, shell->args[0], 1);
+		tmp = ft_strjoin_free(ft_strjoin(s[i], "/"), shell->args[0], 1);
 		if (!(stat(tmp, &a)) && (f = 1))
 			break ;
-		i++;
 	}
 	if (f == 1)
 	{
@@ -35,13 +32,11 @@ void	prep2path(char **s, t_shell *shell)
 		shell->args[0] = ft_strdup(tmp);
 		free(tmp);
 	}
+	else if (contain_c(shell->args[0], '/'))
+		disp_err(shell->name_prog, 0, shell->args[0],
+		"No such file or directory");
 	else
-	{
-		if (contain_c(shell->args[0], '/'))
-			disp_err(shell->name_prog, 0, shell->args[0], "No such file or directory");
-		else
-			disp_err(shell->name_prog, 0, shell->args[0], "command not found");
-	}
+		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
 }
 
 void	prep_path(t_shell *shell)
