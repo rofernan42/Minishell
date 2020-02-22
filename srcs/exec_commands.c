@@ -46,7 +46,7 @@ static char	**extract(char **args)
 
 int			del_war(char ***s, int i)
 {
-	del_args(s[0]);
+	ft_free(s);
 	return (i);
 }
 
@@ -54,6 +54,7 @@ int			is_builtin_1(t_shell *shell)
 {
 	char **args;
 
+	args = NULL;
 	if (shell->args)
 		args = extract(shell->args);
 	else if (!shell->args && shell->next_args)
@@ -73,6 +74,7 @@ int			is_builtin_1(t_shell *shell)
 	else if (!ft_strcmp(args[0], "exit"))
 		return (del_war(&args, 1));
 	return (del_war(&args, 0));
+	ft_free(&args);
 }
 
 void		builtin_exec(t_shell *shell, char **args)
@@ -82,7 +84,7 @@ void		builtin_exec(t_shell *shell, char **args)
 	else if (!ft_strcmp(args[0], "cd"))
 		ft_cd(shell, shell->next_args[1]);
 	else if (!ft_strcmp(args[0], "pwd"))
-		ft_pwd(shell->env);
+		ft_pwd();
 	else if (!ft_strcmp(args[0], "export"))
 		ft_export(shell, &args[1]);
 	else if (!ft_strcmp(args[0], "unset"))
@@ -114,11 +116,11 @@ int			is_builtin(t_shell *shell, int i)
 	}
 	if ((shell->args && shell->next_args))
 	{
-		del_args(args);
-		h_split(shell, shell->next_args);
+		ft_free(&args);
+		h_split(shell, &shell->next_args);
 		exec_pipe(shell, i + 1);
 	}
-	// del_args(args); // <- fait segfaulter dans certains cas
+	ft_free(&args); // <- fait segfaulter dans certains cas
 	return (-42);
 }
 

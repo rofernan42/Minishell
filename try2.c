@@ -31,7 +31,7 @@ void		parsing(char *s, char **out, int *tab)
 	quote(s, out, tab);
 }
 
-static char	**splitbody(int nbc, char const *s, char **out, int *tab)
+char	**splitbody(int nbc, char const *s, char **out, int *tab)
 {
 	int i;
 	int j;

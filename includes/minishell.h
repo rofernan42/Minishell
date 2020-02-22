@@ -32,8 +32,8 @@
 int			ft_tablength(char **s);
 char		**ft_tabcopy(char **s, int fin);
 void		del_args(char **args);
-void		h_split(t_shell *shell, char **cmd);
-
+void		h_split(t_shell *shell, char ***cmd);
+void ft_free(char ***s);
 /*
 **	UTILS.C
 */
@@ -75,7 +75,7 @@ void		prep_path(t_shell *shell);
 **	FT_*.C
 */
 void		ft_echo(char **args);
-void		ft_pwd(t_env *env);
+void		ft_pwd(void);
 void		ft_cd(t_shell *shell, char *arg);
 void		ft_export(t_shell *shell, char **vars);
 void		ft_unset(char **vars, t_env *env);
@@ -150,7 +150,7 @@ void		ft_translate(char **s, int d, char **out, int *tab);
 int			quote(char *s, char **out, int *tab);
 void		parsing(char *s, char **out, int *tab);
 void		ft_p(char **s);
-static char	**splitbody(int nbc, char const *s, char **out, int *tab);
+char		**splitbody(int nbc, char const *s, char **out, int *tab);
 char		**split_cmd(char *s, int *tab);
 int			end_name(char c, int i);
 

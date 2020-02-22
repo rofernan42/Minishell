@@ -25,6 +25,8 @@ void	prep2path(char **s, t_shell *shell)
 		tmp = ft_strjoin_free(ft_strjoin(s[i], "/"), shell->args[0], 1);
 		if (!(stat(tmp, &a)) && (f = 1))
 			break ;
+		free(tmp);
+		tmp = NULL;
 	}
 	if (f == 1)
 	{
@@ -57,5 +59,5 @@ void	prep_path(t_shell *shell)
 		return ;
 	s = ft_split(e1->data, ':');
 	prep2path(s, shell);
-	del_args(s);
+	ft_free(&s);
 }

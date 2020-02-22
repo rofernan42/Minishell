@@ -58,6 +58,7 @@ char	**finish_p(char **cmd, int **tab)
 	if (cmd == NULL)
 		return (NULL);
 	i = finish_p_i();
+	out = NULL;
 	oo = malloc(sizeof(char) * 1);
 	oo[0] = '\0';
 	tt = malloc(sizeof(int) * 1);
@@ -73,7 +74,7 @@ char	**finish_p(char **cmd, int **tab)
 				finish_p_1(&oo, &tt, i, cmd);
 		oo = ft_strjoin_free(oo, " ", 1);
 	}
-	del_args(cmd);
+	ft_free(&cmd);
 	free(i);
 	return (wrap(&tt, &oo, out));
 }

@@ -23,7 +23,7 @@ static void	recur(char *s1, char *s2, int *nb, int i)
 	if (s2[y] == '\0' && s1[i] == '\0')
 		*nb = *nb + 1;
 	if (s2[y] == '*')
-		while (k <= ft_strlen(s1 + i))
+		while (k <= (int)ft_strlen(s1 + i))
 		{
 			recur(s1, s2, nb, i + k + (y + 1) * 1000000);
 			k++;

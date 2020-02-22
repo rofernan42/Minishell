@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	ft_pwd(t_env *env)
+void	ft_pwd(void)
 {
 	char *s;
 

@@ -41,7 +41,8 @@ int		**fill_tabf(char **s)
 	j = 0;
 	while (s[i])
 		i++;
-	o = malloc(sizeof(int*) * i);
+	o = malloc(sizeof(int*) * (i + 1));
+	o[i] = NULL;
 	i = 0;
 	while (s[i])
 	{

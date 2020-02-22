@@ -103,7 +103,7 @@ void	sig_handle_c(int s)
 void	sig_handle_b(int s)
 {
 	(void)s;
-	printf("BLO\n");
+	// printf("BLO\n");
 }
 
 int		*cp_add(int *t, int p)

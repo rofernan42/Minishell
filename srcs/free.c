@@ -15,8 +15,8 @@
 void	free_all(t_shell *shell)
 {
 	if (shell->args)
-		del_args(shell->args);
+		ft_free(&shell->args);
 	if (shell->next_args)
-		del_args(shell->next_args);
+		ft_free(&shell->next_args);
 	ft_envclear(shell->env, free);
 }

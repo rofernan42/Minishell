@@ -39,16 +39,37 @@ void	shell_body_4(char ***cmd, t_shell *shell)
 	{
 		if (part == fin || !ft_strcmp(cmd[0][part], ";"))
 		{
+			// printf("LEAKS BEF STDIN\n");
+			// system("leaks a.out");
 			ft_stdin(shell, ft_tabcopy(cmd[0] + last_part, part - last_part));
+			// printf("LEAKS RET STDIN\n");
+			// system("leaks a.out");
 			last_part = part + 1;
 		}
 		part++;
 	}
+	// 	printf("LEAKS RET IN\n");
+	// system("leaks a.out");
 	part = 0;
 	last_part = 0;
-	del_args(cmd[0]);
+	ft_free(cmd);
+	
 	fin = 0;
+	// printf("LEAKS fin SH4\n");
+	// system("leaks a.out");
 }
+
+// void ft_free2(int **tabf)
+// {
+// 	int i = 0;
+// 	while(tabf[i])
+// 	{
+// 		free(tabf[i]);
+// 		i++;
+// 	}
+// 	free(tabf[i]);
+// 	free(tabf)
+// }
 
 void	shell_body_2(t_shell *shell, char *full)
 {
@@ -63,6 +84,8 @@ void	shell_body_2(t_shell *shell, char *full)
 	tabf = fill_tabf(cmd);
 	while (cmd[fin])
 	{
+				// printf("SHEL BOT 2\n");
+
 		shell_body_3(&cmd[fin], tabf[fin]);
 		fin++;
 	}
@@ -70,6 +93,17 @@ void	shell_body_2(t_shell *shell, char *full)
 	pop_word(cmd);
 	ft_reverse(cmd);
 	shell_body_4(&cmd, shell);
+	// printf("LEAKS RET BOD 4\n");
+	// system("leaks a.out");
+	free(tab);
+	fin = 0;
+	while(tabf[fin])
+	{
+		free(tabf[fin]);
+		fin++;
+	}
+	free(tabf[fin]);
+	free(tabf);
 }
 
 void	shell_body(char *in, t_shell *shell)
@@ -81,8 +115,13 @@ void	shell_body(char *in, t_shell *shell)
 	if (full[0] != '\0')
 	{
 		trad(&full, shell->env);
+		// printf("SHEL BOT\n");
 		shell_body_2(shell, full);
+	// 	printf("LEAKS RET BOD 2\n");
+	// system("leaks a.out");
 	}
+	free(full);
+	full = NULL;
 	// else
 	// 	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
 }
@@ -92,6 +131,8 @@ int		init_main(t_shell *shell, char **s, char **full)
 	init_env(&shell->env);
 	s[0] = malloc(sizeof(char) * 11);
 	full[0] = malloc(sizeof(char) * 1);
+	shell->args = NULL;
+	shell->next_args = NULL;
 	signal(SIGINT, sig_handle_c);
 	signal(SIGQUIT, sig_handle_b);
 	ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
@@ -136,9 +177,16 @@ int		main(int ac, char **av)
 			full = ft_strjoin_free(full, s, 1);
 			if (contain_c(full, '\n') && !(state = 0))
 			{
+	// 			printf("LEAKS 0\n");
+	// system("leaks a.out");
 				shell_body(full, &shell);
+	// 							printf("LEAKS 0.5\n");
+	// system("leaks a.out");
+
 				ft_reset(&full);
 				ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+	// 	printf("LEAKS 1\n");
+	// system("leaks a.out");
 			}
 			else if (state == 0)
 				exit(print_exit());
