@@ -21,25 +21,21 @@ static char	**extract(char **args)
 	i = -1;
 	j = 0;
 	while (args[++i])
-	{
 		if (!ft_strcmp(args[i], "|"))
 			break ;
 		else if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))
 			j++;
-	}
 	if (!(tmp = malloc(sizeof(char *) * (j + 1))))
 		exit(EXIT_FAILURE);
 	i = -1;
 	j = 0;
 	while (args[++i])
-	{
 		if (!ft_strcmp(args[i], "|"))
 			break ;
 		else if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))
 			tmp[j++] = ft_strdup(args[i]);
-	}
 	tmp[j] = NULL;
 	return (tmp);
 }
@@ -120,7 +116,7 @@ int			is_builtin(t_shell *shell, int i)
 		h_split(shell, &shell->next_args);
 		exec_pipe(shell, i + 1);
 	}
-	ft_free(&args); // <- fait segfaulter dans certains cas
+	ft_free(&args);
 	return (-42);
 }
 

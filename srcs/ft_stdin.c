@@ -12,13 +12,14 @@
 
 #include "../includes/minishell.h"
 
-void	ft_free(char ***s)
+void		ft_free(char ***s)
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	if (s[0] == NULL)
 		return ;
-	while(s[0][i])
+	while (s[0][i])
 	{
 		free(s[0][i]);
 		s[0][i] = NULL;
@@ -28,16 +29,6 @@ void	ft_free(char ***s)
 	s[0][i] = NULL;
 	free(s[0]);
 	s[0] = NULL;
-}
-
-void ft_p(char **s)
-{
-	int i = 0;
-	while(s[i])
-	{
-		printf("s[%i]=[%s]\n",i, s[i]);
-		i++;
-	}
 }
 
 void		status_res(t_shell *shell, int status)
@@ -59,9 +50,6 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	status = -42;
 	child_left = 0;
 	sl = -42;
-		// printf("LEAKS FORK 1\n");
-		// 	system("leaks a.out");
-
 	if (!(status = is_builtin(shell, i)))
 	{
 		if (shell->args && !(child_left = fork()))
@@ -73,9 +61,6 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 		waitpid(child_left, &sl, 0);
 		waitpid(child_right, &status, 0);
 	}
-	// printf("LEAKS FORK 2\n");
-	// 		system("leaks a.out");
-
 	status_res(shell, status);
 	if (status == 3 || sl == 3)
 		ft_putstr_fd("Quit: 3\n", 1);
@@ -88,36 +73,18 @@ void		exec_pipe(t_shell *shell, int i)
 	int		pdes[2];
 
 	pipe(pdes);
-	// printf("LEAKS EXEC 1\n");
-	// 		system("leaks a.out");
 	if (shell->args && !shell->next_args)
 	{
 		shell->next_args = shell->args;
 		shell->args = NULL;
 	}
-	// printf("LEAKS EXEC 2\n");
-	// 		system("leaks a.out");
 	fork_args(shell, pdes, i);
-		// printf("LEAKS EXEC 3\n");
-		// 	system("leaks a.out");
-
 }
 
 void		ft_stdin(t_shell *shell, char **command)
 {
-// printf("LEAKS STDIN 1\n");
-// 			system("leaks a.out");
 	if (!test_syntax(shell, command))
 		return ;
-	// ft_p(command);
-	// printf("LEAKS STDIN 2\n");
-	// 		system("leaks a.out");
 	h_split(shell, &command);
-// printf("LEAKS STDIN 3\n");
-			// system("leaks a.out");
 	exec_pipe(shell, 0);
-	//ft_free(command);
-	// printf("LEAKS STDIN 4\n");
-	// 		system("leaks a.out");
-
 }

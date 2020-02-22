@@ -12,18 +12,15 @@
 
 #include "../includes/minishell.h"
 
-int		test_syntax(t_shell *shell, char **args)
+int			test_syntax(t_shell *shell, char **args)
 {
 	int i;
 
-	i = 0;
+	i = -1;
 	if (!ft_strcmp(args[0], "|"))
-	{
-		chevron_error(shell->name_prog, \
-		"syntax error near unexpected token `", args[0], "'");
-		return (0);
-	}
-	while (args[i])
+		return (chevron_error(shell->name_prog, \
+		"syntax error near unexpected token `", args[0], "'"));
+	while (args[++i])
 	{
 		if (i > 0 && is_chevron(args[i - 1]) \
 		&& (is_chevron(args[i]) || !ft_strcmp(args[i], "|")))
@@ -39,7 +36,6 @@ int		test_syntax(t_shell *shell, char **args)
 			"syntax error near unexpected token ", 0, "`newline'");
 			return (0);
 		}
-		i++;
 	}
 	return (1);
 }

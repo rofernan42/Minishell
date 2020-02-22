@@ -96,14 +96,11 @@ void	sig_handle_c(int s)
 	{
 		ft_putstr_fd("\n", 1);
 	}
-	
-	
 }
 
 void	sig_handle_b(int s)
 {
 	(void)s;
-	// printf("BLO\n");
 }
 
 int		*cp_add(int *t, int p)

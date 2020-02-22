@@ -43,19 +43,13 @@ char	**ft_tabcopy(char **s, int fin)
 	return (o);
 }
 
-// void		del_args(char **args)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (args == NULL)
-// 		return ;
-// 	while (args[i])
-// 		ft_strdel(&args[i++]);
-// 	ft_strdel(&args[i]);
-// 	free(args);
-// 	args = NULL;
-// }
+int		init_split(int *p, int *part, int *last_part, char ***cmd)
+{
+	*p = 0;
+	*part = -1;
+	*last_part = 0;
+	return (ft_tablength(cmd[0]));
+}
 
 void	h_split(t_shell *shell, char ***cmd)
 {
@@ -64,30 +58,15 @@ void	h_split(t_shell *shell, char ***cmd)
 	int		part;
 	int		last_part;
 
-	p = 0;
-	part = 0;
-	last_part = 0;
-		//print("DEV SPLIT\n");
-
-	fin = ft_tablength(cmd[0]);
-	// ft_p(cmd);
-			//print("DEV SPLIT 1 et %i\n",fin);
-	//print("cmd[2] = [%s]\n",cmd[2]);
-	while (part <= fin && p < 1)
-	{
-		//print("WHILE SPLT et part=%i, fin=%i, p=%i\n",part,fin,p);
+	fin = init_split(&p, &part, &last_part, cmd);
+	while (++part <= fin && p < 1)
 		if (part == fin || !ft_strcmp(cmd[0][part], "|"))
 		{
 			ft_free(&shell->args);
-			//print("AV CPY\n");
 			shell->args = (ft_tabcopy(cmd[0] + last_part, part - last_part));
-						//print("AP CPY\n");s
 			last_part = part + 1;
 			p++;
 		}
-		part++;
-	}
-	//print("MID SPLIT\n");
 	if (part < fin)
 	{
 		ft_free(&shell->next_args);

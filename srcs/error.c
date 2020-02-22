@@ -24,7 +24,7 @@ void	disp_err(char *prog, char *cmd, char *arg, char *err)
 	ft_putendl_fd(err, 2);
 }
 
-void	chevron_error(char *prog, char *arg, char *cmd, char *end)
+int		chevron_error(char *prog, char *arg, char *cmd, char *end)
 {
 	ft_putstr_fd(prog, 2);
 	if (prog)
@@ -32,6 +32,7 @@ void	chevron_error(char *prog, char *arg, char *cmd, char *end)
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(end, 2);
+	return (0);
 }
 
 void	command_error(char *command, char *err)
