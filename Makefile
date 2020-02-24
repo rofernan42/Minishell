@@ -6,7 +6,7 @@
 #    By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/12 15:44:33 by rofernan          #+#    #+#              #
-#    Updated: 2020/02/24 17:58:32 by rofernan         ###   ########.fr        #
+#    Updated: 2020/02/24 18:06:20 by rofernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,3 +82,5 @@ fclean:
 re:						fclean all
 
 .PHONY:					clean fclean re all bonus
+
+.SILENT:
