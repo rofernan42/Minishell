@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 10:59:42 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 12:13:09 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void		ft_stdin(t_shell *shell, char **command)
 	if (!test_syntax(shell, command))
 		return ;
 	h_split(shell, &command);
+	ft_free(&command);
 	exec_pipe(shell, 0);
 }

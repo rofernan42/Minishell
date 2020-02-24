@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 11:37:21 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 12:09:11 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,27 @@ void	h_split(t_shell *shell, char ***cmd)
 	int		p;
 	int		part;
 	int		last_part;
-	fin = init_split(&p, &part, &last_part, cmd);
+
+	char **tmp;
+	tmp = ft_tabcopy(cmd[0], ft_tablength(cmd[0]) + 1);
+	fin = init_split(&p, &part, &last_part, &tmp);
 	while (++part <= fin && p < 1)
-		if (part == fin || !ft_strcmp(cmd[0][part], "|"))
+		if (part == fin || !ft_strcmp(tmp[part], "|"))
 		{
 			ft_free(&shell->args);
-			shell->args = (ft_tabcopy(cmd[0] + last_part, part - last_part));
+			shell->args = (ft_tabcopy(tmp + last_part, part - last_part));
 			last_part = part + 1;
 			p++;
 		}
 	if (part < fin)
 	{
 		ft_free(&shell->next_args);
-		shell->next_args = ft_tabcopy(cmd[0] + last_part, fin - last_part);
+		shell->next_args = ft_tabcopy(tmp + last_part, fin - last_part);
 	}
 	else
 	{
 		ft_free(&shell->next_args);
 		shell->next_args = NULL;
 	}
-	ft_free(cmd);
+	ft_free(&tmp);
 }
