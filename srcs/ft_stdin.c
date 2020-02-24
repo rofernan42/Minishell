@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+extern int sig;
+
 void		ft_free(char ***s)
 {
 	int i;
@@ -60,10 +62,41 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 			fork_right(shell, pdes, i);
 		close(pdes[1]);
 		close(pdes[0]);
-		waitpid(child_left, &sl, 0);
-		waitpid(child_right, &status, 0);
+		waitpid(child_left, &sl, WUNTRACED);
+		waitpid(child_right, &status, WUNTRACED);
+		printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
+
 	}
+	printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
+	printf("SIG=%i\n",sig);
+	if (sig != 0)
+	{
+		printf("SIG=%i\n",sig);
+	}
+	else if (WTERMSIG(status) > 0 && WTERMSIG(status) <= 5 && WTERMSIG(sl) > 0 && WTERMSIG(sl) >= 5)
+	{
+		if (WTERMSIG(status))
+			printf("ret=%i\n", WTERMSIG(status));
+		else
+		{
+			printf("ret=%i\n",WTERMSIG(sl));
+		}
+		
+	}
+	else if(status == 42)
+	{
+		printf("BUI=%i\n", 0);
+	}
+	else if (WIFEXITED(sl) || WIFEXITED(status))
+	{
+		if (WEXITSTATUS(sl))
+			printf("reT =%i\n",WEXITSTATUS(sl));
+		else
+			printf("RET = %i\n",WEXITSTATUS(status));
+	}
+	sig = 0;
 	status_res(shell, WEXITSTATUS(status));
+	
 	if (status == 3 || sl == 3)
 		ft_putstr_fd("Quit: 3\n", 1);
 	if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
@@ -85,8 +118,15 @@ void		exec_pipe(t_shell *shell, int i)
 
 void		ft_stdin(t_shell *shell, char **command)
 {
-	if (!test_syntax(shell, command))
+	int ret;
+
+	ret = test_syntax(shell, command);
+	if (ret == 258)
+	{
+		status_res(shell, 258);
+		printf("ret=258\n");
 		return ;
+	}
 	h_split(shell, &command);
 	ft_free(&command);
 	exec_pipe(shell, 0);

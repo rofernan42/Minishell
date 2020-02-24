@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+int sig;
+
 int		init_main(t_shell *shell, char **s, char **full)
 {
 	init_env(&shell->env);
@@ -65,6 +67,7 @@ int		main(int ac, char **av)
 	char	*full;
 	int		state;
 
+	sig= 0;
 	init_name_prog(&shell, av[0]);
 	if (ac == 1)
 	{

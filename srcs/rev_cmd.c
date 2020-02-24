@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+extern int sig;
+
 void	pop_word(char **s)
 {
 	int		j;
@@ -52,7 +54,7 @@ char	**ft_reverse(char **s)
 	{
 		while (s[i][j])
 		{
-			if (s[i][j] < 0)
+			if (s[i][j] < 0 && s[i][j] != -1  * '>' && s[i][j] != -1  * '<' && s[i][j] != -1  * '|')
 				s[i][j] = -1 * s[i][j];
 			j++;
 		}
@@ -87,7 +89,7 @@ void	trad(char **s, t_env *env)
 void	sig_handle_c(int s)
 {
 	int i;
-
+	sig = 11;
 	(void)s;
 	wait(&i);
 	if (i != 2)

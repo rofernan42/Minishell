@@ -35,14 +35,14 @@ int			test_syntax(t_shell *shell, char **args)
 		{
 			chevron_error(shell->name_prog,
 					"syntax error near unexpected token `", args[i], "'");
-			return (0);
+			return (258);
 		}
 		if (i > 0 && !ft_strcmp(args[i - 1], "|") && (is_chevron(args[i])
 		|| !wrap_cmp(args[i], '|')))
 		{
 			chevron_error(shell->name_prog,
 					"syntax error near unexpected token ", 0, "`newline'");
-			return (0);
+			return (258);
 		}
 	}
 	return (1);
