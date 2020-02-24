@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:14:09 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:32:27 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 16:36:47 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		is_in_s(char *s, int m)
+int			is_in_s(char *s, int m)
 {
 	int i;
 	int std;
@@ -40,7 +40,7 @@ int		is_in_s(char *s, int m)
 	return (sts);
 }
 
-void	is_in_sd_1(int *i, int *std, int *sts, int *state)
+static void	is_in_sd_1(int *i, int *std, int *sts, int *state)
 {
 	*i = -1;
 	*std = 0;
@@ -48,14 +48,14 @@ void	is_in_sd_1(int *i, int *std, int *sts, int *state)
 	*state = 0;
 }
 
-int		is_in_sd_out(int state, int sts, int std, int **tab)
+static int	is_in_sd_out(int state, int sts, int std, int **tab)
 {
 	if (state == 1)
 		free(*tab);
 	return (sts + std);
 }
 
-int		is_in_sd(const char *s, int m, int *tab)
+int			is_in_sd(const char *s, int m, int *tab)
 {
 	int i;
 	int std;
@@ -84,7 +84,7 @@ int		is_in_sd(const char *s, int m, int *tab)
 	return (is_in_sd_out(state, sts, std, &tab));
 }
 
-char	*inv(char c)
+char		*inv(char c)
 {
 	char *o;
 

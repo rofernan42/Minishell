@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:14:04 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:31:46 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:29:00 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			quote(char *s, char **out, int *tab)
+static int	quote(char *s, char **out, int *tab)
 {
 	int i;
 	int std;
@@ -31,7 +31,7 @@ void		parsing(char *s, char **out, int *tab)
 	quote(s, out, tab);
 }
 
-char		**splitbody(int nbc, char const *s, char **out, int *tab)
+static char	**splitbody(int nbc, char const *s, char **out, int *tab)
 {
 	int i;
 	int j;
@@ -40,17 +40,20 @@ char		**splitbody(int nbc, char const *s, char **out, int *tab)
 	i = 0;
 	if (!(k = 0) && s[0] != ' ')
 	{
-		while (((s[i] && (s[i] != ' ' || nb_bs(s, i-1) % 2 == 1)) || is_in_sd(s, i, tab) == 1))
+		while (((s[i] && (s[i] != ' ' || nb_bs(s, i - 1) % 2 == 1)) \
+		|| is_in_sd(s, i, tab) == 1))
 			i++;
 		out[k++] = ft_substr(s, 0, i);
 	}
 	while (s[i] && k < nbc && !(j = 0))
 	{
-		if ((i == 0 || ((s[i] == ' ' && nb_bs(s, i - 1) % 2 == 0) && is_in_sd(s, i, tab) == 0)))
+		if ((i == 0 || ((s[i] == ' ' && nb_bs(s, i - 1) % 2 == 0) \
+		&& is_in_sd(s, i, tab) == 0)))
 			if (s[i + 1] != s[i])
 			{
-				while (s[i + 1 + j] && ((s[i + 1 + j] != ' ' || (nb_bs(s, i+j) %2 == 1 && s[i+1+j] == ' ') ) ||
-				is_in_sd(s, i + 1 + j, tab) > 0))
+				while (s[i + 1 + j] && ((s[i + 1 + j] != ' ' \
+				|| (nb_bs(s, i + j) % 2 == 1 && s[i + 1 + j] == ' ')) \
+				|| is_in_sd(s, i + 1 + j, tab) > 0))
 					j++;
 				out[k] = ft_substr(s, i + 1, j);
 				k++;
@@ -74,7 +77,8 @@ char		**split_cmd(char *s, int *tab)
 		nbc++;
 	while (s[i] && s[i + 1])
 	{
-		if ((s[i] == ' ' && s[i + 1] != ' ') && is_in_sd(s, i, tab) == 0 && nb_bs(s, i-1) % 2 != 1)
+		if ((s[i] == ' ' && s[i + 1] != ' ') && is_in_sd(s, i, tab) == 0 \
+		&& nb_bs(s, i - 1) % 2 != 1)
 			nbc++;
 		i++;
 	}

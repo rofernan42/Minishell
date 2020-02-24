@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 17:17:14 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:22:34 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	prep2path(char **s, t_shell *shell)
+static void	prep2path(char **s, t_shell *shell)
 {
 	struct stat	a;
 	int			i;
@@ -41,7 +41,7 @@ void	prep2path(char **s, t_shell *shell)
 		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
 }
 
-void	prep_path(t_shell *shell)
+void		prep_path(t_shell *shell)
 {
 	char		**s;
 	t_env		*e1;

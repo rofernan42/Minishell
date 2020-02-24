@@ -6,13 +6,11 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:16:07 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:31:52 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:42:21 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-extern int sig;
 
 void	pop_word(char **s)
 {
@@ -54,7 +52,8 @@ char	**ft_reverse(char **s)
 	{
 		while (s[i][j])
 		{
-			if (s[i][j] < 0 && s[i][j] != -1  * '>' && s[i][j] != -1  * '<' && s[i][j] != -1  * '|')
+			if (s[i][j] < 0 && s[i][j] != -1 * '>' && s[i][j] != -1 * '<' \
+			&& s[i][j] != -1 * '|')
 				s[i][j] = -1 * s[i][j];
 			j++;
 		}
@@ -89,15 +88,14 @@ void	trad(char **s, t_env *env)
 void	sig_handle_c(int s)
 {
 	int i;
-	sig = 11;
+
 	(void)s;
+	g_sig = 11;
 	wait(&i);
 	if (i != 2)
 		ft_putstr_fd("\n\033[33mminishell$\033[0m ", 1);
 	else
-	{
 		ft_putstr_fd("\n", 1);
-	}
 }
 
 int		*cp_add(int *t, int p)

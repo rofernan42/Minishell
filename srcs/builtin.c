@@ -6,23 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:39:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:51:15 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 13:00:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_p(char **s)
-{
-	int i = 0;
-	while(s[i])
-	{
-		printf("s[%i]=[%s]\n",i,s[i]);
-		i++;
-	}
-}
-
-int			is_builtin_1(t_shell *shell)
+static int	is_builtin_1(t_shell *shell)
 {
 	char **args;
 
@@ -49,7 +39,7 @@ int			is_builtin_1(t_shell *shell)
 	ft_free(&args);
 }
 
-void		builtin_exec(t_shell *shell, char **args)
+static void	builtin_exec(t_shell *shell, char **args)
 {
 	if (!ft_strcmp(args[0], "echo"))
 		ft_echo(args);

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 19:09:43 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 16:56:13 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ char		**extract(char **args)
 	return (tmp);
 }
 
-int			del_war(char ***s, int i)
-{
-	ft_free(s);
-	return (i);
-}
-
 static void	process_exec(t_shell *shell)
 {
 	char **tmp;
@@ -60,11 +54,11 @@ int			execute_cmd(char **cmd, t_shell *shell)
 		exit(0);
 	shell->args = cmd;
 	if (!open_fd(shell, shell->args))
-		exit(0);
+		exit(1);
 	copy_stdinout(shell);
 	prep_path(shell);
 	process_exec(shell);
 	close_stdinout(shell);
 	exit(0);
-	return (0);
+	return (1);
 }

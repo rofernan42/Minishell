@@ -6,16 +6,19 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 18:49:52 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:34:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int wrap_cmp(char *s, char c)
+int			wrap_cmp(char *s, char c)
 {
-	char *s2 = inv(c);
-	int i= ft_strcmp(s, s2);
+	char	*s2;
+	int		i;
+
+	s2 = inv(c);
+	i = ft_strcmp(s, s2);
 	free(s2);
 	return (i);
 }
@@ -26,22 +29,24 @@ int			test_syntax(t_shell *shell, char **args)
 
 	i = -1;
 	if (!wrap_cmp(args[0], '|'))
+	{
 		return (chevron_error(shell->name_prog,
-	"syntax error near unexpected token `", args[0], "'"));
+		"syntax error near unexpected token `", args[0], "'"));
+	}
 	while (args[++i])
 	{
 		if (i > 0 && is_chevron(args[i - 1]) && (is_chevron(args[i])
 		|| !wrap_cmp(args[i], '|')))
 		{
 			chevron_error(shell->name_prog,
-					"syntax error near unexpected token `", args[i], "'");
+			"syntax error near unexpected token `", args[i], "'");
 			return (258);
 		}
 		if (i > 0 && !ft_strcmp(args[i - 1], "|") && (is_chevron(args[i])
 		|| !wrap_cmp(args[i], '|')))
 		{
 			chevron_error(shell->name_prog,
-					"syntax error near unexpected token ", 0, "`newline'");
+			"syntax error near unexpected token ", 0, "`newline'");
 			return (258);
 		}
 	}

@@ -6,15 +6,15 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:39:35 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 11:32:17 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:41:56 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int sig;
+int	g_sig;
 
-int		init_main(t_shell *shell, char **s, char **full)
+static int	init_main(t_shell *shell, char **s, char **full)
 {
 	init_env(&shell->env);
 	s[0] = malloc(sizeof(char) * 11);
@@ -30,7 +30,7 @@ int		init_main(t_shell *shell, char **s, char **full)
 	return (0);
 }
 
-void	ft_reset(char **full)
+static void	ft_reset(char **full)
 {
 	free(full[0]);
 	full[0] = NULL;
@@ -38,13 +38,13 @@ void	ft_reset(char **full)
 	full[0][0] = '\0';
 }
 
-int		print_exit(void)
+static int	print_exit(void)
 {
 	ft_putendl_fd("exit", 2);
 	return (0);
 }
 
-void	last_one(char **full, char **s, int *state, t_shell *shell)
+static void	last_one(char **full, char **s, int *state, t_shell *shell)
 {
 	if (ft_strlen(s[0]) != 0 && s[0][ft_strlen(s[0]) - 1] != '\n')
 		*state = 1;
@@ -59,7 +59,7 @@ void	last_one(char **full, char **s, int *state, t_shell *shell)
 		exit(print_exit());
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_shell	shell;
 	int		i;
@@ -67,7 +67,7 @@ int		main(int ac, char **av)
 	char	*full;
 	int		state;
 
-	sig= 0;
+	g_sig = 0;
 	init_name_prog(&shell, av[0]);
 	if (ac == 1)
 	{

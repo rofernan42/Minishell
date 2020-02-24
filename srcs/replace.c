@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:15:57 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:30:56 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:19:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	replace_1(int *k, int *j, t_env *e1, char *out)
+static void	replace_1(int *k, int *j, t_env *e1, char *out)
 {
 	*k = -1;
 	while (e1->data[++(*k)])
@@ -25,13 +25,13 @@ void	replace_1(int *k, int *j, t_env *e1, char *out)
 	}
 }
 
-void	replace_2(int i, int j, char **s, char *out)
+static void	replace_2(int i, int j, char **s, char *out)
 {
 	while (s[0][i])
 		out[j++] = s[0][i++];
 }
 
-int		replace(char **s, int d, t_env *env)
+int			replace(char **s, int d, t_env *env)
 {
 	int		i;
 	t_env	*e1;
@@ -59,7 +59,7 @@ int		replace(char **s, int d, t_env *env)
 	return ((int)(d + (int)ft_strlen(e1->data)) - 1);
 }
 
-int		*finish_p_i(void)
+int			*finish_p_i(void)
 {
 	int *i;
 
@@ -69,7 +69,7 @@ int		*finish_p_i(void)
 	return (i);
 }
 
-void	finish_p_1(char **oo, int **tt, int *i, char **cmd)
+void		finish_p_1(char **oo, int **tt, int *i, char **cmd)
 {
 	oo[0] = ft_strjoin_free(ft_strjoin_free(oo[0], " ", 1),
 	ft_substr(cmd[i[0]], i[1], 1), 2);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_body.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:42:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 10:42:37 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/24 17:30:17 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	shell_body_3(char **cmdf, int *tabf)
+static void	shell_body_3(char **cmdf, int *tabf)
 {
 	char *sp;
 
@@ -25,7 +25,7 @@ void	shell_body_3(char **cmdf, int *tabf)
 	free(sp);
 }
 
-void	shell_body_4(char ***cmd, t_shell *shell)
+static void	shell_body_4(char ***cmd, t_shell *shell)
 {
 	int fin;
 	int part;
@@ -42,7 +42,8 @@ void	shell_body_4(char ***cmd, t_shell *shell)
 			ft_stdin(shell, ft_tabcopy(cmd[0] + last_part, part - last_part));
 			last_part = part + 1;
 		}
-		if (cmd[0][part] != NULL && !ft_strcmp(cmd[0][part], ";") && cmd[0][part + 1] == NULL)
+		if (cmd[0][part] != NULL && !ft_strcmp(cmd[0][part], ";") \
+		&& cmd[0][part + 1] == NULL)
 			break ;
 		part++;
 	}
@@ -52,7 +53,7 @@ void	shell_body_4(char ***cmd, t_shell *shell)
 	fin = 0;
 }
 
-void	shell_body_2(t_shell *shell, char *full)
+static void	shell_body_2(t_shell *shell, char *full)
 {
 	int		fin;
 	int		*tab;
@@ -80,7 +81,7 @@ void	shell_body_2(t_shell *shell, char *full)
 	free(tabf);
 }
 
-void	shell_body(char *in, t_shell *shell)
+void		shell_body(char *in, t_shell *shell)
 {
 	char *full;
 

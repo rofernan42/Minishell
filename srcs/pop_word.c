@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:16:02 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:32:02 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:21:17 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**wrap(int **tt, char **oo, char **out)
+char		**wrap(int **tt, char **oo, char **out)
 {
 	tt[0] = cp_add(tt[0], ft_strlen(oo[0]));
 	out = split_cmd(oo[0], tt[0]);
@@ -21,7 +21,7 @@ char	**wrap(int **tt, char **oo, char **out)
 	return (out);
 }
 
-void	wrap_finish(char **oo, char ***out, int **tt)
+static void	wrap_finish(char **oo, char ***out, int **tt)
 {
 	out[0] = NULL;
 	oo[0] = malloc(sizeof(char) * 1);
@@ -30,7 +30,7 @@ void	wrap_finish(char **oo, char ***out, int **tt)
 	tt[0][0] = -8;
 }
 
-char	**finish_p(char **cmd, int **tab)
+char		**finish_p(char **cmd, int **tab)
 {
 	int		*i;
 	char	**out;
@@ -57,7 +57,7 @@ char	**finish_p(char **cmd, int **tab)
 	return (wrap(&tt, &oo, out));
 }
 
-void	pop_char(char **s, int i, int c1, int c2)
+void		pop_char(char **s, int i, int c1, int c2)
 {
 	int		j;
 	char	*out;
@@ -82,7 +82,7 @@ void	pop_char(char **s, int i, int c1, int c2)
 	s[i] = out;
 }
 
-void	init_pop_word(int *i, char *c, int *c1, int *c2)
+void		init_pop_word(int *i, char *c, int *c1, int *c2)
 {
 	*i = -1;
 	*c = 0;

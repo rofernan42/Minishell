@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 11:28:21 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:47:57 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@
 # include "mini_struct.h"
 # define BUF_SIZE 32
 
+extern int g_sig;
+
 /*
 **	TABS.C
 */
 int			ft_tablength(char **s);
 char		**ft_tabcopy(char **s, int fin);
-char		***ft_tabaddress(char **s);
-void		del_args(char **args);
 void		h_split(t_shell *shell, char ***cmd);
-void		ft_free(char ***s);
+
 /*
 **	UTILS.C
 */
@@ -43,9 +43,17 @@ int			contain_c(char *s, char c);
 int			is_chevron(char *str);
 int			reste_arg(char **args, char *reste);
 int			nb_arg(char **args, char *to_count);
+
+/*
+**	UTILS_2.C
+*/
+void		sig_handle_b(int s);
+int			p(char **cmd, int *i);
+
+/*
+**	SHELL_BODY.C
+*/
 void		shell_body(char *in, t_shell *shell);
-char		**extract(char **args);
-int			del_war(char ***s, int i);
 
 /*
 **	ENV_*.C
@@ -62,6 +70,12 @@ void		create_env(t_env **env, char *name, char *data);
 */
 void		init_env(t_env **env);
 void		init_name_prog(t_shell *shell, char *av);
+
+/*
+**	INIT_TABLE.C
+*/
+int			*fill_tab(const char *s);
+int			**fill_tabf(char **s);
 
 /*
 **	ERROR.C
@@ -89,6 +103,7 @@ void		ft_exit(t_shell *shell, char **args);
 /*
 **	REDIRECTION.C
 */
+int			wrap_cmp(char *s, char c);
 int			test_syntax(t_shell *shell, char **args);
 int			open_fd(t_shell *shell, char **args);
 int			open_file(t_shell *shell);
@@ -100,9 +115,14 @@ int			copy_stdinout(t_shell *shell);
 void		close_stdinout(t_shell *shell);
 
 /*
-**	EXEC_COMMANDS.C
+**	BUILTIN.C
 */
 int			is_builtin(t_shell *shell, int i);
+
+/*
+**	EXEC_COMMANDS.C
+*/
+char		**extract(char **args);
 int			execute_cmd(char **cmd, t_shell *shell);
 
 /*
@@ -120,47 +140,66 @@ void		ft_stdin(t_shell *shell, char **command);
 /*
 **	FREE.C
 */
+void		ft_free(char ***s);
+int			del_war(char ***s, int i);
 void		free_all(t_shell *shell);
 
 /*
-**	BONUS
+**	REV_CMD.C
 */
-int			match(char *s1, char *s2);
-int			*fill_tab(const char *s);
-int			**fill_tabf(char **s);
 void		pop_word(char **s);
 char		**ft_reverse(char **s);
 void		trad(char **s, t_env *env);
 void		sig_handle_c(int s);
-void		sig_handle_b(int s);
 int			*cp_add(int *t, int p);
-int			cd(char **cmd, int *i);
-int			cg(char **cmd, int *i);
-int			v(char **cmd, int *i);
-char		re(char **cmd, int *i);
+
+/*
+**	POP_WORD.C
+*/
 char		**wrap(int **tt, char **oo, char **out);
 char		**finish_p(char **cmd, int **tab);
 void		pop_char(char **s, int i, int c1, int c2);
 void		init_pop_word(int *i, char *c, int *c1, int *c2);
+
+/*
+**	REPLACE.C
+*/
 int			replace(char **s, int d, t_env *env);
 int			*finish_p_i(void);
 void		finish_p_1(char **oo, int **tt, int *i, char **cmd);
-int			p(char **cmd, int *i);
-int			enter(char *str);
+
+/*
+**	NB_BS.C
+*/
 int			nb_bs(const char *s, int f);
+
+/*
+**	CHECK_QUOTES.C
+*/
 int			is_in_s(char *s, int m);
 int			is_in_sd(const char *s, int m, int *tab);
+char		*inv(char c);
+
+/*
+**	TRANSLATE.C
+*/
 void		ft_translate(char **s, int d, char **out, int *tab);
-int			quote(char *s, char **out, int *tab);
+
+/*
+**	SPLIT.C
+*/
 void		parsing(char *s, char **out, int *tab);
-void		ft_p(char **s);
-char		**splitbody(int nbc, char const *s, char **out, int *tab);
 char		**split_cmd(char *s, int *tab);
 int			end_name(char c, int i);
+
+/*
+**	WRAP_PARSING.C
+*/
 int			cd(char **cmd, int *i);
 int			cg(char **cmd, int *i);
 int			v(char **cmd, int *i);
 char		re(char **cmd, int *i);
-char		*inv(char c);
+
+void		ft_p(char **s);
 
 #endif

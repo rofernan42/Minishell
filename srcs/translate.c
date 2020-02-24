@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   translate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 11:02:18 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 11:02:19 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/24 17:29:37 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_translate_1(int *i, char **out, char **s, int *tab)
+static void	ft_translate_1(int *i, char **out, char **s, int *tab)
 {
 	(*i)++;
 	if (s[0][*i] == '\'')
@@ -28,7 +28,7 @@ void	ft_translate_1(int *i, char **out, char **s, int *tab)
 	tab[ft_strlen(out[0]) - 1] = 1;
 }
 
-void	ft_translate_2(int *i, char **s, char **out)
+static void	ft_translate_2(int *i, char **s, char **out)
 {
 	(*i)++;
 	if (s[0][*i] == '"')
@@ -39,7 +39,7 @@ void	ft_translate_2(int *i, char **s, char **out)
 		out[0] = ft_strjoin_free(out[0], "$", 1);
 }
 
-void	ft_translate(char **s, int d, char **out, int *tab)
+void		ft_translate(char **s, int d, char **out, int *tab)
 {
 	int		i;
 	char	*q;
@@ -49,8 +49,9 @@ void	ft_translate(char **s, int d, char **out, int *tab)
 		if (is_in_s(s[0], i) == 0 && s[0][i] == '\\' && s[0][i + 1] &&
 		(s[0][i + 1] == '"' || s[0][i + 1] == '\\' || s[0][i + 1] == '$'))
 			ft_translate_2(&i, s, out);
-		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' &&
-		s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' || (s[0][i + 1] == ' ' && nb_bs(s[0], i) % 2 == 1)
+		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' \
+		&& s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' \
+		|| (s[0][i + 1] == ' ' && nb_bs(s[0], i) % 2 == 1) \
 		|| s[0][i + 1] == '<' || s[0][i + 1] == '|'))
 			ft_translate_1(&i, out, s, tab);
 		else

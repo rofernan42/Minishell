@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 12:09:11 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 13:03:48 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_tablength(char **s)
+int			ft_tablength(char **s)
 {
 	int i;
 
@@ -24,7 +24,7 @@ int		ft_tablength(char **s)
 	return (i);
 }
 
-char	**ft_tabcopy(char **s, int fin)
+char		**ft_tabcopy(char **s, int fin)
 {
 	int		i;
 	char	**o;
@@ -43,27 +43,7 @@ char	**ft_tabcopy(char **s, int fin)
 	return (o);
 }
 
-char	***ft_tabaddress(char **s)
-{
-	int		i;
-	char	***o;
-
-	i = 0;
-	o = malloc(sizeof(char**) * 1);
-	while (s[i])
-		i++;
-	o[0] = malloc(sizeof(char*) * (i + 1));
-	o[0][i] = 0;
-	i = 0;
-	while (s[i])
-	{
-		o[0][i] = ft_strdup(s[i]);
-		i++;
-	}
-	return (o);
-}
-
-int		init_split(int *p, int *part, int *last_part, char ***cmd)
+static int	init_split(int *p, int *part, int *last_part, char ***cmd)
 {
 	*p = 0;
 	*part = -1;
@@ -71,14 +51,14 @@ int		init_split(int *p, int *part, int *last_part, char ***cmd)
 	return (ft_tablength(cmd[0]));
 }
 
-void	h_split(t_shell *shell, char ***cmd)
+void		h_split(t_shell *shell, char ***cmd)
 {
 	int		fin;
 	int		p;
 	int		part;
 	int		last_part;
+	char	**tmp;
 
-	char **tmp;
 	tmp = ft_tabcopy(cmd[0], ft_tablength(cmd[0]) + 1);
 	fin = init_split(&p, &part, &last_part, &tmp);
 	while (++part <= fin && p < 1)
