@@ -57,7 +57,8 @@ void	h_split(t_shell *shell, char ***cmd)
 	int		p;
 	int		part;
 	int		last_part;
-
+	printf("HSPLIT DEB\n");
+	ft_p(cmd[0]);
 	fin = init_split(&p, &part, &last_part, cmd);
 	while (++part <= fin && p < 1)
 		if (part == fin || !ft_strcmp(cmd[0][part], "|"))

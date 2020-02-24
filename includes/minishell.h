@@ -42,6 +42,9 @@ int			contain_c(char *s, char c);
 int			is_chevron(char *str);
 int			reste_arg(char **args, char *reste);
 int			nb_arg(char **args, char *to_count);
+void		shell_body(char *in, t_shell *shell);
+char		**extract(char **args);
+int			del_war(char ***s, int i);
 
 /*
 **	ENV_*.C
@@ -153,5 +156,10 @@ void		ft_p(char **s);
 char		**splitbody(int nbc, char const *s, char **out, int *tab);
 char		**split_cmd(char *s, int *tab);
 int			end_name(char c, int i);
+int			cd(char **cmd, int *i);
+int			cg(char **cmd, int *i);
+int			v(char **cmd, int *i);
+char		re(char **cmd, int *i);
+char		*inv(char c);
 
 #endif
