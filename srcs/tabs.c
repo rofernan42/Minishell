@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 11:30:16 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 11:37:21 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,26 @@ char	**ft_tabcopy(char **s, int fin)
 	return (o);
 }
 
+char	***ft_tabaddress(char **s)
+{
+	int		i;
+	char	***o;
+
+	i = 0;
+	o = malloc(sizeof(char**) * 1);
+	while (s[i])
+		i++;
+	o[0] = malloc(sizeof(char*) * (i + 1));
+	o[0][i] = 0;
+	i = 0;
+	while (s[i])
+	{
+		o[0][i] = ft_strdup(s[i]);
+		i++;
+	}
+	return (o);
+}
+
 int		init_split(int *p, int *part, int *last_part, char ***cmd)
 {
 	*p = 0;
@@ -57,8 +77,6 @@ void	h_split(t_shell *shell, char ***cmd)
 	int		p;
 	int		part;
 	int		last_part;
-	printf("HSPLIT DEB\n");
-	ft_p(cmd[0]);
 	fin = init_split(&p, &part, &last_part, cmd);
 	while (++part <= fin && p < 1)
 		if (part == fin || !ft_strcmp(cmd[0][part], "|"))

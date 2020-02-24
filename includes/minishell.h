@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 19:10:00 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 11:28:21 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 */
 int			ft_tablength(char **s);
 char		**ft_tabcopy(char **s, int fin);
+char		***ft_tabaddress(char **s);
 void		del_args(char **args);
 void		h_split(t_shell *shell, char ***cmd);
 void		ft_free(char ***s);

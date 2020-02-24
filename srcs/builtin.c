@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:39:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 10:39:38 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/24 11:33:52 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int			is_builtin(t_shell *shell, int i)
 	if ((shell->args && shell->next_args))
 	{
 		ft_free(&args);
-		ft_p(shell->next_args);
-		h_split(shell, &shell->next_args);
+		h_split(shell, ft_tabaddress(shell->next_args));
 		exec_pipe(shell, i + 1);
 	}
 	ft_free(&args);

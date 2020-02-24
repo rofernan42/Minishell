@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   try5.c                                             :+:      :+:    :+:   */
+/*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:15:57 by augay             #+#    #+#             */
-/*   Updated: 2020/02/20 14:54:36 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/24 11:30:56 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
-#include "libft/libft.h"
+#include "../includes/minishell.h"
 
 void	replace_1(int *k, int *j, t_env *e1, char *out)
 {
