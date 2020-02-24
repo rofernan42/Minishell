@@ -48,6 +48,15 @@ char	**wrap(int **tt, char **oo, char **out)
 	return (out);
 }
 
+void	wrap_finish(char **oo, char ***out, int **tt)
+{
+	out[0] = NULL;
+	oo[0] = malloc(sizeof(char) * 1);
+	oo[0][0] = '\0';
+	tt[0] = malloc(sizeof(int) * 1);
+	tt[0][0] = -8;
+}
+
 char	**finish_p(char **cmd, int **tab)
 {
 	int		*i;
@@ -58,11 +67,7 @@ char	**finish_p(char **cmd, int **tab)
 	if (cmd == NULL)
 		return (NULL);
 	i = finish_p_i();
-	out = NULL;
-	oo = malloc(sizeof(char) * 1);
-	oo[0] = '\0';
-	tt = malloc(sizeof(int) * 1);
-	tt[0] = -8;
+	wrap_finish(&oo, &out, &tt);
 	while (cmd[++i[0]] && (i[1] = -1))
 	{
 		while (cmd[i[0]][++i[1]])

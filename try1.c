@@ -123,6 +123,21 @@ int		print_exit(void)
 	return (0);
 }
 
+void	last_one(char **full, char **s, int *state, t_shell *shell)
+{
+	if (ft_strlen(s[0]) != 0 && s[0][ft_strlen(s[0]) - 1] != '\n')
+		*state = 1;
+	full[0] = ft_strjoin_free(full[0], s[0], 1);
+	if (contain_c(full[0], '\n') && !(*state = 0))
+	{
+		shell_body(full[0], shell);
+		ft_reset(full);
+		ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
+	}
+	else if (*state == 0)
+		exit(print_exit());
+}
+
 int		main(int ac, char **av)
 {
 	t_shell	shell;
@@ -139,17 +154,7 @@ int		main(int ac, char **av)
 		{
 			i = read(0, s, 10);
 			s[i] = 0;
-			if (ft_strlen(s) != 0 && s[ft_strlen(s) - 1] != '\n')
-				state = 1;
-			full = ft_strjoin_free(full, s, 1);
-			if (contain_c(full, '\n') && !(state = 0))
-			{
-				shell_body(full, &shell);
-				ft_reset(&full);
-				ft_putstr_fd("\033[33mminishell$\033[0m ", 1);
-			}
-			else if (state == 0)
-				exit(print_exit());
+			last_one(&full, &s, &state, &shell);
 		}
 	}
 	else if (ac > 1)

@@ -33,7 +33,7 @@ int			ft_tablength(char **s);
 char		**ft_tabcopy(char **s, int fin);
 void		del_args(char **args);
 void		h_split(t_shell *shell, char ***cmd);
-void ft_free(char ***s);
+void		ft_free(char ***s);
 /*
 **	UTILS.C
 */
@@ -63,7 +63,7 @@ void		init_name_prog(t_shell *shell, char *av);
 **	ERROR.C
 */
 void		disp_err(char *prog, char *cmd, char *arg, char *err);
-void		chevron_error(char *prog, char *arg, char *cmd, char *end);
+int			chevron_error(char *prog, char *arg, char *cmd, char *end);
 void		command_error(char *command, char *err);
 
 /*
@@ -85,7 +85,7 @@ void		ft_exit(t_shell *shell, char **args);
 /*
 **	REDIRECTION.C
 */
-int	    	test_syntax(t_shell *shell, char **args);
+int			test_syntax(t_shell *shell, char **args);
 int			open_fd(t_shell *shell, char **args);
 int			open_file(t_shell *shell);
 

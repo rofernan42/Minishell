@@ -18,22 +18,22 @@ int			test_syntax(t_shell *shell, char **args)
 
 	i = -1;
 	if (!ft_strcmp(args[0], "|"))
-		return (chevron_error(shell->name_prog, \
-		"syntax error near unexpected token `", args[0], "'"));
+		return (chevron_error(shell->name_prog,
+	"syntax error near unexpected token `", args[0], "'"));
 	while (args[++i])
 	{
-		if (i > 0 && is_chevron(args[i - 1]) \
-		&& (is_chevron(args[i]) || !ft_strcmp(args[i], "|")))
+		if (i > 0 && is_chevron(args[i - 1]) && (is_chevron(args[i])
+		|| !ft_strcmp(args[i], "|")))
 		{
-			chevron_error(shell->name_prog, \
-			"syntax error near unexpected token `", args[i], "'");
+			chevron_error(shell->name_prog,
+					"syntax error near unexpected token `", args[i], "'");
 			return (0);
 		}
-		if (i > 0 && !ft_strcmp(args[i - 1], "|") \
-		&& (is_chevron(args[i]) || !ft_strcmp(args[i], "|")))
+		if (i > 0 && !ft_strcmp(args[i - 1], "|") && (is_chevron(args[i])
+		|| !ft_strcmp(args[i], "|")))
 		{
-			chevron_error(shell->name_prog, \
-			"syntax error near unexpected token ", 0, "`newline'");
+			chevron_error(shell->name_prog,
+					"syntax error near unexpected token ", 0, "`newline'");
 			return (0);
 		}
 	}
