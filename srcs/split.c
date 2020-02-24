@@ -40,16 +40,16 @@ char		**splitbody(int nbc, char const *s, char **out, int *tab)
 	i = 0;
 	if (!(k = 0) && s[0] != ' ')
 	{
-		while (((s[i] && s[i] != ' ') || is_in_sd(s, i, tab) == 1))
+		while (((s[i] && (s[i] != ' ' || nb_bs(s, i-1) % 2 == 1)) || is_in_sd(s, i, tab) == 1))
 			i++;
 		out[k++] = ft_substr(s, 0, i);
 	}
 	while (s[i] && k < nbc && !(j = 0))
 	{
-		if ((i == 0 || ((s[i] == ' ') && is_in_sd(s, i, tab) == 0)))
+		if ((i == 0 || ((s[i] == ' ' && nb_bs(s, i - 1) % 2 == 0) && is_in_sd(s, i, tab) == 0)))
 			if (s[i + 1] != s[i])
 			{
-				while (s[i + 1 + j] && ((s[i + 1 + j] != ' ') ||
+				while (s[i + 1 + j] && ((s[i + 1 + j] != ' ' || (nb_bs(s, i+j) %2 == 1 && s[i+1+j] == ' ') ) ||
 				is_in_sd(s, i + 1 + j, tab) > 0))
 					j++;
 				out[k] = ft_substr(s, i + 1, j);
@@ -74,7 +74,7 @@ char		**split_cmd(char *s, int *tab)
 		nbc++;
 	while (s[i] && s[i + 1])
 	{
-		if ((s[i] == ' ' && s[i + 1] != ' ') && is_in_sd(s, i, tab) == 0)
+		if ((s[i] == ' ' && s[i + 1] != ' ') && is_in_sd(s, i, tab) == 0 && nb_bs(s, i-1) % 2 != 1)
 			nbc++;
 		i++;
 	}

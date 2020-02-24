@@ -42,6 +42,8 @@ void	shell_body_4(char ***cmd, t_shell *shell)
 			ft_stdin(shell, ft_tabcopy(cmd[0] + last_part, part - last_part));
 			last_part = part + 1;
 		}
+		if (cmd[0][part] != NULL && !ft_strcmp(cmd[0][part], ";") && cmd[0][part + 1] == NULL)
+			break ;
 		part++;
 	}
 	part = 0;
