@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:58:29 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 22:32:50 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 15:24:24 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_echo(char **args)
 	while (args[i])
 	{
 		if (!((o == 0 && i == 1) || (o == 1 && i == 2)))
-			write(1, " ", 1);
+			write(1, "_", 1);
 		ft_putstr_fd(args[i], 1);
 		i++;
 	}

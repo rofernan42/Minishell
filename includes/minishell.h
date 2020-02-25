@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 12:04:39 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 14:45:27 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void		close_stdinout(t_shell *shell);
 /*
 **	BUILTIN.C
 */
-int			is_builtin(t_shell *shell, int i);
+int			is_builtin(t_shell *shell);
 
 /*
 **	EXEC_COMMANDS.C
@@ -135,7 +135,7 @@ int			execute_cmd(char **cmd, t_shell *shell);
 /*
 **	FORKS.C
 */
-void		fork_left(t_shell *shell, int *pdes, int i);
+void		fork_left(t_shell *shell, int *pdes);
 void		fork_right(t_shell *shell, int *pdes, int i);
 
 /*

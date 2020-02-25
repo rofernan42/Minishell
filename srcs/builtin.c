@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:39:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/25 13:13:16 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 15:42:51 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	is_builtin_1(t_shell *shell)
 		args = extract(shell->args);
 	else if (!shell->args && shell->next_args)
 		args = extract(shell->next_args);
+	// ft_p(args);
 	if (!ft_strcmp(args[0], "echo"))
 		return (del_war(&args, 1));
 	else if (!ft_strcmp(args[0], "cd"))
@@ -57,13 +58,15 @@ static void	builtin_exec(t_shell *shell, char **args)
 		ft_exit(shell, args);
 }
 
-int			is_builtin(t_shell *shell, int i)
+int			is_builtin(t_shell *shell)
 {
 	char	**args;
 	int		file;
 
+	// dprintf(2, "test7\n");
 	if (!is_builtin_1(shell))
 		return (0);
+	// dprintf(2, "test8\n");
 	open_file(shell);
 	file = copy_stdinout(shell);
 	if (shell->args)
@@ -76,12 +79,6 @@ int			is_builtin(t_shell *shell, int i)
 		if (file)
 			close_stdinout(shell);
 	}
-	// if ((shell->args && shell->next_args))
-	// {
-	// 	ft_free(&args);
-	// 	h_split(shell, &shell->next_args);
-	// 	exec_pipe(shell, i + 1);
-	// }
 	ft_free(&args);
 	return (-42);
 }

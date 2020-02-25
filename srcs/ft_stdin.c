@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 12:45:51 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 15:41:59 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,40 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	ret = 0;
 	status = -42;
 	child_left = 0;
+	child_right = 0;
 	sl = -42;
 	if (i == 0 && !shell->args && shell->next_args)
 	{
-		if (!(status = is_builtin(shell, i)))
+		if (!(status = is_builtin(shell)))
 		{
 			if (shell->args && !(child_left = fork()))
-				fork_left(shell, pdes, i);
+				fork_left(shell, pdes);
 			if (!(child_right = fork()))
 				fork_right(shell, pdes, i);
-			close(pdes[1]);
-			close(pdes[0]);
-			waitpid(child_left, &sl, WUNTRACED);
-			waitpid(child_right, &status, WUNTRACED);
+			// close(pdes[1]);
+			// close(pdes[0]);
+			// waitpid(child_left, &sl, WUNTRACED);
+			// waitpid(child_right, &status, WUNTRACED);
 		}
 	}
 	else
 	{
 		if (shell->args && !(child_left = fork()))
-			fork_left(shell, pdes, i);
+		{
+			// printf("test4\n");
+			fork_left(shell, pdes);
+		}
 		if (!(child_right = fork()))
 			fork_right(shell, pdes, i);
-		close(pdes[1]);
-		close(pdes[0]);
-		waitpid(child_left, &sl, WUNTRACED);
-		waitpid(child_right, &status, WUNTRACED);
+		// close(pdes[1]);
+		// close(pdes[0]);
+		// waitpid(child_left, &sl, WUNTRACED);
+		// waitpid(child_right, &status, WUNTRACED);
 	}
+	close(pdes[1]);
+	close(pdes[0]);
+	waitpid(child_left, &sl, WUNTRACED);
+	waitpid(child_right, &status, WUNTRACED);
 		// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
 		// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
 	if (g_sig != 0)
