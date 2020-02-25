@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:43:46 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 10:44:05 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/25 10:27:09 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	contain_c(char *s, char c)
 
 int	is_chevron(char *str)
 {
-	if (!ft_strcmp(str, ">") || !ft_strcmp(str, "<") || !ft_strcmp(str, ">>"))
+	if (!wrap_cmp(str, '>') || !wrap_cmp(str, '<') || !wrap_cmp_2(str, ">>"))
 		return (1);
 	return (0);
 }

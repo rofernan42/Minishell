@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:11:14 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:49:39 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 10:26:42 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		chevron_error(char *prog, char *arg, char *cmd, char *end)
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(end, 2);
-	return (0);
+	return (258);
 }
 
 void	command_error(char *command, char *err)

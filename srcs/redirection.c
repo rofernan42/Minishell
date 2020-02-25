@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 17:34:49 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 10:30:20 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ int			wrap_cmp(char *s, char c)
 	int		i;
 
 	s2 = inv(c);
+	i = ft_strcmp(s, s2);
+	free(s2);
+	return (i);
+}
+
+int			wrap_cmp_2(char *s, char *c)
+{
+	char	*s2;
+	int		i;
+
+	s2 = malloc(sizeof(char) * 3);
+	s2[0] = -1 * c[0];
+	s2[1] = -1 * c[1];
+	s2[2] = '\0';
 	i = ft_strcmp(s, s2);
 	free(s2);
 	return (i);
@@ -57,13 +71,13 @@ static int	fd_in_out(t_shell *shell, char **args, int i)
 {
 	if (!is_chevron(args[i]))
 	{
-		if (!ft_strcmp(args[i - 1], ">"))
+		if (!wrap_cmp(args[i - 1], '>'))
 			shell->fd_in = open(args[i], O_WRONLY | O_TRUNC | O_CREAT, \
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		else if (!ft_strcmp(args[i - 1], ">>"))
+		else if (!wrap_cmp_2(args[i - 1], ">>"))
 			shell->fd_in = open(args[i], O_WRONLY | O_APPEND | O_CREAT, \
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		else if (!ft_strcmp(args[i - 1], "<"))
+		else if (!wrap_cmp(args[i - 1], '<'))
 		{
 			if ((shell->fd_out = open(args[i], O_RDONLY)) == -1)
 			{
