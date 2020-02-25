@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:39:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 13:00:49 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 13:13:16 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int			is_builtin(t_shell *shell, int i)
 		if (file)
 			close_stdinout(shell);
 	}
-	if ((shell->args && shell->next_args))
-	{
-		ft_free(&args);
-		h_split(shell, &shell->next_args);
-		exec_pipe(shell, i + 1);
-	}
+	// if ((shell->args && shell->next_args))
+	// {
+	// 	ft_free(&args);
+	// 	h_split(shell, &shell->next_args);
+	// 	exec_pipe(shell, i + 1);
+	// }
 	ft_free(&args);
 	return (-42);
 }

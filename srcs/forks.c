@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:04:12 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 12:20:23 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 13:21:44 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	fork_right(t_shell *shell, int *pdes, int i)
 {
 	int status;
 
-	
 	signal(SIGINT, NULL);
 	signal(SIGQUIT, NULL);
 	if (!(shell->args == NULL && shell->next_args != NULL))
@@ -46,6 +45,14 @@ void	fork_right(t_shell *shell, int *pdes, int i)
 		}
 		else if (shell->next_args != NULL)
 			exit(execute_cmd(shell->next_args, shell));
+	}
+	else
+	{
+		if ((shell->args && shell->next_args))
+		{
+			h_split(shell, &shell->next_args);
+			exec_pipe(shell, i + 1);
+		}
 	}
 	exit(0);
 }
