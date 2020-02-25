@@ -15,6 +15,7 @@
 void	fork_left(t_shell *shell, int *pdes)
 {
 	signal(SIGINT, NULL);
+	signal(SIGQUIT, NULL);
 	close(pdes[0]);
 	dup2(pdes[1], 1);
 	exit(execute_cmd(shell->args, shell));
@@ -24,12 +25,13 @@ void	fork_left(t_shell *shell, int *pdes)
 void	fork_right(t_shell *shell, int *pdes, int i)
 {
 	signal(SIGINT, NULL);
+	signal(SIGQUIT, NULL);
 	if (!(shell->args == NULL && shell->next_args != NULL))
 	{
 		close(pdes[1]);
 		dup2(pdes[0], 0);
 	}
-	if (reste_arg(shell->next_args, "|"))
+	if (reste_arg(shell->next_args, inv('|')))
 	{
 		h_split(shell, &shell->next_args);
 		exec_pipe(shell, i + 1);

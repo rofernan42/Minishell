@@ -29,7 +29,9 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	pid_t	child_right;
 	pid_t	child_left;
 	int		sl;
+	int		ret;
 
+	ret = 0;
 	status = -42;
 	child_left = 0;
 	sl = -42;
@@ -43,37 +45,42 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 		close(pdes[0]);
 		waitpid(child_left, &sl, WUNTRACED);
 		waitpid(child_right, &status, WUNTRACED);
-		printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
+		// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
 	}
-	printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
-	printf("SIG=%i\n",g_sig);
+	// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
 	if (g_sig != 0)
 	{
-		printf("SIG=%i\n",g_sig);
+		ret = 130;
 	}
 	else if (WTERMSIG(status) > 0 && WTERMSIG(status) <= 5 && WTERMSIG(sl) > 0 && WTERMSIG(sl) >= 5)
 	{
 		if (WTERMSIG(status))
-			printf("ret=%i\n", WTERMSIG(status));
+		{
+			ret = WTERMSIG(status) + 128;
+		}
 		else
 		{
-			printf("ret=%i\n",WTERMSIG(sl));
+			ret = WTERMSIG(sl);
 		}
 		
 	}
 	else if(status == 42)
 	{
-		printf("BUI=%i\n", 0);
+		ret = 0;
 	}
 	else if (WIFEXITED(sl) || WIFEXITED(status))
 	{
 		if (WEXITSTATUS(sl))
-			printf("reT =%i\n",WEXITSTATUS(sl));
+		{
+			ret = WEXITSTATUS(sl);
+		}
 		else
-			printf("RET = %i\n",WEXITSTATUS(status));
+		{
+			ret = WEXITSTATUS(status);
+		}
 	}
 	g_sig = 0;
-	status_res(shell, WEXITSTATUS(status));
+	status_res(shell, ret);
 	if (status == 3 || sl == 3)
 		ft_putstr_fd("Quit: 3\n", 1);
 	// if (WIFEXITED(status) == 1 && WEXITSTATUS(status) == 42)
@@ -101,6 +108,10 @@ void		ft_stdin(t_shell *shell, char **command)
 	if (ret == 258)
 	{
 		status_res(shell, 258);
+<<<<<<< HEAD
+=======
+		// printf("ret=258\n");
+>>>>>>> 713080153faceb6709041c5ebfbb99ab674cc0da
 		return ;
 	}
 	h_split(shell, &command);
