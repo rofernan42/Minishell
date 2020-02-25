@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 10:40:14 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 12:32:24 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	prep2path(char **s, t_shell *shell)
 	char		*tmp;
 
 	i = -1;
+	printf("PID=%i\n",getpid());
 	while (!(f = 0) && s[++i])
 	{
 		tmp = ft_strjoin_free(ft_strjoin(s[i], "/"), shell->args[0], 1);
@@ -43,6 +44,7 @@ static void	prep2path(char **s, t_shell *shell)
 	else if (wrap_cmp(shell->args[0], '>') && wrap_cmp_2(shell->args[0], ">>"))
 	{
 		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
+		
 		exit(127);
 	}
 }

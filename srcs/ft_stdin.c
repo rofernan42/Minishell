@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 11:10:40 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 12:45:51 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,33 @@ void		fork_args(t_shell *shell, int *pdes, int i)
 	status = -42;
 	child_left = 0;
 	sl = -42;
-	if (!(status = is_builtin(shell, i)))
+	if (i == 0 && !shell->args && shell->next_args)
+	{
+		if (!(status = is_builtin(shell, i)))
+		{
+			if (shell->args && !(child_left = fork()))
+				fork_left(shell, pdes, i);
+			if (!(child_right = fork()))
+				fork_right(shell, pdes, i);
+			close(pdes[1]);
+			close(pdes[0]);
+			waitpid(child_left, &sl, WUNTRACED);
+			waitpid(child_right, &status, WUNTRACED);
+		}
+	}
+	else
 	{
 		if (shell->args && !(child_left = fork()))
-			fork_left(shell, pdes);
+			fork_left(shell, pdes, i);
 		if (!(child_right = fork()))
 			fork_right(shell, pdes, i);
 		close(pdes[1]);
 		close(pdes[0]);
 		waitpid(child_left, &sl, WUNTRACED);
 		waitpid(child_right, &status, WUNTRACED);
-		// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
 	}
-	// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
+		// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
+		// printf("status=%i, stIFEX=%i, stEXS=%i, stSIGS=%i, stWSTOPSIG=%i, sl=%i, slIFEX=%i, slEXS=%i, slSIG=%i, slWSTOPSIG=%i\n", status, WIFEXITED(status), WEXITSTATUS(status), WTERMSIG(status), WSTOPSIG(status),sl, WIFEXITED(sl), WEXITSTATUS(sl), WTERMSIG(sl), WSTOPSIG(sl));
 	if (g_sig != 0)
 	{
 		ret = 130;
@@ -108,10 +122,6 @@ void		ft_stdin(t_shell *shell, char **command)
 	if (ret == 258)
 	{
 		status_res(shell, 258);
-<<<<<<< HEAD
-=======
-		// printf("ret=258\n");
->>>>>>> 713080153faceb6709041c5ebfbb99ab674cc0da
 		return ;
 	}
 	h_split(shell, &command);
