@@ -31,7 +31,7 @@ void	fork_right(t_shell *shell, int *pdes, int i)
 		close(pdes[1]);
 		dup2(pdes[0], 0);
 	}
-	if (reste_arg(shell->next_args, "|"))
+	if (reste_arg(shell->next_args, inv('|')))
 	{
 		h_split(shell, &shell->next_args);
 		exec_pipe(shell, i + 1);
