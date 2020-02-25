@@ -6,7 +6,7 @@
 #    By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/12 15:44:33 by rofernan          #+#    #+#              #
-#    Updated: 2020/02/24 18:06:20 by rofernan         ###   ########.fr        #
+#    Updated: 2020/02/25 10:43:47 by rofernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS_NAME			=	builtin.c \
 						translate.c \
 						utils_2.c \
 						utils.c \
+						wrap_cmp.c \
 						wrap_parsing.c \
 
 INC_NAME			=	mini_struct.h \

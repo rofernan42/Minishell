@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 17:45:54 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 11:10:40 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void		ft_stdin(t_shell *shell, char **command)
 	if (ret == 258)
 	{
 		status_res(shell, 258);
-		printf("ret=258\n");
 		return ;
 	}
 	h_split(shell, &command);

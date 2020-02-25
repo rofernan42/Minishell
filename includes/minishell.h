@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 10:27:36 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 11:27:37 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # include <stdio.h>
 # include <sys/errno.h>
 # include "mini_struct.h"
+
 # define BUF_SIZE 32
+# define ERR_CHEV "syntax error near unexpected token `"
 
 extern int g_sig;
 
@@ -103,11 +105,15 @@ void		ft_exit(t_shell *shell, char **args);
 /*
 **	REDIRECTION.C
 */
-int			wrap_cmp(char *s, char c);
-int			wrap_cmp_2(char *s, char *c);
 int			test_syntax(t_shell *shell, char **args);
 int			open_fd(t_shell *shell, char **args);
 int			open_file(t_shell *shell);
+
+/*
+**	WRAP_CMP.C
+*/
+int			wrap_cmp(char *s, char c);
+int			wrap_cmp_2(char *s, char *c);
 
 /*
 **	COPY_CLOSE_FD.C

@@ -6,36 +6,11 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 10:37:38 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 11:28:51 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int			wrap_cmp(char *s, char c)
-{
-	char	*s2;
-	int		i;
-
-	s2 = inv(c);
-	i = ft_strcmp(s, s2);
-	free(s2);
-	return (i);
-}
-
-int			wrap_cmp_2(char *s, char *c)
-{
-	char	*s2;
-	int		i;
-
-	s2 = malloc(sizeof(char) * 3);
-	s2[0] = -1 * c[0];
-	s2[1] = -1 * c[1];
-	s2[2] = '\0';
-	i = ft_strcmp(s, s2);
-	free(s2);
-	return (i);
-}
 
 int			test_syntax(t_shell *shell, char **args)
 {
@@ -43,26 +18,18 @@ int			test_syntax(t_shell *shell, char **args)
 
 	i = -1;
 	if (!wrap_cmp(args[0], '|'))
-	{
-		return (chevron_error(shell->name_prog,
-		"syntax error near unexpected token `", args[0], "'"));
-	}
+		return (chevron_error(shell->name_prog, ERR_CHEV, args[0], "'"));
 	while (args[++i])
 	{
-		if (i > 0 && is_chevron(args[i - 1]) && (is_chevron(args[i])
-		|| !wrap_cmp(args[i], '|')))
-		{
-			return (chevron_error(shell->name_prog,
-			"syntax error near unexpected token `", args[i], "'"));
-		}
-		if (i > 0 && !wrap_cmp(args[i - 1], '|') && (is_chevron(args[i])
-		|| !wrap_cmp(args[i], '|')))
-		{
-			chevron_error(shell->name_prog,
-			"syntax error near unexpected token ", 0, "`newline'");
-			return (258);
-		}
+		if (i > 0 && is_chevron(args[i - 1]) \
+		&& (is_chevron(args[i]) || !wrap_cmp(args[i], '|')))
+			return (chevron_error(shell->name_prog, ERR_CHEV, args[i], "'"));
+		if (i > 0 && !wrap_cmp(args[i - 1], '|') \
+		&& (is_chevron(args[i]) || !wrap_cmp(args[i], '|')))
+			return (chevron_error(shell->name_prog, ERR_CHEV, 0, "newline'"));
 	}
+	if (!args[i] && is_chevron(args[i - 1]))
+		return (chevron_error(shell->name_prog, ERR_CHEV, 0, "newline'"));
 	return (1);
 }
 
