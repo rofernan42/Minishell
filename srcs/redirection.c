@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 10:30:20 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 10:37:38 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ int			test_syntax(t_shell *shell, char **args)
 		if (i > 0 && is_chevron(args[i - 1]) && (is_chevron(args[i])
 		|| !wrap_cmp(args[i], '|')))
 		{
-			chevron_error(shell->name_prog,
-			"syntax error near unexpected token `", args[i], "'");
-			return (258);
+			return (chevron_error(shell->name_prog,
+			"syntax error near unexpected token `", args[i], "'"));
 		}
-		if (i > 0 && !ft_strcmp(args[i - 1], "|") && (is_chevron(args[i])
+		if (i > 0 && !wrap_cmp(args[i - 1], '|') && (is_chevron(args[i])
 		|| !wrap_cmp(args[i], '|')))
 		{
 			chevron_error(shell->name_prog,

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 17:22:34 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 10:40:14 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	prep2path(char **s, t_shell *shell)
 	else if (contain_c(shell->args[0], '/'))
 		disp_err(shell->name_prog, 0, shell->args[0],
 		"No such file or directory");
-	else if (ft_strcmp(shell->args[0], ">") && ft_strcmp(shell->args[0], ">>"))
+	else if (wrap_cmp(shell->args[0], '>') && wrap_cmp_2(shell->args[0], ">>"))
 		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
 }
 

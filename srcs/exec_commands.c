@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 11:15:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 16:56:13 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 10:39:14 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char		**extract(char **args)
 	i = -1;
 	j = 0;
 	while (args[++i])
-		if (!ft_strcmp(args[i], "|"))
+		if (!wrap_cmp(args[i], '|'))
 			break ;
 		else if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))
@@ -31,7 +31,7 @@ char		**extract(char **args)
 	i = -1;
 	j = 0;
 	while (args[++i])
-		if (!ft_strcmp(args[i], "|"))
+		if (!wrap_cmp(args[i], '|'))
 			break ;
 		else if (i == 0 || (i > 0 && !is_chevron(args[i]) \
 		&& !is_chevron(args[i - 1])))

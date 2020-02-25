@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 16:05:59 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/24 13:03:48 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/25 10:40:39 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		h_split(t_shell *shell, char ***cmd)
 	tmp = ft_tabcopy(cmd[0], ft_tablength(cmd[0]) + 1);
 	fin = init_split(&p, &part, &last_part, &tmp);
 	while (++part <= fin && p < 1)
-		if (part == fin || !ft_strcmp(tmp[part], "|"))
+		if (part == fin || !wrap_cmp(tmp[part], '|'))
 		{
 			ft_free(&shell->args);
 			shell->args = (ft_tabcopy(tmp + last_part, part - last_part));
