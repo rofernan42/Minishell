@@ -104,12 +104,15 @@ int    exec_pipe2(t_shell *shell, int i)
             exec_pipe2(shell, i+1);
 		}
 		else if (shell->next_args != NULL)
+		{
             exit(execute_cmd2(shell->next_args, shell));
-    }
+		}
+	}
     close(pdes[1]);
     close(pdes[0]);
     waitpid(child_left, 0, 0);
     waitpid(child_right, &status, WUNTRACED);
+
 	if (i != 0)
     	exit(WEXITSTATUS(status));
 	else
@@ -132,16 +135,19 @@ void		ft_stdin(t_shell *shell, char **command)
 	}
 	h_split(shell, &command);
 	ft_free(&command);
-	g_sig = exec_pipe2(shell, 0);
-	if (WTERMSIG(g_sig) == 112)
-		g_sig = 130;
-	else if (WTERMSIG(g_sig) == 3)
-	{
-		g_sig = 131;
-	}
+	ret = exec_pipe2(shell, 0);
+	if (g_sig == 11)
+		ret = 130;
+	else if (g_sig == 8)
+		ret = 131;
+	else if (WEXITSTATUS(ret) == 54)
+		ret = 127;
+	else if (WTERMSIG(ret) == 112)
+		ret = 130;
+	else if (WTERMSIG(ret) == 3)
+		ret = 131;
 	else
-	{
-		g_sig = WEXITSTATUS(g_sig);
-	}
-	status_res(shell, g_sig);
+		ret = WEXITSTATUS(ret);
+	status_res(shell, ret);
+	g_sig = 0;
 }
