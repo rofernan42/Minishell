@@ -106,11 +106,10 @@ int    exec_pipe2(t_shell *shell, int i)
     }
     close(pdes[1]);
     close(pdes[0]);
-    wait(NULL);
-    waitpid(child_right, &status, 0);
-	// dprintf(2, "RET VAL=%i, pid=%i\n",status, getpid());
+    waitpid(child_left, 0, 0);
+    waitpid(child_right, &status, WUNTRACED);
 	if (i != 0)
-    	exit(status);
+    	exit(WEXITSTATUS(status));
 	else
 	{
 		// close_stdinout(shell);
@@ -132,4 +131,15 @@ void		ft_stdin(t_shell *shell, char **command)
 	h_split(shell, &command);
 	ft_free(&command);
 	g_sig = exec_pipe2(shell, 0);
+	if (WTERMSIG(g_sig) == 112)
+		g_sig = 130;
+	else if (WTERMSIG(g_sig) == 3)
+	{
+		g_sig = 131;
+	}
+	else
+	{
+		g_sig = WEXITSTATUS(g_sig);
+	}
+	status_res(shell, g_sig);
 }
