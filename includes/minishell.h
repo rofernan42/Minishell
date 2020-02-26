@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 13:01:45 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 15:26:59 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		command_error(char *command, char *err);
 /*
 **	PATH.C
 */
-void		prep_path(t_shell *shell, char **args);
+int 		prep_path(t_shell *shell, char **args);
 
 /*
 **	FT_*.C

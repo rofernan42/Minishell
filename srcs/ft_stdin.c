@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 14:45:10 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 15:27:56 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int still(t_shell *shell)
 
 int execute_cmd2(char **s, t_shell *shell)
 {
+	int ret;
+
 	if (!open_fd(shell, s))
 		return (1);
 	// dprintf(2, "RET OPENFD= %i\n",ret);
@@ -51,11 +53,11 @@ int execute_cmd2(char **s, t_shell *shell)
 	s = extract(s);
 	// dprintf(2, "RES EXTRACT\n");
 	// ft_p(s);
-	prep_path(shell, s);
+	ret = prep_path(shell, s);
 	// ft_p(s);
 	execve(s[0], s, NULL);
 	close_stdinout(shell);
-	return (127);
+	return (ret);
 }
 
 int    exec_pipe2(t_shell *shell, int i)
