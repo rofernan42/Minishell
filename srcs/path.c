@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 13:36:37 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:20:26 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ static void	prep2path(char **s, t_shell *shell, char **args)
 	}
 	if (f == 1)
 	{
-		if (contain_c(args[0], '/'))
-			disp_err(shell->name_prog, 0, args[0], \
-			"is a directory");
 		free(args[0]);
 		args[0] = ft_strdup(tmp);
 		free(tmp);
@@ -61,8 +58,12 @@ void		prep_path(t_shell *shell, char **args)
 		ft_putendl_fd("PATH not found", 2);
 		return ;
 	}
-	// if (stat(args[0], &a) == 0)
-	// 	return ;
+	if (stat(args[0], &a) == 0)
+	{
+		if (contain_c(args[0], '/'))
+			disp_err(shell->name_prog, 0, args[0], "is a directory");
+		return ;
+	}
 	s = ft_split(e1->data, ':');
 	prep2path(s, shell, args);
 	ft_free(&s);
