@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augay <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:44:25 by augay             #+#    #+#             */
-/*   Updated: 2020/02/24 10:44:26 by augay            ###   ########.fr       */
+/*   Updated: 2020/02/26 13:00:46 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@ int		p(char **cmd, int *i)
 void	sig_handle_b(int s)
 {
 	(void)s;
+}
+
+int		nb_bs(const char *s, int f)
+{
+	int i;
+
+	i = f;
+	while (f >= 0 && s[f] && s[f] == '\\')
+		f--;
+	return (i - f);
 }

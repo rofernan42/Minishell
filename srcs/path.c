@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 13:58:44 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 13:36:37 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,20 @@ static void	prep2path(char **s, t_shell *shell, char **args)
 	}
 	if (f == 1)
 	{
+		if (contain_c(args[0], '/'))
+			disp_err(shell->name_prog, 0, args[0], \
+			"is a directory");
 		free(args[0]);
 		args[0] = ft_strdup(tmp);
 		free(tmp);
 	}
 	else if (contain_c(args[0], '/'))
 	{
-		disp_err(shell->name_prog, 0, args[0],
+		disp_err(shell->name_prog, 0, args[0], \
 		"No such file or directory");
 		// exit(127);
 	}
-	else if (wrap_cmp(args[0], '>') && wrap_cmp_2(args[0], ">>"))
+	else if (wrap_cmp(args[0], '>') && wrap_cmp(args[0], '<') && wrap_cmp_2(args[0], ">>"))
 	{
 		disp_err(shell->name_prog, 0, args[0], "command not found");
 		// exit(127);
@@ -58,8 +61,8 @@ void		prep_path(t_shell *shell, char **args)
 		ft_putendl_fd("PATH not found", 2);
 		return ;
 	}
-	if (stat(args[0], &a) == 0)
-		return ;
+	// if (stat(args[0], &a) == 0)
+	// 	return ;
 	s = ft_split(e1->data, ':');
 	prep2path(s, shell, args);
 	ft_free(&s);

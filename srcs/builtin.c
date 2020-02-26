@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:39:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/26 12:11:00 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 12:24:13 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int			is_builtin(t_shell *shell, char **s)
 	// dprintf(2, "test8\n");
 	//open_file(shell);
 	args = extract(s);
-	dprintf(2, "SEND BUILTIN \n");
-	ft_p(args);
+	// dprintf(2, "SEND BUILTIN \n");
+	// ft_p(args);
 	builtin_exec(shell, args);
 	ft_free(&args);
 	return (42);

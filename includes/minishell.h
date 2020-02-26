@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 14:45:27 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 13:01:45 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int			nb_arg(char **args, char *to_count);
 */
 void		sig_handle_b(int s);
 int			p(char **cmd, int *i);
+int			nb_bs(const char *s, int f);
 
 /*
 **	SHELL_BODY.C
@@ -130,7 +131,7 @@ int			is_builtin(t_shell *shell, char **s);
 **	EXEC_COMMANDS.C
 */
 char		**extract(char **args);
-void			execute_cmd(char **cmd, t_shell *shell);
+void		execute_cmd(char **cmd, t_shell *shell);
 
 /*
 **	FORKS.C
@@ -141,7 +142,7 @@ void		fork_right(t_shell *shell, int *pdes, int i);
 /*
 **	FT_STDIN.C
 */
-int		exec_pipe(t_shell *shell, int i);
+int		    exec_pipe(t_shell *shell, int i);
 void		ft_stdin(t_shell *shell, char **command);
 
 /*
@@ -174,11 +175,6 @@ void		init_pop_word(int *i, char *c, int *c1, int *c2);
 int			replace(char **s, int d, t_env *env);
 int			*finish_p_i(void);
 void		finish_p_1(char **oo, int **tt, int *i, char **cmd);
-
-/*
-**	NB_BS.C
-*/
-int			nb_bs(const char *s, int f);
 
 /*
 **	CHECK_QUOTES.C

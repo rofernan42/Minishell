@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 12:14:59 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 13:36:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	fd_in_out(t_shell *shell, char **args, int i)
 {
 	if (!is_chevron(args[i]))
 	{
-		dprintf(2, "%s\n", args[i]);
 		if (!wrap_cmp(args[i - 1], '>'))
 			shell->fd_in = open(args[i], O_WRONLY | O_TRUNC | O_CREAT, \
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -63,7 +62,6 @@ int			open_fd(t_shell *shell, char **args)
 	i = 0;
 	shell->fd_in = -5;
 	shell->fd_out = -5;
-	ft_p(args);
 	while (args[i])
 	{
 		if (is_chevron(args[i]))
@@ -75,21 +73,6 @@ int			open_fd(t_shell *shell, char **args)
 			}
 		}
 		i++;
-	}
-	return (1);
-}
-
-int			open_file(t_shell *shell)
-{
-	if (shell->args)
-	{
-		if (!open_fd(shell, shell->args))
-			return (0);
-	}
-	else if (!shell->args && shell->next_args)
-	{
-		if (!open_fd(shell, shell->next_args))
-			return (0);
 	}
 	return (1);
 }
