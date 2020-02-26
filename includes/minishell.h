@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 15:26:59 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 16:09:44 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int			wrap_cmp_2(char *s, char *c);
 /*
 **	COPY_CLOSE_FD.C
 */
-int			copy_stdinout(t_shell *shell);
+void		copy_stdinout(t_shell *shell);
 void		close_stdinout(t_shell *shell);
 
 /*
