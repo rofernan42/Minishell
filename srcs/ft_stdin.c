@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 15:27:56 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 16:07:36 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int    exec_pipe2(t_shell *shell, int i)
     int     status;
     pid_t   child_right;
     pid_t   child_left;
-	int f;
 
     pipe(pdes);
 	if (i == 0 && shell->next_args == NULL && shell->args != NULL)
@@ -75,7 +74,7 @@ int    exec_pipe2(t_shell *shell, int i)
 		shell->args = NULL;
 		if (!open_fd(shell, shell->next_args))
 			return (1);
-		f = copy_stdinout(shell);
+		copy_stdinout(shell);
 		if (is_builtin(shell, shell->next_args))
 		{
 			close_stdinout(shell);
@@ -140,6 +139,8 @@ void		ft_stdin(t_shell *shell, char **command)
 		ret = 130;
 	else if (g_sig == 8)
 		ret = 131;
+	else if (ret == 1)
+		ret = 1;
 	else if (WEXITSTATUS(ret) == 54)
 		ret = 127;
 	else if (WTERMSIG(ret) == 112)
