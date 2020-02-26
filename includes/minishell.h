@@ -89,7 +89,7 @@ void		command_error(char *command, char *err);
 /*
 **	PATH.C
 */
-void		prep_path(t_shell *shell);
+void		prep_path(t_shell *shell, char **args);
 
 /*
 **	FT_*.C
@@ -124,13 +124,13 @@ void		close_stdinout(t_shell *shell);
 /*
 **	BUILTIN.C
 */
-int			is_builtin(t_shell *shell);
+int			is_builtin(t_shell *shell, char **s);
 
 /*
 **	EXEC_COMMANDS.C
 */
 char		**extract(char **args);
-int			execute_cmd(char **cmd, t_shell *shell);
+void			execute_cmd(char **cmd, t_shell *shell);
 
 /*
 **	FORKS.C
@@ -141,7 +141,7 @@ void		fork_right(t_shell *shell, int *pdes, int i);
 /*
 **	FT_STDIN.C
 */
-void		exec_pipe(t_shell *shell, int i);
+int		exec_pipe(t_shell *shell, int i);
 void		ft_stdin(t_shell *shell, char **command);
 
 /*

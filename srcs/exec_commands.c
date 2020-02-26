@@ -45,20 +45,51 @@ static void	process_exec(t_shell *shell)
 	char **tmp;
 
 	tmp = extract(shell->args);
+	// if (shell->next_args != NULL)
+	// {
+	// 	h_split(shell, &shell->next_args);
+	// 	exec_pipe(shell, 8);
+	// }
+	dprintf(2,"EXECV de \n");
+	ft_p(shell->args);
 	execve(shell->args[0], tmp, 0);
 }
 
-int			execute_cmd(char **cmd, t_shell *shell)
+void			execute_cmd(char **cmd, t_shell *shell)
 {
-	if (cmd == NULL)
-		exit(0);
+	// if (cmd == NULL)
+	// 	exit(0);
+	dprintf(2, "EXEC CMD DATA in PID=%i et\n", getpid());
+	if (shell->args != NULL)
+	{
+		ft_p(shell->args);
+	}
+	else
+	{
+		dprintf(2, "SHELL->ARGS=NULL\n");
+	}
+	if (shell->next_args != NULL)
+	{
+		ft_p(shell->next_args);
+	}
+	else
+	{
+		dprintf(2, "SHELL->NEXT_ARGS=NULL\n");
+	}
+if (cmd != NULL)
+	{
+		ft_p(cmd);
+	}
+	else
+	{
+		dprintf(2, "CMD=NULL\n");
+	}
 	shell->args = cmd;
-	if (!open_fd(shell, shell->args))
-		exit(1);
-	copy_stdinout(shell);
-	prep_path(shell);
+	// if (!open_fd(shell, shell->args))
+	// 	exit(1);
+	// copy_stdinout(shell);
+	// prep_path(shell);
+	// dup2(2, 1);
 	process_exec(shell);
-	close_stdinout(shell);
-	exit(0);
-	return (1);
+	// close_stdinout(shell);
 }

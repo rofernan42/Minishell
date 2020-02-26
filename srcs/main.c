@@ -67,6 +67,7 @@ int			main(int ac, char **av)
 	char	*full;
 	int		state;
 
+	printf("PPPIIIDDDD=%i\n", getpid());
 	g_sig = 0;
 	init_name_prog(&shell, av[0]);
 	if (ac == 1)

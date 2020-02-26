@@ -217,15 +217,25 @@ int still(t_shell *shell)
 	return (0);
 }
 
-int execute_cmd2(char **shell)
+int execute_cmd2(char **s, t_shell *shell)
 {
-	if (shell == NULL)
+	if (s == NULL)
 		exit(0);
-	execve(shell[0], shell, NULL);
+	int ret =	open_fd(shell, s);
+	// dprintf(2, "RET OPENFD= %i\n",ret);
+	copy_stdinout(shell);
+	if (is_builtin(shell, s))
+		exit(0);
+	s = extract(s);
+	// dprintf(2, "RES EXTRACT\n");
+	// ft_p(s);
+	prep_path(shell, s);
+	// ft_p(s);
+	execve(s[0], s, NULL);
 	exit(0);
 }
 
-void    exec_pipe2(t_shell *shell, int i)
+int    exec_pipe2(t_shell *shell, int i)
 {
     int     pdes[2];
     int     status;
@@ -237,37 +247,43 @@ void    exec_pipe2(t_shell *shell, int i)
 	{
 		shell->next_args = shell->args;
 		shell->args = NULL;
+		if (is_builtin(shell, shell->next_args))
+			return (0);
 	}
 	if (!(child_left = fork()))
     {
         close(pdes[0]);
         dup2(pdes[1], STDOUT_FILENO);
-        /* Execute command to the left of the tree */
-        exit(execute_cmd2(shell->args));
+        exit(execute_cmd2(shell->args, shell));
     }
     if (!(child_right = fork()))
     {
-        close(pdes[1]);
-        dup2(pdes[0], STDIN_FILENO);
-        /* Recursive call or execution of last command */
-		//ft_p(shell->args);
-		//ft_p(shell->next_args);
-        if (still(shell) == 1) // if contain -|
+		if (!(shell->next_args == NULL && shell->args != NULL))
 		{
-			printf("RESTE PIPE\n");
+      		close(pdes[1]);
+     	    dup2(pdes[0], STDIN_FILENO);
+		}
+        if (still(shell) == 1)
+		{
+			// printf("RESTE PIPE\n");
 			h_split(shell, &shell->next_args);
-            exec_pipe2(shell, i+1); //hspli
+            exec_pipe2(shell, i+1);
 		}
 		else if (shell->next_args != NULL)
-            exit(execute_cmd2(shell->next_args));
+            exit(execute_cmd2(shell->next_args, shell));
     }
-    /* Should not forget to close both ends of the pipe */
     close(pdes[1]);
     close(pdes[0]);
     wait(NULL);
     waitpid(child_right, &status, 0);
+	// dprintf(2, "RET VAL=%i, pid=%i\n",status, getpid());
 	if (i != 0)
     	exit(status);
+	else
+	{
+		return (status);
+	}
+	
 }
 
 void		ft_stdin(t_shell *shell, char **command)
@@ -282,6 +298,6 @@ void		ft_stdin(t_shell *shell, char **command)
 	h_split(shell, &command);
 	ft_free(&command);
 	ft_p(shell->args);
-	exec_pipe2(shell, 0);
+	g_sig = exec_pipe2(shell, 0);
 	printf("\nGSI FINAL=%i et WEX=%i et pid = %i\n",g_sig, WEXITSTATUS(g_sig),getpid());
 }

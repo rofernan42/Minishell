@@ -14,21 +14,21 @@
 
 void	ft_free(char ***s)
 {
-	int i;
+	// int i;
 
-	i = 0;
-	if (s[0] == NULL)
-		return ;
-	while (s[0][i])
-	{
-		free(s[0][i]);
-		s[0][i] = NULL;
-		i++;
-	}
-	free(s[0][i]);
-	s[0][i] = NULL;
-	free(s[0]);
-	s[0] = NULL;
+	// i = 0;
+	// if (s[0] == NULL)
+	// 	return ;
+	// while (s[0][i])
+	// {
+	// 	free(s[0][i]);
+	// 	s[0][i] = NULL;
+	// 	i++;
+	// }
+	// free(s[0][i]);
+	// s[0][i] = NULL;
+	// free(s[0]);
+	// s[0] = NULL;
 }
 
 int		del_war(char ***s, int i)

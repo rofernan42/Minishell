@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static void	prep2path(char **s, t_shell *shell)
+static void	prep2path(char **s, t_shell *shell, char **args)
 {
 	struct stat	a;
 	int			i;
@@ -22,7 +22,7 @@ static void	prep2path(char **s, t_shell *shell)
 	i = -1;
 	while (!(f = 0) && s[++i])
 	{
-		tmp = ft_strjoin_free(ft_strjoin(s[i], "/"), shell->args[0], 1);
+		tmp = ft_strjoin_free(ft_strjoin(s[i], "/"), args[0], 1);
 		if (!(stat(tmp, &a)) && (f = 1))
 			break ;
 		free(tmp);
@@ -30,24 +30,24 @@ static void	prep2path(char **s, t_shell *shell)
 	}
 	if (f == 1)
 	{
-		free(shell->args[0]);
-		shell->args[0] = ft_strdup(tmp);
+		free(args[0]);
+		args[0] = ft_strdup(tmp);
 		free(tmp);
 	}
-	else if (contain_c(shell->args[0], '/'))
+	else if (contain_c(args[0], '/'))
 	{
-		disp_err(shell->name_prog, 0, shell->args[0],
+		disp_err(shell->name_prog, 0, args[0],
 		"No such file or directory");
-		exit(127);
+		// exit(127);
 	}
-	else if (wrap_cmp(shell->args[0], '>') && wrap_cmp_2(shell->args[0], ">>"))
+	else if (wrap_cmp(args[0], '>') && wrap_cmp_2(args[0], ">>"))
 	{
-		disp_err(shell->name_prog, 0, shell->args[0], "command not found");
-		exit(127);
+		disp_err(shell->name_prog, 0, args[0], "command not found");
+		// exit(127);
 	}
 }
 
-void		prep_path(t_shell *shell)
+void		prep_path(t_shell *shell, char **args)
 {
 	char		**s;
 	t_env		*e1;
@@ -58,9 +58,9 @@ void		prep_path(t_shell *shell)
 		ft_putendl_fd("PATH not found", 2);
 		return ;
 	}
-	if (stat(shell->args[0], &a) == 0)
+	if (stat(args[0], &a) == 0)
 		return ;
 	s = ft_split(e1->data, ':');
-	prep2path(s, shell);
+	prep2path(s, shell, args);
 	ft_free(&s);
 }
