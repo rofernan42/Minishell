@@ -219,7 +219,8 @@ int still(t_shell *shell)
 
 int execute_cmd2(char **shell)
 {
-
+	if (shell == NULL)
+		exit(0);
 	execve(shell[0], shell, NULL);
 	exit(0);
 }
@@ -232,7 +233,12 @@ void    exec_pipe2(t_shell *shell, int i)
     pid_t   child_left;
 
     pipe(pdes);
-    if (!(child_left = fork()))
+	if (i == 0 && shell->next_args == NULL && shell->args != NULL)
+	{
+		shell->next_args = shell->args;
+		shell->args = NULL;
+	}
+	if (!(child_left = fork()))
     {
         close(pdes[0]);
         dup2(pdes[1], STDOUT_FILENO);
@@ -244,15 +250,15 @@ void    exec_pipe2(t_shell *shell, int i)
         close(pdes[1]);
         dup2(pdes[0], STDIN_FILENO);
         /* Recursive call or execution of last command */
-		ft_p(shell->args);
-		ft_p(shell->next_args);
+		//ft_p(shell->args);
+		//ft_p(shell->next_args);
         if (still(shell) == 1) // if contain -|
 		{
 			printf("RESTE PIPE\n");
 			h_split(shell, &shell->next_args);
             exec_pipe2(shell, i+1); //hspli
 		}
-		else
+		else if (shell->next_args != NULL)
             exit(execute_cmd2(shell->next_args));
     }
     /* Should not forget to close both ends of the pipe */
@@ -275,6 +281,7 @@ void		ft_stdin(t_shell *shell, char **command)
 	}
 	h_split(shell, &command);
 	ft_free(&command);
+	ft_p(shell->args);
 	exec_pipe2(shell, 0);
 	printf("\nGSI FINAL=%i et WEX=%i et pid = %i\n",g_sig, WEXITSTATUS(g_sig),getpid());
 }
