@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 18:49:19 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 18:49:49 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 16:09:33 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		copy_stdinout(t_shell *shell)
+void	copy_stdinout(t_shell *shell)
 {
 	if (shell->fd_in >= 0 || shell->fd_out >= 0)
 	{
@@ -28,9 +28,7 @@ int		copy_stdinout(t_shell *shell)
 			close(0);
 			dup2(shell->fd_out, 0);
 		}
-		return (1);
 	}
-	return (0);
 }
 
 void	close_stdinout(t_shell *shell)
