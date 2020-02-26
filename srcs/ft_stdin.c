@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 13:37:34 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:45:10 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,22 @@ int still(t_shell *shell)
 
 int execute_cmd2(char **s, t_shell *shell)
 {
-	int ret;
-
-	ret = open_fd(shell, s);
-	if (!ret)
+	if (!open_fd(shell, s))
 		return (1);
 	// dprintf(2, "RET OPENFD= %i\n",ret);
 	copy_stdinout(shell);
 	if (is_builtin(shell, s))
+	{
+		close_stdinout(shell);
 		exit(0);
+	}
 	s = extract(s);
 	// dprintf(2, "RES EXTRACT\n");
 	// ft_p(s);
 	prep_path(shell, s);
 	// ft_p(s);
 	execve(s[0], s, NULL);
-	// close_stdinout(shell);
+	close_stdinout(shell);
 	return (127);
 }
 
@@ -76,10 +76,11 @@ int    exec_pipe2(t_shell *shell, int i)
 		f = copy_stdinout(shell);
 		if (is_builtin(shell, shell->next_args))
 		{
-			if (f)
-				close_stdinout(shell);
+			close_stdinout(shell);
 			return (0);
 		}
+		else
+			close_stdinout(shell);
 	}
 	if (shell->args && !(child_left = fork()))
     {
@@ -112,7 +113,7 @@ int    exec_pipe2(t_shell *shell, int i)
     	exit(status);
 	else
 	{
-		close_stdinout(shell);
+		// close_stdinout(shell);
 		return (status);
 	}
 	
