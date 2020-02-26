@@ -31,10 +31,13 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 	int part;
 	int last_part;
 
-	fin = 0;
 	part = 0;
 	last_part = 0;
 	fin = ft_tablength(cmd[0]);
+	if (cmd[0][0] == NULL)
+		return ;
+	while(cmd[0][part] && !ft_strcmp(cmd[0][part], ";"))
+		part++;
 	while (part <= fin)
 	{
 		if (part == fin || !ft_strcmp(cmd[0][part], ";"))

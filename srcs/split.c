@@ -83,9 +83,10 @@ char		**split_cmd(char *s, int *tab)
 		i++;
 	}
 	out = malloc(sizeof(char *) * (nbc + 1));
-	out[nbc] = 0;
+	out[nbc] = NULL;
 	i = 0;
-	out = splitbody(nbc, s, out, tab);
+	if (nbc != 0)
+		out = splitbody(nbc, s, out, tab);
 	return (out);
 }
 
