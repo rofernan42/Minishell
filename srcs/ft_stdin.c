@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 15:41:59 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/26 12:18:24 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,8 +247,14 @@ int    exec_pipe2(t_shell *shell, int i)
 	{
 		shell->next_args = shell->args;
 		shell->args = NULL;
+		open_fd(shell, shell->next_args);
+		int f = copy_stdinout(shell);
 		if (is_builtin(shell, shell->next_args))
+		{
+			if (f)
+				close_stdinout(shell);
 			return (0);
+		}
 	}
 	if (!(child_left = fork()))
     {
@@ -297,7 +303,7 @@ void		ft_stdin(t_shell *shell, char **command)
 	}
 	h_split(shell, &command);
 	ft_free(&command);
-	ft_p(shell->args);
+	// ft_p(shell->args);
 	g_sig = exec_pipe2(shell, 0);
-	printf("\nGSI FINAL=%i et WEX=%i et pid = %i\n",g_sig, WEXITSTATUS(g_sig),getpid());
+	// printf("\nGSI FINAL=%i et WEX=%i et pid = %i\n",g_sig, WEXITSTATUS(g_sig),getpid());
 }
