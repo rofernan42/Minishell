@@ -142,8 +142,6 @@ void		execute_cmd(char **cmd, t_shell *shell);
 /*
 **	FORKS.C
 */
-void		fork_left(t_shell *shell, int *pdes);
-void		fork_right(t_shell *shell, int *pdes, int i);
 
 /*
 **	FT_STDIN.C

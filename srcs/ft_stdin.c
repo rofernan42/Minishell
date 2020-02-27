@@ -12,13 +12,16 @@
 
 #include "../includes/minishell.h"
 
-int still(t_shell *shell)
+int		exec_pipe2(t_shell *shell, int i);
+
+int		still(t_shell *shell)
 {
+	int i;
+
+	i = 0;
 	if (shell->next_args == NULL)
 		return (0);
-	int i = 0;
 	while (shell->next_args[i])
-
 	{
 		if (shell->next_args[i][0] == -1 * '|')
 			return (1);
@@ -27,116 +30,101 @@ int still(t_shell *shell)
 	return (0);
 }
 
-int execute_cmd2(char **s, t_shell *shell)
+int		execute_cmd2(char **s, t_shell *shell)
 {
 	int ret;
 
 	if (!open_fd(shell, s))
 		return (1);
-	// dprintf(2, "RET OPENFD= %i\n",ret);
 	copy_stdinout(shell);
 	if (is_builtin(shell, s))
-
 	{
 		close_stdinout(shell);
 		exit(0);
 	}
 	s = extract(s);
-	// dprintf(2, "RES EXTRACT\n");
-	// ft_p(s);
 	ret = prep_path(shell, s);
-	// ft_p(s);
 	execve(s[0], s, NULL);
 	close_stdinout(shell);
-	// dprintf(2,"RET = %i\n", ret);
 	return (ret);
 }
 
-int exec_pipe2(t_shell *shell, int i)
+void	fork_right(t_shell *shell, int i, int *pdes)
 {
-	int pdes[2];
-	int status;
-	pid_t child_right = 25;
-	pid_t child_left = 25;
-	int f;
+	if (shell->args)
+	{
+		close(pdes[1]);
+		dup2(pdes[0], STDIN_FILENO);
+	}
+	if (still(shell) == 1)
+	{
+		h_split(shell, &shell->next_args);
+		exec_pipe2(shell, i + 1);
+	}
+	else if (shell->next_args != NULL)
+	{
+		exit(execute_cmd2(shell->next_args, shell));
+	}
+}
 
+int		first(t_shell *shell)
+{
+	shell->next_args = shell->args;
+	shell->args = NULL;
+	if (!open_fd(shell, shell->next_args))
+		return (1);
+	copy_stdinout(shell);
+	if (is_builtin(shell, shell->next_args))
+	{
+		close_stdinout(shell);
+		return (0);
+	}
+	else
+	{
+		close_stdinout(shell);
+		return (-1);
+	}
+}
+
+int		exec_pipe2(t_shell *shell, int i)
+{
+	int		pdes[2];
+	int		status;
+	pid_t	child_right;
+	pid_t	child_left;
+
+	child_right = 25;
+	child_left = 25;
 	pipe(pdes);
 	if (i == 0 && shell->next_args == NULL && shell->args != NULL)
-
-	{
-		shell->next_args = shell->args;
-		shell->args = NULL;
-		if (!open_fd(shell, shell->next_args))
-			return (1);
-		copy_stdinout(shell);
-		if (is_builtin(shell, shell->next_args))
-
-		{
-			close_stdinout(shell);
-			return (0);
-		}
-		else
-			close_stdinout(shell);
-	}
+		if ((status = first(shell) >= 0))
+			return (status);
 	if (shell->args && !(child_left = fork()))
-
 	{
 		close(pdes[0]);
 		dup2(pdes[1], STDOUT_FILENO);
 		exit(execute_cmd2(shell->args, shell));
 	}
 	if (!(child_right = fork()))
-
-	{
-
-		if (shell->args)
-
-		{
-			close(pdes[1]);
-			dup2(pdes[0], STDIN_FILENO);
-		}
-		if (still(shell) == 1)
-
-		{
-			h_split(shell, &shell->next_args);
-			exec_pipe2(shell, i + 1);
-		}
-		else if (shell->next_args != NULL)
-
-		{
-			exit(execute_cmd2(shell->next_args, shell));
-		}
-	}
+		fork_right(shell, i, pdes);
 	close(pdes[1]);
 	close(pdes[0]);
-
-	status = 0;
 	waitpid(child_left, &status, 0);
 	status = 0;
 	waitpid(child_right, &status, 0);
 	if (i != 0)
 		exit(WEXITSTATUS(status));
 	else
-	{
 		return (status);
-	}
 }
 
-void ft_stdin(t_shell *shell, char **command)
+void	ft_stdin(t_shell *shell, char **command)
 {
 	int ret;
 
-	// ret = ;
-	// if (ret == 258)
-
-	// {
-	// 	status_res(shell, 258);
-	// 	return;
-	// }
 	h_split(shell, &command);
 	ft_free(&command);
 	ret = exec_pipe2(shell, 0);
-	// printf("g_sig=%i, ret=%i BLOBLB\n",g_sig, ret);
 	if (g_sig == 11)
 		ret = 130;
 	else if (g_sig == 8)
@@ -146,6 +134,5 @@ void ft_stdin(t_shell *shell, char **command)
 	else
 		ret = WEXITSTATUS(ret);
 	status_res(shell, ret);
-	// printf("g_sig=%i, ret=%i BLOBLB\n",g_sig, ret);
 	g_sig = 0;
 }

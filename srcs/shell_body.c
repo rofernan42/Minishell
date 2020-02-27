@@ -50,12 +50,11 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 	int fin;
 	int part;
 	int last_part;
-	int ret;
 
 	part = -1;
 	if (!(last_part = 0) && test_syntax(shell, cmd[0]) == 258)
 	{
-		status_res(shell, ret);
+		status_res(shell, 258);
 		return ;
 	}
 	fin = ft_tablength(cmd[0]);
