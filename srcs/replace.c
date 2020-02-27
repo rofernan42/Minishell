@@ -19,7 +19,7 @@ static void	replace_1(int *k, int *j, t_env *e1, char *out)
 	{
 		out[*j] = e1->data[*k];
 		if (out[*j] == '"' || out[*j] == '\'' ||
-		out[*j] == '>' || out[*j] == '<' || out[*j] == '|')
+		out[*j] == '>' || out[*j] == '<' || out[*j] == '|' || out[*j] == ';')
 			out[*j] = -e1->data[*k];
 		(*j)++;
 	}

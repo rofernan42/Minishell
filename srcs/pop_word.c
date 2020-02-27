@@ -40,6 +40,8 @@ char		**finish_p(char **cmd, int **tab)
 	if (cmd == NULL)
 		return (NULL);
 	i = finish_p_i();
+	// printf("FIMISH P\n");
+	// ft_p(cmd);
 	wrap_finish(&oo, &out, &tt);
 	while (cmd[++i[0]] && (i[1] = -1))
 	{
@@ -47,9 +49,18 @@ char		**finish_p(char **cmd, int **tab)
 			if ((tab[i[0]][i[1]] == 1 || (p(cmd, i) && cd(cmd, i) && cg(cmd, i)
 			&& v(cmd, i)) || is_in_sd(cmd[i[0]], i[1], tab[i[0]]) == 1)
 			&& (oo = ft_strjoin_free(oo, ft_substr(cmd[i[0]], i[1], 1), 2)))
+			{
+				// printf("JYVAIS 1 c=%c avec %i, %i, %i\n", re(cmd, i), tab[i[0]][i[1]] == 1, p(cmd, i) && cd(cmd, i) && cg(cmd, i)
+			// && v(cmd, i), is_in_sd(cmd[i[0]], i[1], tab[i[0]]) == 1);
 				cmd[i[0]][i[1]] = re(cmd, i);
+			}
 			else
+			{
+				// printf("ELSE\n");
+				// printf("ELSE 1 c=%c avec %i, %i, %i\n", re(cmd, i), tab[i[0]][i[1]] == 1, p(cmd, i) && cd(cmd, i) && cg(cmd, i)
+			// && v(cmd, i), is_in_sd(cmd[i[0]], i[1], tab[i[0]]) == 1);
 				finish_p_1(&oo, &tt, i, cmd);
+			}
 		oo = ft_strjoin_free(oo, " ", 1);
 	}
 	ft_free(&cmd);

@@ -27,7 +27,9 @@ int			test_syntax(t_shell *shell, char **args)
 		if (i > 0 && !wrap_cmp(args[i - 1], '|') \
 		&& (is_chevron(args[i]) || !wrap_cmp(args[i], '|')))
 			return (chevron_error(shell->name_prog, ERR_CHEV, 0, "newline'"));
-	}
+		if (i > 0 && !ft_strcmp(args[i], ";") && !ft_strcmp(args[i - 1], ";"))
+			return (printf("ERROR ;; \n"));
+ 	}
 	if (!args[i] && is_chevron(args[i - 1]))
 		return (chevron_error(shell->name_prog, ERR_CHEV, 0, "newline'"));
 	return (1);

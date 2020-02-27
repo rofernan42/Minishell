@@ -25,6 +25,26 @@ static void	shell_body_3(char **cmdf, int *tabf)
 	free(sp);
 }
 
+char **rev_p(char **cmd)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while(cmd[i])
+	{
+		j = 0;
+		while(cmd[i][j])
+		{
+			if(cmd[i][j] == -1 * ';')
+				cmd[i][j] = ';';
+			j++;
+		}
+		i++;
+	}
+	return (cmd);
+}
+
 static void	shell_body_4(char ***cmd, t_shell *shell)
 {
 	int fin;
@@ -33,7 +53,10 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 
 	part = 0;
 	last_part = 0;
+	test_syntax(shell, cmd[0]);
 	fin = ft_tablength(cmd[0]);
+	// dprintf(2, "FINAL CMD\n");
+	// ft_p(cmd[0]);
 	if (cmd[0][0] == NULL)
 		return ;
 	while(cmd[0][part] && !ft_strcmp(cmd[0][part], ";"))
@@ -42,7 +65,7 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 	{
 		if (part == fin || !ft_strcmp(cmd[0][part], ";"))
 		{
-			ft_stdin(shell, ft_tabcopy(cmd[0] + last_part, part - last_part));
+			ft_stdin(shell, rev_p(ft_tabcopy(cmd[0] + last_part, part - last_part)));
 			last_part = part + 1;
 		}
 		if (cmd[0][part] != NULL && !ft_strcmp(cmd[0][part], ";") \
@@ -67,9 +90,19 @@ static void	shell_body_2(t_shell *shell, char *full)
 	tab = fill_tab(full);
 	cmd = split_cmd(full, tab);
 	tabf = fill_tabf(cmd);
+	// dprintf(2, "FINAL CMD 1\n");
+	// ft_p(cmd);
+	// dprintf(2, "full=[%s]\n", full);
 	while (cmd[++fin])
+	{
 		shell_body_3(&cmd[fin], tabf[fin]);
+		// dprintf(2, "str[i]=[%s]\n", cmd[fin]);
+	}
+	// dprintf(2, "ISH 00CMD 1\n");
+	// ft_p(cmd);
 	cmd = finish_p(cmd, tabf);
+	// dprintf(2, "ISH CMD 1\n");
+	// ft_p(cmd);
 	pop_word(cmd);
 	ft_reverse(cmd);
 	shell_body_4(&cmd, shell);

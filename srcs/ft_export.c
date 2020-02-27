@@ -19,7 +19,7 @@ static int	check_env_name(char *name)
 	i = 0;
 	while (name[i])
 	{
-		if (!ft_isalnum(name[i]) && name[i] != '_' && name[i] != '=')
+		if (!ft_isalnum(name[i]) && name[i] != '_' && name[i] != '=' && name[i] != ';')
 			return (0);
 		i++;
 	}

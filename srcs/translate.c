@@ -25,6 +25,8 @@ static void	ft_translate_1(int *i, char **out, char **s, int *tab)
 		out[0] = ft_strjoin_free(out[0], "|", 1);
 	if (s[0][*i] == ' ')
 		out[0] = ft_strjoin_free(out[0], inv(' '), 2);
+	if (s[0][*i] == ';')
+		out[0] = ft_strjoin_free(out[0], ";", 1);
 	tab[ft_strlen(out[0]) - 1] = 1;
 }
 
@@ -37,6 +39,8 @@ static void	ft_translate_2(int *i, char **s, char **out)
 		out[0] = ft_strjoin_free(out[0], "\\", 1);
 	else if (s[0][*i] == '$')
 		out[0] = ft_strjoin_free(out[0], "$", 1);
+	else if (s[0][*i] == ';')
+		out[0] = ft_strjoin_free(out[0], ";", 1);
 }
 
 void		ft_translate(char **s, int d, char **out, int *tab)
@@ -52,7 +56,7 @@ void		ft_translate(char **s, int d, char **out, int *tab)
 		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' \
 		&& s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' \
 		|| (s[0][i + 1] == ' ' && nb_bs(s[0], i) % 2 == 1) \
-		|| s[0][i + 1] == '<' || s[0][i + 1] == '|'))
+		|| s[0][i + 1] == '<' || s[0][i + 1] == '|' || s[0][i+1] == ';'))
 			ft_translate_1(&i, out, s, tab);
 		else
 		{

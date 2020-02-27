@@ -137,13 +137,13 @@ void ft_stdin(t_shell *shell, char **command)
 {
 	int ret;
 
-	ret = test_syntax(shell, command);
-	if (ret == 258)
+	// ret = ;
+	// if (ret == 258)
 
-	{
-		status_res(shell, 258);
-		return;
-	}
+	// {
+	// 	status_res(shell, 258);
+	// 	return;
+	// }
 	h_split(shell, &command);
 	ft_free(&command);
 	ret = exec_pipe2(shell, 0);
