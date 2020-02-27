@@ -14,9 +14,9 @@
 
 int	g_sig;
 
-static int	init_main(t_shell *shell, char **s, char **full)
+static int	init_main(t_shell *shell, char **s, char **full, char **env)
 {
-	init_env(&shell->env);
+	init_env(&shell->env, env);
 	s[0] = malloc(sizeof(char) * 11);
 	full[0] = malloc(sizeof(char) * 1);
 	if (full[0] == NULL || s[0] == NULL)
@@ -62,7 +62,7 @@ static void	last_one(char **full, char **s, int *state, t_shell *shell)
 		exit(print_exit());
 }
 
-int			main(int ac, char **av)
+int			main(int ac, char **av, char **env)
 {
 	t_shell	shell;
 	int		i;
@@ -70,12 +70,11 @@ int			main(int ac, char **av)
 	char	*full;
 	int		state;
 
-	printf("PPPIIIDDDD=%i\n", getpid());
 	g_sig = 0;
 	init_name_prog(&shell, av[0]);
 	if (ac == 1)
 	{
-		state = init_main(&shell, &s, &full);
+		state = init_main(&shell, &s, &full, env);
 		while (1)
 		{
 			i = read(0, s, 10);

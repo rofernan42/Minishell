@@ -12,18 +12,33 @@
 
 #include "../includes/minishell.h"
 
-void	init_env(t_env **env)
+void	init_env(t_env **env, char **s)
 {
-	char *s;
+	int		i;
+	int		j;
+	int		k;
+	char	*n;
+	char	*d;
 
-	s = getcwd(NULL, 0);
 	*env = ft_envnew(0, 0);
-	create_env(env, "HOME", "/Users/");
-	create_env(env, "PWD", s);
-	create_env(env, "OLDPWD", s);
-	create_env(env, "PATH", "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
 	create_env(env, "?", "0");
-	free(s);
+	if (!(i = 0) && s == NULL)
+		return ;
+	while (s[i] && s[i + 1])
+	{
+		k = 0;
+		j = 0;
+		while (s[i][j] && s[i][j] != '=')
+			j++;
+		while (s[i][j + k])
+			k++;
+		d = ft_substr(s[i], j + 1, k);
+		n = ft_substr(s[i], 0, j);
+		create_env(env, n, d);
+		free(d);
+		free(n);
+		i++;
+	}
 }
 
 void	init_name_prog(t_shell *shell, char *av)
