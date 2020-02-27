@@ -87,8 +87,6 @@ void	ft_stdin(t_shell *shell, char **command)
 		ret = 130;
 	else if (g_sig == 8)
 		ret = 131;
-	else if (ret == 1)
-		ret = 1;
 	else
 		ret = WEXITSTATUS(ret);
 	status_res(shell, ret);
