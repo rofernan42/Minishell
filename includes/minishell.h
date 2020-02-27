@@ -208,5 +208,8 @@ int			v(char **cmd, int *i);
 char		re(char **cmd, int *i);
 
 void		ft_p(char **s);
+int			condition_1(char const *s, int i, int *tab);
+int			condition_2(char const *s, int i, int *tab);
+int			condition_3(char const *s, int i, int j, int *tab);
 
 #endif
