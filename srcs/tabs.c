@@ -75,9 +75,6 @@ void		h_split(t_shell *shell, char ***cmd)
 		shell->next_args = ft_tabcopy(tmp + last_part, fin - last_part);
 	}
 	else
-	{
 		ft_free(&shell->next_args);
-		shell->next_args = NULL;
-	}
 	ft_free(&tmp);
 }

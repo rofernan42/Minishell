@@ -56,7 +56,7 @@ void		ft_translate(char **s, int d, char **out, int *tab)
 		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' \
 		&& s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' \
 		|| (s[0][i + 1] == ' ' && nb_bs(s[0], i) % 2 == 1) \
-		|| s[0][i + 1] == '<' || s[0][i + 1] == '|' || s[0][i+1] == ';'))
+		|| s[0][i + 1] == '<' || s[0][i + 1] == '|' || s[0][i + 1] == ';'))
 			ft_translate_1(&i, out, s, tab);
 		else
 		{

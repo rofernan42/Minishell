@@ -21,14 +21,14 @@ int			test_syntax(t_shell *shell, char **args)
 	{
 		if (i == 0 && (!wrap_cmp(args[0], '|') || !wrap_cmp(args[0], ';')))
 			return (chevron_error(shell->name_prog, ERCHEV, args[0], "'"));
-		if (args[i + 1] && !wrap_cmp(args[i], '|') \
-		&& (is_chevron(args[i + 1]) || !wrap_cmp(args[i + 1], ';') || !wrap_cmp(args[i + 1], '|')))
+		if (args[i + 1] && !wrap_cmp(args[i], '|') && (is_chevron(args[i + 1])
+		|| !wrap_cmp(args[i + 1], ';') || !wrap_cmp(args[i + 1], '|')))
 			return (chevron_error(shell->name_prog, ERCHEV, args[i + 1], "'"));
-		if (args[i + 1] && !wrap_cmp(args[i], ';') \
-		&& (is_chevron(args[i + 1]) || !wrap_cmp(args[i + 1], '|') || !wrap_cmp(args[i + 1], ';')))
+		if (args[i + 1] && !wrap_cmp(args[i], ';') && (is_chevron(args[i + 1])
+		|| !wrap_cmp(args[i + 1], '|') || !wrap_cmp(args[i + 1], ';')))
 			return (chevron_error(shell->name_prog, ERCHEV, args[i + 1], "'"));
-		if (args[i + 1] && is_chevron(args[i]) \
-		&& (!wrap_cmp(args[i + 1], '|') || !wrap_cmp(args[i + 1], ';') || is_chevron(args[i + 1])))
+		if (args[i + 1] && is_chevron(args[i]) && (!wrap_cmp(args[i + 1], '|')
+		|| !wrap_cmp(args[i + 1], ';') || is_chevron(args[i + 1])))
 			return (chevron_error(shell->name_prog, ERCHEV, args[i + 1], "'"));
 		if (!args[i + 1] && is_chevron(args[i]))
 			return (chevron_error(shell->name_prog, ERCHEV, 0, "newline'"));
