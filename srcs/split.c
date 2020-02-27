@@ -97,7 +97,8 @@ char		**split_cmd(char *s, int *tab)
 			nbc++;
 		i++;
 	}
-	out = malloc(sizeof(char *) * (nbc + 1));
+	if ((out = malloc(sizeof(char *) * (nbc + 1))) == NULL)
+		exit(1);
 	out[nbc] = NULL;
 	i = 0;
 	if (nbc != 0)

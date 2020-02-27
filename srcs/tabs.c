@@ -32,7 +32,8 @@ char		**ft_tabcopy(char **s, int fin)
 	i = 0;
 	while (s[i] && i < fin)
 		i++;
-	o = malloc(sizeof(char*) * (i + 1));
+	if ((o = malloc(sizeof(char*) * (i + 1))) == NULL)
+		exit(1);
 	o[i] = 0;
 	i = 0;
 	while (s[i] && i < fin)

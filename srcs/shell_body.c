@@ -19,7 +19,8 @@ static void	shell_body_3(char **cmdf, int *tabf)
 	sp = ft_strdup(cmdf[0]);
 	free(cmdf[0]);
 	cmdf[0] = NULL;
-	cmdf[0] = malloc(sizeof(char) * 100);
+	if ((cmdf[0] = malloc(sizeof(char) * 100)) == NULL)
+		exit(1);
 	ft_memset(cmdf[0], 0, 100);
 	parsing(sp, &(cmdf[0]), tabf);
 	free(sp);

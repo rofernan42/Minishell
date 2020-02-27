@@ -19,7 +19,8 @@ int		*fill_tab(const char *s)
 	int i;
 
 	l = ft_strlen(s);
-	o = malloc(sizeof(int) * (l));
+	if ((o = malloc(sizeof(int) * (l))) == NULL)
+		exit(1);
 	i = 0;
 	while (i < l)
 	{
@@ -41,14 +42,16 @@ int		**fill_tabf(char **s)
 	j = 0;
 	while (s[i] != NULL)
 		i++;
-	o = malloc(sizeof(int*) * (i + 1));
+	if ((o = malloc(sizeof(int*) * (i + 1))) == NULL)
+		exit(1);
 	o[i] = NULL;
 	i = 0;
 	while (s[i])
 	{
 		while (s[i][j])
 			j++;
-		o[i] = malloc(sizeof(int) * j);
+		if ((o[i] = malloc(sizeof(int) * j)) == NULL)
+			exit(1);
 		ft_memset(o[i], 0, sizeof(int) * j);
 		i++;
 		j = 0;

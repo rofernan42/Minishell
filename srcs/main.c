@@ -19,6 +19,8 @@ static int	init_main(t_shell *shell, char **s, char **full)
 	init_env(&shell->env);
 	s[0] = malloc(sizeof(char) * 11);
 	full[0] = malloc(sizeof(char) * 1);
+	if (full[0] == NULL || s[0] == NULL)
+		exit(1);
 	shell->args = NULL;
 	shell->next_args = NULL;
 	signal(SIGINT, sig_handle_c);
@@ -34,7 +36,8 @@ static void	ft_reset(char **full)
 {
 	free(full[0]);
 	full[0] = NULL;
-	full[0] = malloc(sizeof(char) * 1);
+	if ((full[0] = malloc(sizeof(char) * 1)) == NULL)
+		exit(1);
 	full[0][0] = '\0';
 }
 
