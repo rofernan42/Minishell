@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static int	is_builtin_1(t_shell *shell, char **s)
+static int	is_builtin_1(char **s)
 {
 	char **args;
 
@@ -56,16 +56,10 @@ static void	builtin_exec(t_shell *shell, char **args)
 int			is_builtin(t_shell *shell, char **s)
 {
 	char	**args;
-	int		file;
 
-	// dprintf(2, "test7\n");
-	if (!is_builtin_1(shell, s))
+	if (!is_builtin_1(s))
 		return (0);
-	// dprintf(2, "test8\n");
-	//open_file(shell);
 	args = extract(s);
-	// dprintf(2, "SEND BUILTIN \n");
-	// ft_p(args);
 	builtin_exec(shell, args);
 	ft_free(&args);
 	return (42);
