@@ -6,7 +6,7 @@
 #    By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/15 12:07:06 by rofernan          #+#    #+#              #
-#    Updated: 2020/02/24 18:10:51 by rofernan         ###   ########.fr        #
+#    Updated: 2020/02/27 13:25:43 by rofernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,7 @@ $(NAME):				$(OBJS)
 
 $(OBJS_PATH)/%.o:		./%.c
 						@mkdir $(OBJS_PATH) 2> /dev/null || true
-						@($(CC) -o $@ -c $<)
+						@($(CC) $(CFLAGS) -o $@ -c $<)
 
 clean:
 						rm -rf $(OBJS) $(OBJS_BONUS)
