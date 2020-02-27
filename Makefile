@@ -6,7 +6,7 @@
 #    By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/12 15:44:33 by rofernan          #+#    #+#              #
-#    Updated: 2020/02/25 10:43:47 by rofernan         ###   ########.fr        #
+#    Updated: 2020/02/27 12:39:24 by rofernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ INC_PATH			=	./includes
 
 SRCS_NAME			=	builtin.c \
 						check_quotes.c \
+						conditions.c \
 						copy_close_fd.c \
 						create_env.c \
 						env_addback.c \
@@ -39,7 +40,6 @@ SRCS_NAME			=	builtin.c \
 						init_table.c \
 						init.c \
 						main.c \
-						nb_bs.c \
 						path.c \
 						pop_word.c \
 						redirection.c \
@@ -47,12 +47,13 @@ SRCS_NAME			=	builtin.c \
 						rev_cmd.c \
 						shell_body.c \
 						split.c \
+						status_res.c \
 						tabs.c \
 						translate.c \
 						utils_2.c \
 						utils.c \
 						wrap_cmp.c \
-						wrap_parsing.c \
+						wrap_parsing.c
 
 INC_NAME			=	mini_struct.h \
 						minishell.h
