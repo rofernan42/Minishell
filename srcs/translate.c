@@ -12,21 +12,34 @@
 
 #include "../includes/minishell.h"
 
+char		*c2e(char c)
+{
+	char *s;
+
+	if ((s = malloc(sizeof(char) * 2)) == NULL)
+		exit(0);
+	s[0] = c;
+	s[1] = '\0';
+	return (s);
+}
+
 static void	ft_translate_1(int *i, char **out, char **s, int *tab)
 {
 	(*i)++;
 	if (s[0][*i] == '\'')
 		out[0] = ft_strjoin_free(out[0], inv('\''), 2);
-	if (s[0][*i] == '>')
+	else if (s[0][*i] == '>')
 		out[0] = ft_strjoin_free(out[0], ">", 1);
-	if (s[0][*i] == '<')
+	else if (s[0][*i] == '<')
 		out[0] = ft_strjoin_free(out[0], "<", 1);
-	if (s[0][*i] == '|')
+	else if (s[0][*i] == '|')
 		out[0] = ft_strjoin_free(out[0], "|", 1);
-	if (s[0][*i] == ' ')
+	else if (s[0][*i] == ' ')
 		out[0] = ft_strjoin_free(out[0], inv(' '), 2);
-	if (s[0][*i] == ';')
+	else if (s[0][*i] == ';')
 		out[0] = ft_strjoin_free(out[0], ";", 1);
+	else
+		out[0] = ft_strjoin_free(out[0], c2e(s[0][*i]), 2);
 	tab[ft_strlen(out[0]) - 1] = 1;
 }
 
@@ -53,10 +66,8 @@ void		ft_translate(char **s, int d, char **out, int *tab)
 		if (is_in_s(s[0], i) == 0 && s[0][i] == '\\' && s[0][i + 1] &&
 		(s[0][i + 1] == '"' || s[0][i + 1] == '\\' || s[0][i + 1] == '$'))
 			ft_translate_2(&i, s, out);
-		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\' \
-		&& s[0][i + 1] && (s[0][i + 1] == '\'' || s[0][i + 1] == '>' \
-		|| (s[0][i + 1] == ' ' && nb_bs(s[0], i) % 2 == 1) \
-		|| s[0][i + 1] == '<' || s[0][i + 1] == '|' || s[0][i + 1] == ';'))
+		else if (is_in_sd(s[0], i, NULL) == 0 && s[0][i] == '\\'
+		&& s[0][i + 1])
 			ft_translate_1(&i, out, s, tab);
 		else
 		{
