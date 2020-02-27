@@ -6,19 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 11:12:31 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 15:26:44 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 11:06:11 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		free_null(char **s)
-{
-	free(s[0]);
-	s[0] = NULL;
-}
-
-void		switch_p(char **args, char **tmp)
+static void	switch_p(char **args, char **tmp)
 {
 	free(args[0]);
 	args[0] = ft_strdup(tmp[0]);
@@ -38,7 +32,7 @@ static int	prep2path(char **s, t_shell *shell, char **args)
 		tmp = ft_strjoin_free(ft_strjoin(s[i], "/"), args[0], 1);
 		if (!(stat(tmp, &a)) && (f = 1))
 			break ;
-		free_null(&tmp);
+		ft_strdel(&tmp);
 	}
 	if (f == 1)
 		switch_p(args, &tmp);

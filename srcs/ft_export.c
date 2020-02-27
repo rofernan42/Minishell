@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:56:37 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/21 12:38:45 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 11:34:18 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,18 @@ static int	check_env_name(char *name)
 	return (1);
 }
 
-static int	error_name(t_shell *shell, char *var)
+static int	error_name(t_shell *shell, char *var, int *ret)
 {
 	if (!check_env_name(var))
 	{
 		disp_err(shell->name_prog, "export: ", var, " not a valid identifier");
+		*ret = 1;
 		return (1);
 	}
 	return (0);
 }
 
-static int	assign_env(t_shell *shell, char **vars, int i, int j)
+static void	assign_env(t_shell *shell, char **vars, int i, int j)
 {
 	char	*name;
 	char	*data;
@@ -56,30 +57,29 @@ static int	assign_env(t_shell *shell, char **vars, int i, int j)
 	}
 	ft_strdel(&name);
 	ft_strdel(&data);
-	return (1);
 }
 
-void		ft_export(t_shell *shell, char **vars)
+int			ft_export(t_shell *shell, char **vars)
 {
-	int		i;
-	int		j;
+	int i;
+	int j;
+	int ret;
 
 	i = 0;
+	ret = 0;
 	while (vars[i])
 	{
-		if (!error_name(shell, vars[i]))
+		if (!error_name(shell, vars[i], &ret))
 		{
 			j = 0;
 			while (vars[i][j])
 			{
 				if (vars[i][j] == '=')
-				{
-					if (!assign_env(shell, vars, i, j))
-						return ;
-				}
+					assign_env(shell, vars, i, j);
 				j++;
 			}
 		}
 		i++;
 	}
+	return (ret);
 }

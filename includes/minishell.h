@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/27 10:55:10 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 11:51:46 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ int 		prep_path(t_shell *shell, char **args);
 /*
 **	FT_*.C
 */
-void		ft_echo(char **args);
-void		ft_pwd(void);
-void		ft_cd(t_shell *shell, char *arg);
-void		ft_export(t_shell *shell, char **vars);
-void		ft_unset(char **vars, t_env *env);
-void		ft_env(t_env *env);
-void		ft_exit(t_shell *shell, char **args);
+int         ft_echo(char **args);
+int         ft_pwd(void);
+int         ft_cd(t_shell *shell, char *arg);
+int         ft_export(t_shell *shell, char **vars);
+int         ft_unset(char **vars, t_env *env);
+int         ft_env(t_env *env);
+int         ft_exit(t_shell *shell, char **args);
 
 /*
 **	STATUS_RES.C
@@ -132,6 +132,7 @@ void		close_stdinout(t_shell *shell);
 **	BUILTIN.C
 */
 int			is_builtin(t_shell *shell, char **s);
+int		    builtin_exec(t_shell *shell, char **s);
 
 /*
 **	EXEC_COMMANDS.C

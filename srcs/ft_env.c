@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 13:06:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/25 15:42:30 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 11:24:41 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_env(t_env *env)
+int		ft_env(t_env *env)
 {
 	t_env *tmp;
 
@@ -27,4 +27,5 @@ void	ft_env(t_env *env)
 		}
 		tmp = tmp->next;
 	}
+	return (0);
 }

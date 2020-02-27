@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:27:45 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/20 13:21:22 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 11:35:23 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_unset(char **vars, t_env *env)
+int		ft_unset(char **vars, t_env *env)
 {
 	int		i;
 	t_env	*tmp;
@@ -35,4 +35,5 @@ void	ft_unset(char **vars, t_env *env)
 		}
 		i++;
 	}
+	return (0);
 }
