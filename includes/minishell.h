@@ -143,8 +143,6 @@ void		execute_cmd(char **cmd, t_shell *shell);
 /*
 **	FORKS.C
 */
-void		fork_left(t_shell *shell, int *pdes);
-void		fork_right(t_shell *shell, int *pdes, int i);
 
 /*
 **	FT_STDIN.C
@@ -211,5 +209,8 @@ int			v(char **cmd, int *i);
 char		re(char **cmd, int *i);
 
 void		ft_p(char **s);
+int			condition_1(char const *s, int i, int *tab);
+int			condition_2(char const *s, int i, int *tab);
+int			condition_3(char const *s, int i, int j, int *tab);
 
 #endif

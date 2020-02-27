@@ -104,7 +104,8 @@ int		*cp_add(int *t, int p)
 	int *o;
 
 	i = 0;
-	o = malloc(sizeof(int) * (p + 1));
+	if ((o = malloc(sizeof(int) * (p + 1))) == NULL)
+		exit(1);
 	o[p] = -8;
 	while (t[i] != -8)
 	{

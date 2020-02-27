@@ -25,8 +25,10 @@ static void	wrap_finish(char **oo, char ***out, int **tt)
 {
 	out[0] = NULL;
 	oo[0] = malloc(sizeof(char) * 1);
-	oo[0][0] = '\0';
 	tt[0] = malloc(sizeof(int) * 1);
+	if (oo[0] == NULL || tt[0] == NULL)
+		exit(1);
+	oo[0][0] = '\0';
 	tt[0][0] = -8;
 }
 
@@ -65,7 +67,8 @@ void		pop_char(char **s, int i, int c1, int c2)
 
 	k = 0;
 	j = 0;
-	out = malloc(sizeof(char) * (ft_strlen(s[i]) - 1));
+	if ((out = malloc(sizeof(char) * (ft_strlen(s[i]) - 1))) == NULL)
+		exit(1);
 	out[ft_strlen(s[i]) - 2] = '\0';
 	while (s[i][j])
 	{

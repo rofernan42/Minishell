@@ -89,6 +89,8 @@ char		*inv(char c)
 	char *o;
 
 	o = malloc(sizeof(char) * 2);
+	if (o == NULL)
+		exit(1);
 	o[0] = -c;
 	o[1] = '\0';
 	return (o);

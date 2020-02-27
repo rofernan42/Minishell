@@ -19,24 +19,25 @@ static void	shell_body_3(char **cmdf, int *tabf)
 	sp = ft_strdup(cmdf[0]);
 	free(cmdf[0]);
 	cmdf[0] = NULL;
-	cmdf[0] = malloc(sizeof(char) * 100);
+	if ((cmdf[0] = malloc(sizeof(char) * 100)) == NULL)
+		exit(1);
 	ft_memset(cmdf[0], 0, 100);
 	parsing(sp, &(cmdf[0]), tabf);
 	free(sp);
 }
 
-char **rev_p(char **cmd)
+char		**rev_p(char **cmd)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		j = 0;
-		while(cmd[i][j])
+		while (cmd[i][j])
 		{
-			if(cmd[i][j] == -1 * ';')
+			if (cmd[i][j] == -1 * ';')
 				cmd[i][j] = ';';
 			j++;
 		}
@@ -50,24 +51,17 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 	int fin;
 	int part;
 	int last_part;
-	int ret;
 
-	part = 0;
-	last_part = 0;
-	ret = test_syntax(shell, cmd[0]);
-	if (ret == 258)
+	part = -1;
+	if (!(last_part = 0) && test_syntax(shell, cmd[0]) == 258)
 	{
-		status_res(shell, ret);
+		status_res(shell, 258);
 		return ;
 	}
 	fin = ft_tablength(cmd[0]);
-	// dprintf(2, "FINAL CMD\n");
-	// ft_p(cmd[0]);
 	if (cmd[0][0] == NULL)
 		return ;
-	// while(cmd[0][part] && !wrap_cmp(cmd[0][part], ';'))
-	// 	part++;
-	while (part <= fin)
+	while (++part <= fin)
 	{
 		if (part == fin || !wrap_cmp(cmd[0][part], ';'))
 		{
@@ -76,12 +70,8 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 		}
 		if (cmd[0][part] && !wrap_cmp(cmd[0][part], ';') && !cmd[0][part + 1])
 			break ;
-		part++;
 	}
-	part = 0;
-	last_part = 0;
 	ft_free(cmd);
-	fin = 0;
 }
 
 static void	shell_body_2(t_shell *shell, char *full)
@@ -95,19 +85,9 @@ static void	shell_body_2(t_shell *shell, char *full)
 	tab = fill_tab(full);
 	cmd = split_cmd(full, tab);
 	tabf = fill_tabf(cmd);
-	// dprintf(2, "FINAL CMD 1\n");
-	// ft_p(cmd);
-	// dprintf(2, "full=[%s]\n", full);
 	while (cmd[++fin])
-	{
 		shell_body_3(&cmd[fin], tabf[fin]);
-		// dprintf(2, "str[i]=[%s]\n", cmd[fin]);
-	}
-	// dprintf(2, "ISH 00CMD 1\n");
-	// ft_p(cmd);
 	cmd = finish_p(cmd, tabf);
-	// dprintf(2, "ISH CMD 1\n");
-	// ft_p(cmd);
 	pop_word(cmd);
 	ft_reverse(cmd);
 	shell_body_4(&cmd, shell);

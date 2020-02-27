@@ -47,7 +47,8 @@ int			replace(char **s, int d, t_env *env)
 	? ft_envnew(out, "") : ft_envfind(env, out, ft_strcmp);
 	k = ft_strlen(s[0]) + ft_strlen(e1->data) - ft_strlen(e1->name);
 	free(out);
-	out = malloc(sizeof(char) * k);
+	if ((out = malloc(sizeof(char) * k)) == NULL)
+		exit(1);
 	out[k - 1] = '\0';
 	while (++j < d - 1)
 		out[j] = s[0][j];
@@ -63,7 +64,8 @@ int			*finish_p_i(void)
 {
 	int *i;
 
-	i = malloc(sizeof(int) * 2);
+	if ((i = malloc(sizeof(int) * 2)) == NULL)
+		exit(1);
 	i[0] = -1;
 	i[1] = 0;
 	return (i);
