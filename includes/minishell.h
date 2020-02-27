@@ -71,7 +71,7 @@ void		create_env(t_env **env, char *name, char *data);
 /*
 **	INIT.C
 */
-void		init_env(t_env **env);
+void		init_env(t_env **env, char **s);
 void		init_name_prog(t_shell *shell, char *av);
 
 /*
