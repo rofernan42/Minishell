@@ -48,6 +48,7 @@ void	init_name_prog(t_shell *shell, char *av)
 
 	i = 0;
 	j = 0;
+	g_sig = 0;
 	while (av[i])
 	{
 		if (av[i] == '/')

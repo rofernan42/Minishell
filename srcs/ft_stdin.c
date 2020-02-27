@@ -59,7 +59,7 @@ int		exec_pipe(t_shell *shell, int i)
 	child_left = 25;
 	pipe(pdes);
 	if (i == 0 && shell->next_args == NULL && shell->args != NULL)
-		if ((status = first(shell) >= 0))
+		if (((status = first(shell)) >= 0))
 			return (status);
 	if (shell->args && !(child_left = fork()))
 		fork_left(pdes, shell);
@@ -68,8 +68,9 @@ int		exec_pipe(t_shell *shell, int i)
 	close(pdes[1]);
 	close(pdes[0]);
 	waitpid(child_left, &status, 0);
-	status = 0;
 	waitpid(child_right, &status, 0);
+	if (status == 3)
+		ft_putstr_fd("Quit: 3\n", 1);
 	if (i != 0)
 		exit(WEXITSTATUS(status));
 	else
@@ -87,8 +88,10 @@ void	ft_stdin(t_shell *shell, char **command)
 		ret = 130;
 	else if (g_sig == 8)
 		ret = 131;
-	else
+	else if (ret == 256)
 		ret = WEXITSTATUS(ret);
+	else if (ret == 32512)
+		ret = 127;
 	status_res(shell, ret);
 	g_sig = 0;
 }

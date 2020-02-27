@@ -93,9 +93,14 @@ void	sig_handle_c(int s)
 	g_sig = 11;
 	wait(&i);
 	if (i != 2)
+	{
+		g_sig = 1;
 		ft_putstr_fd("\n\033[33mminishell$\033[0m ", 1);
+	}
 	else
+	{
 		ft_putstr_fd("\n", 1);
+	}
 }
 
 int		*cp_add(int *t, int p)

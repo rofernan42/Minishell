@@ -70,7 +70,6 @@ int			main(int ac, char **av, char **env)
 	char	*full;
 	int		state;
 
-	g_sig = 0;
 	init_name_prog(&shell, av[0]);
 	if (ac == 1)
 	{
@@ -78,6 +77,11 @@ int			main(int ac, char **av, char **env)
 		while (1)
 		{
 			i = read(0, s, 10);
+			if (g_sig == 1)
+			{
+				status_res(&shell, 1);
+				g_sig = 0;
+			}
 			s[i] = 0;
 			last_one(&full, &s, &state, &shell);
 		}
