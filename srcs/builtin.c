@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		is_builtin(t_shell *shell, char **s)
+int		is_builtin(char **s)
 {
 	char **args;
 
@@ -54,17 +54,8 @@ int		builtin_exec(t_shell *shell, char **s)
 		ret = ft_env(shell->env);
 	else if (!ft_strcmp(args[0], "exit"))
 		ret = ft_exit(shell, args);
+	else
+		ret = -1;
 	ft_free(&args);
 	return (ret);
 }
-
-// int			execute_builtin(t_shell *shell, char **s)
-// {
-// 	char	**args;
-// 	int		ret;
-
-// 	args = extract(s);
-// 	ret = builtin_exec(shell, args);
-// 	ft_free(&args);
-// 	return (ret);
-// }

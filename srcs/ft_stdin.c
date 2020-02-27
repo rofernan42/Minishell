@@ -12,8 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int		exec_pipe(t_shell *shell, int i);
-
 int		still(t_shell *shell)
 {
 	int i;
@@ -37,9 +35,9 @@ int		execute_cmd(char **s, t_shell *shell)
 	if (!open_fd(shell, s))
 		return (1);
 	copy_stdinout(shell);
-	if (is_builtin(shell, s))
+	if (is_builtin(s))
 	{
-		ret = builtin_exec(shell, s); 
+		ret = builtin_exec(shell, s);
 		close_stdinout(shell);
 		exit(ret);
 	}
@@ -48,44 +46,6 @@ int		execute_cmd(char **s, t_shell *shell)
 	execve(s[0], s, NULL);
 	close_stdinout(shell);
 	return (ret);
-}
-
-void	fork_right(t_shell *shell, int i, int *pdes)
-{
-	if (shell->args)
-	{
-		close(pdes[1]);
-		dup2(pdes[0], STDIN_FILENO);
-	}
-	if (still(shell) == 1)
-	{
-		h_split(shell, &shell->next_args);
-		exec_pipe(shell, i + 1);
-	}
-	else if (shell->next_args != NULL)
-		exit(execute_cmd(shell->next_args, shell));
-}
-
-int		first(t_shell *shell)
-{
-	int ret;
-
-	shell->next_args = shell->args;
-	shell->args = NULL;
-	if (!open_fd(shell, shell->next_args))
-		return (1);
-	copy_stdinout(shell);
-	if (is_builtin(shell, shell->next_args))
-	{
-		ret = builtin_exec(shell, shell->next_args);
-		close_stdinout(shell);
-		return (ret);
-	}
-	else
-	{
-		close_stdinout(shell);
-		return (-1);
-	}
 }
 
 int		exec_pipe(t_shell *shell, int i)
@@ -102,11 +62,7 @@ int		exec_pipe(t_shell *shell, int i)
 		if ((status = first(shell) >= 0))
 			return (status);
 	if (shell->args && !(child_left = fork()))
-	{
-		close(pdes[0]);
-		dup2(pdes[1], STDOUT_FILENO);
-		exit(execute_cmd(shell->args, shell));
-	}
+		fork_left(pdes, shell);
 	if (!(child_right = fork()))
 		fork_right(shell, i, pdes);
 	close(pdes[1]);

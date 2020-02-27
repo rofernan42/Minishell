@@ -31,25 +31,6 @@ void		parsing(char *s, char **out, int *tab)
 	quote(s, out, tab);
 }
 
-int			condition_1(char const *s, int i, int *tab)
-{
-	return (((s[i] && (s[i] != ' ' || nb_bs(s, i - 1) % 2 == 1)) \
-		|| is_in_sd(s, i, tab) == 1));
-}
-
-int			condition_2(char const *s, int i, int *tab)
-{
-	return ((i == 0 || ((s[i] == ' ' && nb_bs(s, i - 1) % 2 == 0) \
-		&& is_in_sd(s, i, tab) == 0)));
-}
-
-int			condition_3(char const *s, int i, int j, int *tab)
-{
-	return (s[i + 1 + j] && ((s[i + 1 + j] != ' ' \
-				|| (nb_bs(s, i + j) % 2 == 1 && s[i + 1 + j] == ' ')) \
-				|| is_in_sd(s, i + 1 + j, tab) > 0));
-}
-
 static char	**splitbody(int nbc, char const *s, char **out, int *tab)
 {
 	int i;

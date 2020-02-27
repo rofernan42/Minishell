@@ -90,24 +90,23 @@ void		command_error(char *command, char *err);
 /*
 **	PATH.C
 */
-int 		prep_path(t_shell *shell, char **args);
+int			prep_path(t_shell *shell, char **args);
 
 /*
 **	FT_*.C
 */
-int         ft_echo(char **args);
-int         ft_pwd(void);
-int         ft_cd(t_shell *shell, char *arg);
-int         ft_export(t_shell *shell, char **vars);
-int         ft_unset(char **vars, t_env *env);
-int         ft_env(t_env *env);
-int         ft_exit(t_shell *shell, char **args);
+int			ft_echo(char **args);
+int			ft_pwd(void);
+int			ft_cd(t_shell *shell, char *arg);
+int			ft_export(t_shell *shell, char **vars);
+int			ft_unset(char **vars, t_env *env);
+int			ft_env(t_env *env);
+int			ft_exit(t_shell *shell, char **args);
 
 /*
 **	STATUS_RES.C
 */
-void        status_res(t_shell *shell, int status);
-
+void		status_res(t_shell *shell, int status);
 
 /*
 **	REDIRECTION.C
@@ -131,24 +130,28 @@ void		close_stdinout(t_shell *shell);
 /*
 **	BUILTIN.C
 */
-int			is_builtin(t_shell *shell, char **s);
-int		    builtin_exec(t_shell *shell, char **s);
+int			is_builtin(char **s);
+int			builtin_exec(t_shell *shell, char **s);
 
 /*
 **	EXEC_COMMANDS.C
 */
 char		**extract(char **args);
-void		execute_cmd(char **cmd, t_shell *shell);
+int			execute_cmd(char **cmd, t_shell *shell);
 
 /*
 **	FORKS.C
 */
+void		fork_right(t_shell *shell, int i, int *pdes);
+int			first(t_shell *shell);
+void		fork_left(int *pdes, t_shell *shell);
 
 /*
 **	FT_STDIN.C
 */
-int		    exec_pipe(t_shell *shell, int i);
 void		ft_stdin(t_shell *shell, char **command);
+int			exec_pipe(t_shell *shell, int i);
+int			still(t_shell *shell);
 
 /*
 **	FREE.C

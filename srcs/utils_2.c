@@ -22,6 +22,7 @@ int		p(char **cmd, int *i)
 void	sig_handle_b(int s)
 {
 	(void)s;
+	g_sig = 8;
 }
 
 int		nb_bs(const char *s, int f)

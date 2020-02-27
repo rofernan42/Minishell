@@ -56,6 +56,7 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 	if (!(last_part = 0) && test_syntax(shell, cmd[0]) == 258)
 	{
 		status_res(shell, 258);
+		ft_free(cmd);
 		return ;
 	}
 	fin = ft_tablength(cmd[0]);
