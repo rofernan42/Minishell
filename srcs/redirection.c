@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:26:58 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 16:03:05 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:56:09 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,22 @@ int			test_syntax(t_shell *shell, char **args)
 	int i;
 
 	i = -1;
-	if (!wrap_cmp(args[0], '|'))
-		return (chevron_error(shell->name_prog, ERR_CHEV, args[0], "'"));
 	while (args[++i])
 	{
-		if (i > 0 && is_chevron(args[i - 1]) \
-		&& (is_chevron(args[i]) || !wrap_cmp(args[i], '|')))
-			return (chevron_error(shell->name_prog, ERR_CHEV, args[i], "'"));
-		if (i > 0 && !wrap_cmp(args[i - 1], '|') \
-		&& (is_chevron(args[i]) || !wrap_cmp(args[i], '|')))
-			return (chevron_error(shell->name_prog, ERR_CHEV, 0, "newline'"));
-		if (i > 0 && !ft_strcmp(args[i], ";") && !ft_strcmp(args[i - 1], ";"))
-			return (printf("ERROR ;; \n"));
- 	}
-	if (!args[i] && is_chevron(args[i - 1]))
-		return (chevron_error(shell->name_prog, ERR_CHEV, 0, "newline'"));
+		if (i == 0 && (!wrap_cmp(args[0], '|') || !wrap_cmp(args[0], ';')))
+			return (chevron_error(shell->name_prog, ERCHEV, args[0], "'"));
+		if (args[i + 1] && !wrap_cmp(args[i], '|') \
+		&& (is_chevron(args[i + 1]) || !wrap_cmp(args[i + 1], ';') || !wrap_cmp(args[i + 1], '|')))
+			return (chevron_error(shell->name_prog, ERCHEV, args[i + 1], "'"));
+		if (args[i + 1] && !wrap_cmp(args[i], ';') \
+		&& (is_chevron(args[i + 1]) || !wrap_cmp(args[i + 1], '|') || !wrap_cmp(args[i + 1], ';')))
+			return (chevron_error(shell->name_prog, ERCHEV, args[i + 1], "'"));
+		if (args[i + 1] && is_chevron(args[i]) \
+		&& (!wrap_cmp(args[i + 1], '|') || !wrap_cmp(args[i + 1], ';') || is_chevron(args[i + 1])))
+			return (chevron_error(shell->name_prog, ERCHEV, args[i + 1], "'"));
+		if (!args[i + 1] && is_chevron(args[i]))
+			return (chevron_error(shell->name_prog, ERCHEV, 0, "newline'"));
+	}
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 10:42:36 by augay             #+#    #+#             */
-/*   Updated: 2020/02/25 17:43:59 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:26:43 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,31 @@ static void	shell_body_4(char ***cmd, t_shell *shell)
 	int fin;
 	int part;
 	int last_part;
+	int ret;
 
 	part = 0;
 	last_part = 0;
-	test_syntax(shell, cmd[0]);
+	ret = test_syntax(shell, cmd[0]);
+	if (ret == 258)
+	{
+		status_res(shell, ret);
+		return ;
+	}
 	fin = ft_tablength(cmd[0]);
 	// dprintf(2, "FINAL CMD\n");
 	// ft_p(cmd[0]);
 	if (cmd[0][0] == NULL)
 		return ;
-	while(cmd[0][part] && !ft_strcmp(cmd[0][part], ";"))
-		part++;
+	// while(cmd[0][part] && !wrap_cmp(cmd[0][part], ';'))
+	// 	part++;
 	while (part <= fin)
 	{
-		if (part == fin || !ft_strcmp(cmd[0][part], ";"))
+		if (part == fin || !wrap_cmp(cmd[0][part], ';'))
 		{
-			ft_stdin(shell, rev_p(ft_tabcopy(cmd[0] + last_part, part - last_part)));
+			ft_stdin(shell, ft_tabcopy(cmd[0] + last_part, part - last_part));
 			last_part = part + 1;
 		}
-		if (cmd[0][part] != NULL && !ft_strcmp(cmd[0][part], ";") \
-		&& cmd[0][part + 1] == NULL)
+		if (cmd[0][part] && !wrap_cmp(cmd[0][part], ';') && !cmd[0][part + 1])
 			break ;
 		part++;
 	}

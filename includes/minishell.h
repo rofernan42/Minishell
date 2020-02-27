@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 16:09:44 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:55:10 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "mini_struct.h"
 
 # define BUF_SIZE 32
-# define ERR_CHEV "syntax error near unexpected token `"
+# define ERCHEV "syntax error near unexpected token `"
 
 extern int g_sig;
 
@@ -102,6 +102,12 @@ void		ft_export(t_shell *shell, char **vars);
 void		ft_unset(char **vars, t_env *env);
 void		ft_env(t_env *env);
 void		ft_exit(t_shell *shell, char **args);
+
+/*
+**	STATUS_RES.C
+*/
+void        status_res(t_shell *shell, int status);
+
 
 /*
 **	REDIRECTION.C

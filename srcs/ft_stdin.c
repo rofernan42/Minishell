@@ -6,22 +6,11 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/26 16:10:58 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:22:50 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void status_res(t_shell *shell, int status)
-{
-	t_env *tmp;
-
-	tmp = ft_envfind(shell->env, "?", ft_strcmp);
-	ft_strdel(&tmp->data);
-	if (status == -42)
-		status = 0;
-	tmp->data = ft_itoa(status);
-}
 
 int still(t_shell *shell)
 {
