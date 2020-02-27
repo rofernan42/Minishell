@@ -6,7 +6,7 @@
 #    By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/12 15:44:33 by rofernan          #+#    #+#              #
-#    Updated: 2020/02/27 12:39:24 by rofernan         ###   ########.fr        #
+#    Updated: 2020/02/27 13:05:26 by rofernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS_NAME			=	builtin.c \
 						env_find.c \
 						env_new.c \
 						error.c \
-						exec_commands.c \
+						extract.c \
 						forks.c \
 						free.c \
 						ft_cd.c \

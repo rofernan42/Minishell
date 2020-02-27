@@ -6,7 +6,7 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 10:40:51 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/27 12:55:10 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 13:08:19 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,9 @@ void		create_env(t_env **env, char *name, char *data);
 /*
 **	ERROR.C
 */
-<<<<<<< HEAD
 void		disp_err(char *prog, char *cmd, char *arg, char *err);
 int			chevron_error(char *prog, char *arg, char *cmd, char *end);
 void		command_error(char *command, char *err);
-=======
-void		init_env(t_env **env, char **s);
-void		init_name_prog(t_shell *shell, char *av);
->>>>>>> 86bcdd7fde409762dca3744ec1b9f7d092c2e10e
 
 /*
 **	EXTRACT.C
@@ -112,7 +107,7 @@ int			ft_exit(t_shell *shell, char **args);
 **	FT_STDIN.C
 */
 int			still(t_shell *shell);
-int		    execute_cmd(char **s, t_shell *shell);
+int			execute_cmd(char **s, t_shell *shell);
 int			exec_pipe(t_shell *shell, int i);
 void		ft_stdin(t_shell *shell, char **command);
 
