@@ -6,13 +6,13 @@
 /*   By: rofernan <rofernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:44:54 by rofernan          #+#    #+#             */
-/*   Updated: 2020/02/27 12:06:55 by rofernan         ###   ########.fr       */
+/*   Updated: 2020/02/27 12:20:49 by rofernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		exec_pipe2(t_shell *shell, int i);
+int		exec_pipe(t_shell *shell, int i);
 
 int		still(t_shell *shell)
 {
@@ -30,7 +30,7 @@ int		still(t_shell *shell)
 	return (0);
 }
 
-int		execute_cmd2(char **s, t_shell *shell)
+int		execute_cmd(char **s, t_shell *shell)
 {
 	int ret;
 
@@ -39,8 +39,9 @@ int		execute_cmd2(char **s, t_shell *shell)
 	copy_stdinout(shell);
 	if (is_builtin(shell, s))
 	{
+		ret = builtin_exec(shell, s); 
 		close_stdinout(shell);
-		exit(0);
+		exit(ret);
 	}
 	s = extract(s);
 	ret = prep_path(shell, s);
@@ -59,16 +60,16 @@ void	fork_right(t_shell *shell, int i, int *pdes)
 	if (still(shell) == 1)
 	{
 		h_split(shell, &shell->next_args);
-		exec_pipe2(shell, i + 1);
+		exec_pipe(shell, i + 1);
 	}
 	else if (shell->next_args != NULL)
-	{
-		exit(execute_cmd2(shell->next_args, shell));
-	}
+		exit(execute_cmd(shell->next_args, shell));
 }
 
 int		first(t_shell *shell)
 {
+	int ret;
+
 	shell->next_args = shell->args;
 	shell->args = NULL;
 	if (!open_fd(shell, shell->next_args))
@@ -76,8 +77,9 @@ int		first(t_shell *shell)
 	copy_stdinout(shell);
 	if (is_builtin(shell, shell->next_args))
 	{
+		ret = builtin_exec(shell, shell->next_args);
 		close_stdinout(shell);
-		return (0);
+		return (ret);
 	}
 	else
 	{
@@ -86,7 +88,7 @@ int		first(t_shell *shell)
 	}
 }
 
-int		exec_pipe2(t_shell *shell, int i)
+int		exec_pipe(t_shell *shell, int i)
 {
 	int		pdes[2];
 	int		status;
@@ -103,7 +105,7 @@ int		exec_pipe2(t_shell *shell, int i)
 	{
 		close(pdes[0]);
 		dup2(pdes[1], STDOUT_FILENO);
-		exit(execute_cmd2(shell->args, shell));
+		exit(execute_cmd(shell->args, shell));
 	}
 	if (!(child_right = fork()))
 		fork_right(shell, i, pdes);
@@ -124,7 +126,7 @@ void	ft_stdin(t_shell *shell, char **command)
 
 	h_split(shell, &command);
 	ft_free(&command);
-	ret = exec_pipe2(shell, 0);
+	ret = exec_pipe(shell, 0);
 	if (g_sig == 11)
 		ret = 130;
 	else if (g_sig == 8)
