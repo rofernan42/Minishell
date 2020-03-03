@@ -16,7 +16,7 @@ The minishell should:
   * ```exit``` without any option
 * ```;``` in the command should separate commands like in bash
 * ```'``` and ```"``` should work like in bash (but multiline commands are not handled)
-* redirections ```< > >>``` should work like in bash except for fil descriptor aggregation
+* redirections ```< > >>``` should work like in bash except for file descriptor aggregation
 * pipes ```|``` should work like in bash
 * environment variables ```$VAR``` should work like in bash
 * return value ```$?``` should work like in bash
