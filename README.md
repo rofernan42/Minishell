@@ -1,4 +1,4 @@
-# MiniShell
+# MiniShell (42 project)
 ## Summary
 The objective of this project is to create our own shell.
 This is a 2 persons group project.
